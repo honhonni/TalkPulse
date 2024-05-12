@@ -1,0 +1,43 @@
+html,body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: url('/images/login_bg.png') no-repeat center;
+  background-size: cover;
+}
+
+.loginAndRegBox{
+  background-color: rgba(255,255,255,.6);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30%;
+  height: 100%;
+  padding: 150px 20px;
+  box-sizing: border-box;
+}
+.title-box{
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  font-size: 40px;
+}
+
+.login-container{
+  width: 320px; 
+  margin: 21px auto 0;
+}
+.reg-container{
+  display: none;
+  width: 320px; 
+  margin: 21px auto 0;
+}
+.other .layui-icon{
+  position: relative; 
+  display: inline-block; 
+  margin: 0 2px; 
+  top: 2px; 
+  font-size: 26px;
+}
+

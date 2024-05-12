@@ -12,3 +12,4 @@ spring:
 
 mybatis:
   type-aliases-package: com.example.spring.vo
+

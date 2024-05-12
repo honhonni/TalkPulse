@@ -3,10 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/messages.css">
 </head>
 <body>
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
+<div class="box">
+    <!--        头部导航栏-->
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">TALKPULSE</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="active"><a href="#">消息</a></li>
+                        <li><a href="#">好友</a></li>
+                        <li><a href="#">群聊</a></li>
+                        <li><a href="#">动态</a></li>
+                    </ul>
+                    <!--                        搜索框-->
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <span class="glyphicon glyphicon-search"></span>
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><img class="head" src="/images/defualt.png"></a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </header>
+    <!--        主体区域-->
+    <div class="body">
+        <!--    消息页面-->
+        <div class="wrapper">
+            <div class="col-md-2 col-sm-2 hidden-xs">
+                <!--                    好友或群聊列表-->
+                <div class="messages-sender-list list-group">
+                    <button type="button" class="list-group-item">
+                        <img src="/images/defualt.png" class="frieds-photo">
+                        俞杨
+                    </button>
+                    <button type="button" class="list-group-item">
+                        <img src="/images/defualt.png" class="frieds-photo">
+                        洪邦伟
+                    </button>
+                    <button type="button" class="list-group-item">
+                        <img src="/images/defualt.png" class="frieds-photo">
+                        黄康
+                    </button>
+                    <button type="button" class="list-group-item">
+                        <img src="/images/defualt.png" class="frieds-photo">
+                        黄弘扬
+                    </button>
+                    <button type="button" class="list-group-item">
+                        <img src="/images/defualt.png" class="frieds-photo">
+                        肖星明
+                    </button>
+                    <button type="button" class="list-group-item">
+                        <img src="/images/defualt.png" class="frieds-photo">好友6
+                    </button>
+                    <button type="button" class="list-group-item">
+                        <img src="/images/defualt.png" class="frieds-photo">好友7
+                    </button>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-7 col-md-7">
+                <!--                    这里是消息显示页面-->
+                <div class="messages-box">
+                    <!--                        这是消息列表-->
+                    <div class="messages">
+                        <ul class="messages-list list-group">
+                            <li class="left list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本</span>
+                            </li>
+                            <li class="left list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>今天是个好日子啊</span>
+                            </li>
+                            <li class="left list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>今天是个好日子啊</span>
+                            </li>
+                            <li class="left list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>今天是个好日子啊</span>
+                            </li>
+                            <li class="left list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>今天是个好日子啊</span>
+                            </li>
+                            <li class="left list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>今天是个好日子啊</span>
+                            </li>
+
+                            <li class="right list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本</span>
+                            </li>
+                            <li class="right list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>真是个好日子</span>
+                            </li>
+                            <li class="right list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>真是个好日子</span>
+                            </li>
+                            <li class="right list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>真是个好日子</span>
+                            </li>
+                            <li class="right list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>真是个好日子</span>
+                            </li>
+                            <li class="right list-group-item">
+                                <img src="/images/defualt.png" alt="" />
+                                <span>真是个好日子</span>
+                            </li>
+                        </ul>
+                        <div class="drager_bar">
+                            <div class="drager"></div>
+                        </div>
+                    </div>
+                    <!--                        这里是消息输入框-->
+                    <div class="input">
+                        <!--                            选择图片或语音发送-->
+                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                                发送图片
+                            </button>
+                            <button type="button" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+                                发送语音
+                            </button>
+                        </div>
+                        <!--                            输入文本信息发送-->
+                        <div class="input-group">
+                            <textarea class="form-control" rows="4" style="resize:none" placeholder="请输入内容"></textarea>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-3 col-md-3">
+                <div class="info-box">
+                    <div class="photo">
+                        <img src="/images/defualt.png">
+                        <span>张三</span>
+                    </div>
+                    <div class="info">
+                        <ul class="info-list list-group">
+                            <li class="list-group-item">
+                                <span>UID:</span>
+                                <span>123456</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span>昵称:</span>
+                                <span>张三</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span>性别:</span>
+                                <span>未知</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span>个人介绍:</span>
+                                <span>法外狂徒</span>
+                            </li>
+                            <li class="list-group-item">
+                                <span>分组:</span>
+                                <span>我的好友</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/scroll.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/messages.js"></script>
 </body>
 </html>

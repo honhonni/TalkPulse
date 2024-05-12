@@ -12,7 +12,6 @@ $(function(){
 	// $dragh 的顶部距离
 	var $top = 0
 	$drager.css('height',$dragh)
-	
 	$drager.draggable({
 		containment: 'parent',
 		drag:function(ev,ui){
@@ -24,37 +23,51 @@ $(function(){
 	$(window).resize(function(){
 		resetui()
 	})
-	var flag = false
-	$main.on('mousewheel DOMMouseScroll',function(e){
+	var hide = undefined
+	var linear = undefined
+	var cnt = 0
+	$main.on('mousewheel DOMMouseScroll',function(e) {
 		// console.log(e.originalEvent.wheelDelta)
 		var delta = e.originalEvent.wheelDelta
-		if(flag || $listh < $mainh){
+		cnt++
+		if (hide != undefined) {
+			clearTimeout(hide)
+		}
+		if (linear != undefined) {
+			clearTimeout(linear)
+		}
+		if ($listh < $mainh) {
 			// 正在滚动ing  或者  list比main小
 			return
 		}
-		flag = true;
-		setTimeout(function(){
-			flag = false
+		hide = setTimeout(function () {
 			$drager.hide()
-		},300)
+		}, 1500)
+
 		$drager.show()
-		if(delta > 0){
+		if (delta > 0) {
 			// 向上滚动
-			$top -= 60
-			if($top < 0){
+			$top -= 6*cnt
+			if ($top < 0) {
 				$top = 0
 			}
-		}else{
+		} else {
 			// 向下滚动
-			$top += 60
-			if($top > $mainh - $dragh){
+			$top += 6*cnt
+			if ($top > $mainh - $dragh) {
 				$top = $mainh - $dragh
 			}
 		}
-		$drager.animate({'top': $top},200)
-		$list.animate({'top': -$top / $rate},200)
+		$drager.stop().animate({'top': $top}, 100, linear)
+		$list.stop().animate({'top': -$top / $rate}, 100, linear)
+
+		linear = setTimeout(function () {
+			cnt = 0
+			$drager.stop().animate({'top': $top}, 500)
+			$list.stop().animate({'top': -$top / $rate}, 500)
+		}, 60)
 	})
-	
+
 	function resetui(){
 		$mainh = $main.outerHeight(false)
 		$listh = $list.outerHeight(false)

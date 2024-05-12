@@ -1,4 +1,205 @@
-*{
-    margin: 0;
-    padding: 0;
+.wrapper{
+    /*background-color: #fcfcfc;*/
+}
+.wrapper>div{
+    height: 100%;
+}
+
+/*头部导航栏样式*/
+header{
+    position: absolute;
+    width: 100%;
+}
+.navbar-default{
+    background-color: #fff;
+    border: 0;
+}
+.navbar-default .navbar-nav>li{
+}
+.navbar-default .navbar-nav>li>a{
+}
+.navbar-default .navbar-nav>.active>a,.navbar-default .navbar-nav>.active>a:hover{
+    background-color: transparent;
+    color: orange;
+}
+.navbar-default .navbar-left{
+    padding-left: 50px;
+}
+.navbar-default .navbar-right>li>a {
+    padding: 9px;
+}
+.navbar-default .navbar-right>li>a .head {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+.navbar-default .navbar-form{
+    width: 50%;
+}
+.navbar-default .navbar-form .form-group,
+.navbar-default .navbar-form .form-group .form-control {
+    width: 100%;
+}
+.navbar-default .navbar-form .form-group .form-control{
+    padding-left: 30px;
+}
+.navbar-default .navbar-form .form-group span{
+    margin-right: -30px;
+    margin-top: 12px;
+    opacity: .6;
+}
+
+/*主体区域*/
+.body{
+    padding-top: 70px;
+}
+/*左侧消息列表*/
+.list-group-item:first-child,
+.list-group-item:last-child,
+.list-group-item{
+    border: 0;
+    border-radius: 20px;
+}
+.list-group-item .frieds-photo{
+    width: 24px;
+    height: 24px;
+    margin-right: 4px;
+    border-radius: 50%;
+    vertical-align: bottom;
+}
+
+/*中间消息区域*/
+.messages-box{
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-between;*/
+    width: 100%;
+    height: 100%;
+}
+
+
+.messages {
+    overflow: hidden;
+    position: relative;
+    left: 0;
+    right: 0;
+    flex: 5;
+    background-color: #fcfcfc;
+    width: 100%;
+}
+.messages .messages-list {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.messages .messages-list li {
+    overflow: hidden;
+    margin: 20px 0;
+    background-color: transparent;
+}
+.messages .messages-list li img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    padding: 4px 4px;
+}
+.messages .messages-list li span {
+    position: relative;
+    display: inline-block;
+    max-width: 80%;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.5;
+}
+.messages .messages-list .left img {
+    float: left;
+}
+.messages .messages-list .left span {
+    float: left;
+    color: #000;
+    background-color: rgb(244, 246, 248);
+}
+.messages .messages-list .right img {
+    float: right;
+}
+.messages .messages-list .right span {
+    float: right;
+    color: #fff;
+    background-color: #c1e2b3;
+}
+/*滚动条*/
+.messages .drager_bar {
+    position: absolute;
+    top: 0;
+    right: 2px;
+    width: 8px;
+    height: 100%;
+}
+.messages .drager_bar .drager {
+    display: none;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 10%;
+    border-radius: 4px;
+    background-color: #ccc;
+}
+
+/*消息输入页面*/
+.input{
+    flex:2;
+    height: 100%;
+    padding: 10px;
+    border-top: 1px solid #e5e7eb;
+}
+.input .input-group{
+
+}
+
+/*info-box页面*/
+.info-box{
+    width: 100%;
+    height: 100%;
+}
+.info-box .photo{
+    position: relative;
+    width: 100%;
+    height: 100px;
+}
+
+.info-box .photo img{
+    position: absolute;
+    top: 10px;
+    left: 32px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+.info-box .photo span{
+    position: absolute;
+    top: 24px;
+    left: 128px;
+    font-size: 36px;
+    font-weight: 700;
+}
+.info-box .info-list .list-group-item{
+
+}
+.info-box .info-list .list-group-item span:first-child{
+    display: inline-block;
+    width:72px;
+    /*margin-left: 10px;*/
+    margin-right: 24px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: right;
+    line-height: 1;
 }
