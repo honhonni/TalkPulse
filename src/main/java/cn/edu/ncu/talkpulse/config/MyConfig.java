@@ -1,4 +1,4 @@
-package cn.edu.ncu.talkpulse;
+package cn.edu.ncu.talkpulse.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
