@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 
 
-public class Grouprecord implements Serializable {
+public class Grouprecord  {
 	// id
 	private Integer grouprecordId;
 

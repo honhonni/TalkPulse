@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface Groupdao {
+public interface GroupDao {
     @Select("select groupId,groupName,groupIntroduce,groupHostid,from Groupinfo where groupId=#{id}")
     public List<Groupinfo> selectAll(int id);
 }

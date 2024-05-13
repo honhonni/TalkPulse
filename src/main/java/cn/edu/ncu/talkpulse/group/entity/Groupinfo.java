@@ -3,7 +3,7 @@ package cn.edu.ncu.talkpulse.group.entity;
 
 import java.io.Serializable;
 
-public class Groupinfo implements Serializable {
+public class Groupinfo {
 	// 群聊id
 	private Integer groupId;
 
