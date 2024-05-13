@@ -1,10 +1,10 @@
 package cn.edu.ncu.talkpulse.group.service;
 
-import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
+import cn.edu.ncu.talkpulse.group.entity.groupinfo;
 
 import java.util.List;
 
 public interface GroupService {
 
-    List<Groupinfo> selectAll(Integer groupId);
+    List<groupinfo> selectAll(int group_hostid);
 }
