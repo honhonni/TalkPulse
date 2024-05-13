@@ -4,20 +4,39 @@
 .wrapper>div{
     height: 100%;
 }
-/*左侧消息列表*/
+/*list-groupy-item 样式*/
 .list-group-item:first-child,
 .list-group-item:last-child,
 .list-group-item{
     border: 0;
+    font-size: 20px;
     border-radius: 20px;
 }
 .list-group-item .frieds-photo{
-    width: 24px;
-    height: 24px;
-    margin-right: 4px;
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
     border-radius: 50%;
     vertical-align: bottom;
 }
+/*左侧消息列表*/
+.messages-sender-list .list-group-item:first-child,
+.messages-sender-list .list-group-item:last-child,
+.messages-sender-list .list-group-item{
+    border: 0;
+    font-size: 20px;
+    border-radius: 20px;
+}
+.messages-sender-list .list-group-item .frieds-photo{
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+    border-radius: 50%;
+    vertical-align: bottom;
+}
+
+
+
 
 /*中间消息区域*/
 .messages-box{
@@ -57,17 +76,16 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    padding: 4px 4px;
 }
 .messages .messages-list li span {
     position: relative;
     display: inline-block;
     max-width: 80%;
-    padding: 5px 10px;
+    padding: 6px 12px;
     margin: 0 5px;
     border-radius: 10px;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.5;
 }
 .messages .messages-list .left img {
