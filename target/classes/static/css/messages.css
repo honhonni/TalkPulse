@@ -4,55 +4,6 @@
 .wrapper>div{
     height: 100%;
 }
-
-/*头部导航栏样式*/
-header{
-    position: absolute;
-    width: 100%;
-}
-.navbar-default{
-    background-color: #fff;
-    border: 0;
-}
-.navbar-default .navbar-nav>li{
-}
-.navbar-default .navbar-nav>li>a{
-}
-.navbar-default .navbar-nav>.active>a,.navbar-default .navbar-nav>.active>a:hover{
-    background-color: transparent;
-    color: orange;
-}
-.navbar-default .navbar-left{
-    padding-left: 50px;
-}
-.navbar-default .navbar-right>li>a {
-    padding: 9px;
-}
-.navbar-default .navbar-right>li>a .head {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-}
-.navbar-default .navbar-form{
-    width: 50%;
-}
-.navbar-default .navbar-form .form-group,
-.navbar-default .navbar-form .form-group .form-control {
-    width: 100%;
-}
-.navbar-default .navbar-form .form-group .form-control{
-    padding-left: 30px;
-}
-.navbar-default .navbar-form .form-group span{
-    margin-right: -30px;
-    margin-top: 12px;
-    opacity: .6;
-}
-
-/*主体区域*/
-.body{
-    padding-top: 70px;
-}
 /*左侧消息列表*/
 .list-group-item:first-child,
 .list-group-item:last-child,

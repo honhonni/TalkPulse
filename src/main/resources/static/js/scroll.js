@@ -58,13 +58,15 @@ $(function(){
 				$top = $mainh - $dragh
 			}
 		}
-		$drager.stop().animate({'top': $top}, 100, linear)
-		$list.stop().animate({'top': -$top / $rate}, 100, linear)
+		// $drager.stop().animate({'top': $top}, 100, linear)
+		// $list.stop().animate({'top': -$top / $rate}, 100, linear)
 
+		$drager.stop().animate({'top': $top}, 500)
+		$list.stop().animate({'top': -$top / $rate}, 500)
 		linear = setTimeout(function () {
 			cnt = 0
-			$drager.stop().animate({'top': $top}, 500)
-			$list.stop().animate({'top': -$top / $rate}, 500)
+			// $drager.stop().animate({'top': $top}, 500)
+			// $list.stop().animate({'top': -$top / $rate}, 500)
 		}, 60)
 	})
 
