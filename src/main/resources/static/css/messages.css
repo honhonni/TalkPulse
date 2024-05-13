@@ -87,14 +87,14 @@
     background-color: #c1e2b3;
 }
 /*¹ö¶¯Ìõ*/
-.messages .drager_bar {
+.drager_bar {
     position: absolute;
     top: 0;
     right: 2px;
     width: 8px;
     height: 100%;
 }
-.messages .drager_bar .drager {
+.drager_bar .drager {
     display: none;
     position: absolute;
     top: 0;

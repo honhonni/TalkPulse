@@ -1,3 +1,4 @@
 $(function (){
     resetui()
+    moveToButtom()
 })

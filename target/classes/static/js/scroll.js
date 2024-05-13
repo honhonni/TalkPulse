@@ -1,8 +1,8 @@
 $(function(){
 	
 	// 设置滚动条数据
-	var $main = $('.messages')
-	var $list = $('.messages-list')
+	var $main = $('.list-box')
+	var $list = $('.list')
 	var $drager = $('.drager')
 	// $drager.hide()
 	var $mainh = $main.outerHeight(false)
@@ -85,5 +85,32 @@ $(function(){
 		$drager.css('top',$top)
 		$list.css('top',- $top / $rate)
 	}
+	function resetui(){
+		$mainh = $main.outerHeight(false)
+		$listh = $list.outerHeight(false)
+		$rate = $mainh / $listh
+		$dragh = $mainh * $rate
+	}
+	function moveToButtom(){
+		// $drager高度设置
+		$drager.css('height',$dragh)
+		if($listh < $mainh){
+			$top = 0
+		}else{
+			$top = $mainh - $dragh
+		}
+		$drager.css('top',$top)
+		$list.css('top',- $top / $rate)
+	}
+	function moveToTop(){
+		if ($listh < $mainh) {
+			// $drager高度设置
+			$drager.css('height',$dragh)
+			$drager.css('top',0)
+			$list.css('top',0)
+		}
+	}
 	window.resetui = resetui
+	window.moveToButtom = moveToButtom
+	window.moveToTop = moveToTop
 })
