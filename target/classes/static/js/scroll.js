@@ -1,8 +1,8 @@
 $(function(){
 	
 	// 设置滚动条数据
-	var $main = $('.list-box')
-	var $list = $('.list')
+	var $main = $('.messages')
+	var $list = $('.messages-list')
 	var $drager = $('.drager')
 	// $drager.hide()
 	var $mainh = $main.outerHeight(false)
