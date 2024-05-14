@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface GroupService {
 
-    List<groupinfo> selectAll(int group_hostid);
+    List<groupinfo> selectAll(int group_id);
+
 }

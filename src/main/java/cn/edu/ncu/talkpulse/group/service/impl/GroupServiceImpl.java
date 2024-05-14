@@ -15,8 +15,8 @@ public class GroupServiceImpl implements GroupService {
     private GroupDao groupDao;
 
     @Override
-    public List<groupinfo>selectAll(int group_hostid){
-        return groupDao.selectAll(group_hostid);
+    public List<groupinfo>selectAll(int group_id){
+        return groupDao.selectAll(group_id);
     }
 
 
