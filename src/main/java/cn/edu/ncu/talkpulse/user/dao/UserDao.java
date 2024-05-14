@@ -13,12 +13,12 @@ import java.util.List;
 public interface UserDao {
 
     // 根据用户ID查找用户信息
-    @Select("SELECT * FROM UserInfo WHERE user_id = #{userId}")
+    @Select("SELECT * FROM userinfo WHERE user_id = #{userId}")
     UserInfo findById(@Param("userId") Integer userId);
 
-// 根据关键词和用户ID查找聊天记录
+    // 根据关键词和用户ID查找聊天记录
     @Select("SELECT * FROM Record WHERE (record_content LIKE CONCAT('%', #{keyword}, '%') OR record_senderid = #{userId} OR record_recipientid = #{userId}) AND user_id = #{userId}")
-List<Record> findRecordsByKeyword(@Param("keyword") String keyword, @Param("userId") Integer userId);
+    List<Record> findRecordsByKeyword(@Param("keyword") String keyword, @Param("userId") Integer userId);
 
     // 更新用户信息
     @Update("UPDATE UserInfo SET user_name = #{user.userName}, user_pwd = #{user.userPwd}, user_gender = #{user.userGender}, user_age = #{user.userAge}, user_introduce = #{user.userIntroduce}, user_photo = #{user.userPhoto} WHERE user_id = #{user.userId}")
