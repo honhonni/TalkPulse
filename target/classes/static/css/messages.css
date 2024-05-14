@@ -172,3 +172,7 @@
     text-align: right;
     line-height: 1;
 }
+.info-box .info .tip{
+    margin-left: 24px;
+    opacity: .5;
+}

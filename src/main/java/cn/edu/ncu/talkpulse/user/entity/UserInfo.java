@@ -1,17 +1,17 @@
 package cn.edu.ncu.talkpulse.user.entity;
 
 public class UserInfo {
-    private int userId;
+    private int user_id;
     private String userName;
     private String userPwd;
     private String userGender;
 
     public int getUserId() {
-        return userId;
+        return user_id;
     }
 
     public void setUserId(int userId) {
-        this.userId = userId;
+        this.user_id = userId;
     }
 
     public String getUserName() {

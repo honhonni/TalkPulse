@@ -9,14 +9,14 @@ import cn.edu.ncu.talkpulse.group.dao.GroupDao;
 //import cn.edu.ncu.talkpulse.user.entity.Friendship;
 //import cn.edu.ncu.talkpulse.user.entity.Record;
 import cn.edu.ncu.talkpulse.user.entity.UserInfo;
-import cn.edu.ncu.talkpulse.user.service.IUserService;
+import cn.edu.ncu.talkpulse.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
@@ -29,14 +29,17 @@ public class UserServiceImpl implements IUserService {
 
 //    @Autowired
 //    private FriendshipDao friendshipDao;
-
     @Override
-    public List<Record> searchRecords(String keyword, Integer userId) {
-        return userDao.findRecordsByKeyword(keyword, userId);
+    public UserInfo findById(Integer user_id){
+            return userDao.findById(user_id);
+    }
+    @Override
+    public List<Record> searchRecords(String keyword, Integer user_id) {
+        return userDao.findRecordsByKeyword(keyword, user_id);
     }
 
     @Override
-    public List<UserInfo> getFriendsList(Integer userId) {
+    public List<UserInfo> getFriendsList(Integer user_id) {
         return null;
     }
 

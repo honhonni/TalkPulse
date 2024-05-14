@@ -4,35 +4,7 @@
 .wrapper>div{
     height: 100%;
 }
-/*左侧群列表*/
-.groups {
-    overflow: hidden;
-    position: relative;
-    left: 5%;
-    /*background-color: #fcfcfc;*/
-    width: 100%;
-    height: 100%;
-}
-.groups-list {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    width: 100%;
-    padding: 4px;
-    padding-bottom: 20px;
-    box-sizing: border-box;
-}
-.groups-list{
-    margin-left: 32px;
-    box-sizing: border-box;
-}
-.groups-list h2{
-    display: inline-block;
-    color: #0c0a09;
-    font-size: 18px;
-    font-weight: 600;
-}
+/*左侧消息列表*/
 .list-group-item:first-child,
 .list-group-item:last-child,
 .list-group-item{
@@ -48,6 +20,67 @@
     vertical-align: bottom;
 }
 
+.groups {
+    overflow: hidden;
+    position: relative;
+    left: 5%;
+    /*background-color: #fcfcfc;*/
+    width: 100%;
+    height: 100%;
+}
+.groups .groups-list {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    padding: 4px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+}
+.groups .groups-list li{
+    padding: 4px;
+    box-sizing: border-box;
+}
+.groups-list .list-group{
+    display: none;
+}
+.groups-group{
+    cursor: pointer;
+}
+.groups-group h2{
+    display: inline-block;
+    color: #0c0a09;
+    font-size: 18px;
+    font-weight: 600;
+
+}
+.groups-list .list-group{
+    margin-left: 32px;
+    box-sizing: border-box;
+}
+.我的好友{
+
+}
+
+/*滚动条*/
+.drager_bar {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 2px;
+    width: 8px;
+    height: 100%;
+}
+.drager_bar .drager {
+    display: none;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 10%;
+    border-radius: 4px;
+    background-color: #ccc;
+}
 
 
 /*info-box页面*/

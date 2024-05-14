@@ -37,12 +37,77 @@
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
                             <span class="glyphicon glyphicon-search"></span>
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input type="text" class="form-control" placeholder="Search" id="searchbutton" name="search">
                         </div>
                     </form>
+                    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <form class="modal-form" role="search">
+                                        <div class="form-group">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                            <input type="text" class="form-control" placeholder="Search" id="search" name="search">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-body">
+                                    查询结果
+                                    <div class="search-list-box">
+                                        <div class="search-list list-group">
+                                            <button type="button" class="list-group-item">
+                                                结果1
+                                            </button>
+                                            <button type="button" class="list-group-item">
+                                                结果2
+                                            </button>
+                                            <button type="button" class="list-group-item">
+                                                结果2
+                                            </button>
+                                            <button type="button" class="list-group-item">
+                                                结果2
+                                            </button>
+                                            <button type="button" class="list-group-item">
+                                                结果2
+                                            </button>
+                                            <button type="button" class="list-group-item">
+                                                结果2
+                                            </button>
+                                            <button type="button" class="list-group-item">
+                                                结果2
+                                            </button>
+                                            <button type="button" class="list-group-item">
+                                                结果2
+                                            </button>
+                                            <button type="button" class="list-group-item">
+                                                结果2
+                                            </button>
+                                            <button type="button" class="list-group-item">
+                                                结果2
+                                            </button>
+                                        </div>
+                                    </div>
+                                    </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><img class="head" src="/images/defualt.png"></a></li>
+                        <li><a href="javascript:;">用户名</a></li>
+                        <li>
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownHead" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <img class="head" src="/images/defualt.png">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a href="/html/info.html" target="fm">个人信息</a></li>
+                                    <li><a href="#">创建分组</a></li>
+                                    <li><a href="#">创建群聊</a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
+
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
