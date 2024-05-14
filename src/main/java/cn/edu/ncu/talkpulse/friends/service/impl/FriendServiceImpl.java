@@ -1,41 +1,35 @@
-package cn.edu.ncu.talkpulse.user.service.impl;
+package cn.edu.ncu.talkpulse.friends.service.impl;
 
 
 
-import cn.edu.ncu.talkpulse.user.dao.UserDao;
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
+import cn.edu.ncu.talkpulse.friends.dao.FriendDao;
 //import cn.edu.ncu.talkpulse.user.dao.FriendDao;
 import cn.edu.ncu.talkpulse.group.dao.GroupDao;
 //import cn.edu.ncu.talkpulse.user.dao.FriendshipDao;
 //import cn.edu.ncu.talkpulse.user.entity.Friendship;
 //import cn.edu.ncu.talkpulse.user.entity.Record;
-import cn.edu.ncu.talkpulse.user.entity.UserInfo;
-import cn.edu.ncu.talkpulse.user.service.UserService;
+import cn.edu.ncu.talkpulse.friends.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class FriendServiceImpl implements FriendService {
 
     @Autowired
-    private UserDao userDao;
-
-//    @Autowired
-//    private FriendDao friendDao;
+    private FriendDao friendDao;
 
     @Autowired
     private GroupDao groupDao;
 
 //    @Autowired
 //    private FriendshipDao friendshipDao;
-    @Override
-    public UserInfo findById(Integer user_id){
-            return userDao.findById(user_id);
-    }
+
     @Override
     public List<Record> searchRecords(String keyword, Integer user_id) {
-        return userDao.findRecordsByKeyword(keyword, user_id);
+        return friendDao.findRecordsByKeyword(keyword, user_id);
     }
 
     @Override

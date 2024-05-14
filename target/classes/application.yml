@@ -12,4 +12,4 @@ spring:
 
 
 mybatis:
-  type-aliases-package: cn.edu.ncu.talkpulse.entity
+  type-aliases-package: cn.edu.ncu.talkpulse.account.entity, cn.edu.ncu.talkpulse.friend.entity, cn.edu.ncu.talkpulse.group.entity
