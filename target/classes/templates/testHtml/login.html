@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TALKPULSE</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+<!-- 头部 logo 区域 -->
+<div class="title-box">TALKPULSE</div>
+<!-- 登录注册区域 -->
+
+<div class="loginAndRegBox">
+    <form class="layui-form" id="form-login">
+        <div class="login-container">
+            <div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-username"></i>
+                    </div>
+                    <input type="text" name="user_id" value="" lay-verify="required" placeholder="用户名" lay-reqtext="请填写用户名" autocomplete="off" class="layui-input" lay-affix="clear">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-password"></i>
+                    </div>
+                    <input type="password" name="user_pwd" value="" lay-verify="required|password" placeholder="密   码" lay-reqtext="请填写密码" autocomplete="off" class="layui-input" lay-affix="eye">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login">登录</button>
+            </div>
+            <div class="layui-form-item other">
+                <a href="javascript:;" id="to-reg">注册帐号</a>
+            </div>
+        </div>
+    </form>
+    <form class="layui-form" id="form-reg">
+        <!-- 注册帐号 -->
+        <div class="reg-container">
+            <div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-username"></i>
+                    </div>
+                    <input type="text" name="user_id" value="" lay-verify="required" placeholder="用户号" autocomplete="off" class="layui-input" lay-affix="clear">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-username"></i>
+                    </div>
+                    <input type="text" name="user_name" value="" lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input" lay-affix="clear">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-password"></i>
+                    </div>
+                    <input type="password" name="user_pwd" value="" lay-verify="required|password" placeholder="密码" autocomplete="off" class="layui-input" id="reg-password" lay-affix="eye">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-password"></i>
+                    </div>
+                    <input type="password" name="confirmPassword" value="" lay-verify="required|confirmPassword" placeholder="确认密码" autocomplete="off" class="layui-input" lay-affix="eye">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="reg">注册</button>
+            </div>
+            <div class="layui-form-item other">
+                <a href="javascript:;" id="to-login">登录已有帐号</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/layui.js"></script>
+<!--<script src="/assets/js/ApiRoot.js"></script>-->
+<script>
+    $(function(){
+
+        var form = layui.form;
+        var layer = layui.layer;
+
+        $('#to-reg').on('click',function(){
+            $('.login-container').hide()
+            $('.reg-container').show()
+        })
+        $('#to-login').on('click',function(){
+            $('.login-container').show()
+            $('.reg-container').hide()
+        })
+
+        // 提交事件
+        form.on('submit(login)', function(data){
+            var field = data.field; // 获取表单字段值
+
+            // 此处执行 Ajax 等操作
+            var data = {
+                user_id: field.user_id,
+                user_pwd: field.user_pwd
+            }
+            $.ajax({
+                method: 'post',
+                url: '/account/login',
+                data: data,
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                success:function(res) {
+                    if (res.status !== 200) {
+                        return layer.msg("登录失败")
+                    }
+                    layer.msg('登录成功！')
+                    // 跳转到后台主页
+                    location.replace('/testHtml/test.html')
+                }
+            })
+
+
+
+            return false; // 阻止默认 form 跳转
+        });
+
+
+        // 自定义验证规则
+        form.verify({
+            user_pwd: [
+                /^[\S]{6,12}$/,
+                "密码为6-12位"
+            ],
+            // 确认密码
+            confirmPassword: function(value, item){
+                var passwordValue = $('#reg-password').val();
+                if(value !== passwordValue){
+                    return '两次密码输入不一致';
+                }
+            }
+        });
+
+        // 提交事件
+        form.on('submit(reg)', function(data){
+            var field = data.field; // 获取表单字段值
+
+            // 发起Ajax的POST请求
+
+            var data = {
+                user_id: field.user_id,
+                user_name: field.user_name,
+                user_pwd: field.confirmPassword
+            }
+            $.ajax({
+                method: 'post',
+                url: '/account/register',
+                data: data,
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                success:function(res) {
+                    if (res.status !== 200) {
+                        return layer.msg("注册失败，请重新注册")
+                    }
+                    layer.msg('注册成功，请登录！')
+                    // 模拟人的点击行为
+                    $('#to-login').click()
+                }
+            })
+
+            return false; // 阻止默认 form 跳转
+        });
+
+    })
+</script>
+</body>
+</html>
