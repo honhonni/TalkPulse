@@ -1,18 +1,20 @@
 package cn.edu.ncu.talkpulse.friends.service;
 
-//import cn.edu.ncu.talkpulse.entity.Friendship;
-//import cn.edu.ncu.talkpulse.entity.Group;
-//import cn.edu.ncu.talkpulse.entity.Record;
 
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
+import cn.edu.ncu.talkpulse.friends.entity.Friendship;
+import cn.edu.ncu.talkpulse.group.entity.groupinfo;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
 public interface FriendService {
-    List<Record> searchRecords(String keyword, Integer userId);
+//    List<Record> searchRecords(String keyword, Integer user_id);
     List<UserInfo> getFriendsList(Integer userId);
-//    List<Group> getGroupList(Integer userId);
-//    List<Friendship> getFriendshipList();
-//    void updateUserInfo(UserInfo user);
-//    Friendship createFriendship(Friendship friendship);
+    List<Friendship> getFriendGroups(Long userId);
+    int createFriendGroup(String friendshipName, Long userId);
+
+
 }
