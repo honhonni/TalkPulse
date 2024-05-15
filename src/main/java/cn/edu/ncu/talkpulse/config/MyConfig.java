@@ -1,4 +1,4 @@
-package cn.edu.ncu.talkpulse;
+package cn.edu.ncu.talkpulse.config;
 
 import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.JSONWriter;

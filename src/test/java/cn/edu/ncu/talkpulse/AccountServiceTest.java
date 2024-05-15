@@ -28,7 +28,7 @@ public class AccountServiceTest {
 
     @Test
     public void testLogin(){
-        Boolean flag = accountService.login(1, "123456", request.getSession());
+        Boolean flag = accountService.login(1, "W848oa35qR", request.getSession());
         System.out.println(flag);
         System.out.println(request.getSession().getAttribute("user_id"));
     }

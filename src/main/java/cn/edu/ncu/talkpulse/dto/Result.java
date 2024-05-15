@@ -1,4 +1,4 @@
-package cn.edu.ncu.talkpulse.account.entity;
+package cn.edu.ncu.talkpulse.dto;
 
 public class Result {
     private Integer status; // 响应状态码（200/201）

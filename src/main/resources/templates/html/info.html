@@ -1,109 +1,149 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Demo</title>
-  <link href="/css/layui.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layui.css">
+    <link rel="stylesheet" href="/css/cropper.css">
+    <link rel="stylesheet" href="/css/info.css">
 </head>
 <body>
-  <form class="layui-form" action="">
+
+<form class="layui-form" action="">
     <div class="layui-form-item">
-      <div class="layui-inline">
+        <label class="layui-form-label">更改头像</label>
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <!-- 第一行的图片裁剪和预览区域 -->
+                <div class="row1">
+                    <!-- 图片裁剪区域 -->
+                    <div class="cropper-box">
+                        <!-- 这个 img 标签很重要，将来会把它初始化为裁剪区域 -->
+                        <img id="image" src="/images/defualt.png" />
+                    </div>
+                    <!-- 图片的预览区域 -->
+                    <div class="preview-box">
+                        <div>
+                            <!-- 宽高为 100px 的预览区域 -->
+                            <div class="img-preview w100"></div>
+                            <p class="size">100 x 100</p>
+                        </div>
+                        <div>
+                            <!-- 宽高为 50px 的预览区域 -->
+                            <div class="img-preview w50"></div>
+                            <p class="size">50 x 50</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二行的按钮区域 -->
+                <div class="row2">
+                    <!-- 通过 accept 属性指定选择类型文件 -->
+                    <input type="file" id="file" accept="image/png,image/jpeg">
+                    <button type="button" class="layui-btn" id="bnt-choose-img">上传</button>
+                    <button type="button" class="layui-btn layui-btn-danger" id="btn-upload">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">UID</label>
+        <div class="layui-input-inline layui-input-wrap">
+            <input type="text" name="uid" lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-inline layui-input-wrap">
-          <input type="text" name="uid" lay-verify="required" autocomplete="off" lay-reqtext="用户名" lay-affix="clear" class="layui-input">
+            <input type="text" name="uname" lay-verify="required" autocomplete="off" class="layui-input">
         </div>
-      </div>
     </div>
     <div class="layui-form-item">
-      <div class="layui-inline">
-        <label class="layui-form-label">年龄</label>
-        <div class="layui-input-inline layui-input-wrap">
-          <input type="text" name="age" lay-verify="required" autocomplete="off" lay-reqtext="请输入年龄" lay-affix="clear" class="layui-input">
+        <label class="layui-form-label">单选框</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="男" title="男" checked>
+            <input type="radio" name="sex" value="女" title="女">
         </div>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label">性别</label>
-      <div class="layui-input-block">
-        <input type="radio" name="sex" value="男" title="男" checked>
-        <input type="radio" name="sex" value="女" title="女">
-        <input type="radio" name="sex" value="不可告人" title="不可告人" disabled>
-      </div>
     </div>
     <div class="layui-form-item layui-form-text">
-      <label class="layui-form-label">个性签名</label>
-      <div class="layui-input-block">
-        <textarea placeholder="我是一只🐏" class="layui-textarea"></textarea>
-      </div>
+        <label class="layui-form-label">个性签名</label>
+        <div class="layui-input-block">
+            <textarea placeholder="我是一只🐏" class="layui-textarea"></textarea>
+        </div>
     </div>
     <div class="layui-form-item">
-      <div class="layui-input-block">
-        <button type="submit" class="layui-btn" lay-submit lay-filter="demo1">立即提交</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-      </div>
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
     </div>
-  </form>
+</form>
 
-  <!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
-  <script src="//unpkg.com/layui@2.9.9/dist/layui.js"></script>
-  <script>
+<script>
     layui.use(['form', 'laydate', 'util'], function(){
-      var form = layui.form;
-      var layer = layui.layer;
-      var laydate = layui.laydate;
-      var util = layui.util;
+        var form = layui.form;
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+        var util = layui.util;
 
-      // 自定义验证规则
-      form.verify({
-        pass: function(value) {
-          if (!/(.+){6,12}$/.test(value)) {
-            return '密码必须 6 到 12 位';
-          }
-        }
-      });
-
-      // 指定开关事件
-      form.on('switch(switchTest)', function(data){
-        layer.msg('开关 checked：'+ (this.checked ? 'true' : 'false'), {
-          offset: '6px'
+        // 自定义验证规则
+        form.verify({
+            pass: function(value) {
+                if (!/(.+){6,12}$/.test(value)) {
+                    return '密码必须 6 到 12 位';
+                }
+            }
         });
-        layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是 ON|OFF', data.othis)
-      });
 
-      // 提交事件
-      form.on('submit(demo1)', function(data){
-        var field = data.field; // 获取表单字段值
-        // 显示填写结果，仅作演示用
-        layer.alert(JSON.stringify(field), {
-          title: '当前填写的字段值'
+        // 指定开关事件
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关 checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是 ON|OFF', data.othis)
         });
-        // 此处可执行 Ajax 等操作
-        // …
-        return false; // 阻止默认 form 跳转
-      });
 
-      // 日期
-      laydate.render({
-        elem: '#date'
-      });
-
-      // 普通事件
-      util.on('lay-on', {
-        // 获取验证码
-        "get-vercode": function(othis){
-          var isvalid = form.validate('.demo-phone'); // 主动触发验证，v2.7.0 新增
-          // 验证通过
-          if(isvalid){
-            layer.msg('手机号规则验证通过');
-            // 此处可继续书写「发送验证码」等后续逻辑
+        // 提交事件
+        form.on('submit(demo1)', function(data){
+            var field = data.field; // 获取表单字段值
+            // 显示填写结果，仅作演示用
+            layer.alert(JSON.stringify(field), {
+                title: '当前填写的字段值'
+            });
+            // 此处可执行 Ajax 等操作
             // …
-          }
-        }
-      });
-    });
-  </script>
+            return false; // 阻止默认 form 跳转
+        });
 
+        // 日期
+        laydate.render({
+            elem: '#date'
+        });
+
+        // 普通事件
+        util.on('lay-on', {
+            // 获取验证码
+            "get-vercode": function(othis){
+                var isvalid = form.validate('.demo-phone'); // 主动触发验证，v2.7.0 新增
+                // 验证通过
+                if(isvalid){
+                    layer.msg('手机号规则验证通过');
+                    // 此处可继续书写「发送验证码」等后续逻辑
+                    // …
+                }
+            }
+        });
+    });
+</script>
+
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/layui.js"></script>
+    <script src="/js/Cropper.js"></script>
+    <script src="/js/jquery-cropper.js"></script>
+    <script type="text/javascript" src="/js/info.js"></script>
 </body>
 </html>
