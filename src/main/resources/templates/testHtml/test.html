@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <style>
+        .loginAndRegBox{
+            display: inline-block;
+            background-color: rgba(255,255,255,.6);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60%;
+            height: 100%;
+            padding: 150px 20px;
+            box-sizing: border-box;
+        }
+        .layui-input-wrap .layui-input-prefix+.layui-input,
+        .layui-input-wrap .layui-input-prefix~* .layui-input {
+            padding-left: 80px;
+        }
+        #url {
+            width: 500px;
+        }
+        .result{
+            display: inline-block;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="loginAndRegBox">
+    <form class="layui-form" id="form-login">
+        <div class="login-container">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">method</label>
+                    <div class="layui-input-inline" id="method">
+                        <input type="text" name="method" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">url</label>
+                    <div class="layui-input-inline" id="url">
+                        <input type="text" name="url" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item last-item" count="1">
+                <div class="layui-inline">
+                    <label class="layui-form-label">参数名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="p1" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">value</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="v1" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <button type="button" id="add" class="layui-btn layui-btn-primary layui-btn-radius">添加参数</button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login">提交</button>
+            </div>
+        </div>
+    </form>
+    <p>结果显示</p>
+</div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/layui.js"></script>
+<!--<script src="/assets/js/ApiRoot.js"></script>-->
+<script>
+    $(function(){
+        $('#add').on('click',function (){
+            var lastItem = $('.last-item')
+            var count = Number(lastItem.attr('count')) + 1
+            var htmlStr = `<div class="layui-form-item last-item" count="${count}"> <div class="layui-inline"> <label class="layui-form-label">参数名</label> <div class="layui-input-inline"> <input type="text" name="p${count}" autoComplete="off" class="layui-input"></div></div> <div class="layui-inline"> <label class="layui-form-label">value</label><div class="layui-input-inline"><input type="text" name="v${count}" autoComplete="off" class="layui-input"></div></div></div>`
+            lastItem.removeClass('last-item')
+            lastItem.after(htmlStr)
+        })
+
+
+        var form = layui.form;
+        var layer = layui.layer;
+
+
+        // 提交事件
+        form.on('submit(login)', function(data){
+            var field = data.field; // 获取表单字段值
+            // 此处执行 Ajax 等操作
+            var data = {}
+            for(var k in field){
+                var p = k.substr(0,1)
+                if( p != 'p') continue
+                var i = Number(k.substr(1,1))
+                data[field[k]] = field[`v${i}`]
+            }
+            $.ajax({
+                method: field.method,
+                url: field.url,
+                data: data,
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                success:function(res) {
+                    if (res.status !== 200) {
+                        return layer.msg("请求失败！")
+                    }
+                    $('p').html(JSON.stringify(res))
+                    console.log(res)
+                    // layer.msg('请求成功！')
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    // layer.msg("请求错误")
+                    $('p').html(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText)
+                }
+            })
+            return false; // 阻止默认 form 跳转
+        });
+
+
+    })
+</script>
+</body>
+</html>

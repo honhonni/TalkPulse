@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OpenBrowser implements CommandLineRunner {
 
-    @Value("http://localhost/html/login.html")
+    @Value("http://localhost/testHtml/login.html")
     private String loginUrl;
 
 
