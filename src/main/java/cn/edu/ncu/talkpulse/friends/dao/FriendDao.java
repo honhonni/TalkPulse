@@ -4,7 +4,7 @@ import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.friends.entity.Friend;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.friends.entity.Validation;
-import cn.edu.ncu.talkpulse.group.entity.groupinfo;
+import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public interface FriendDao {
 
     // 获取所在群列表
     @Select("SELECT * FROM GroupMember WHERE user_id = #{user_id}")
-    List<groupinfo> getUserGroups(@Param("user_id") Long userId);
+    List<Groupinfo> getUserGroups(@Param("user_id") Long userId);
 
     // 获取好友分组信息
     @Select("SELECT * FROM Friendship WHERE user_id = #{user_id}")

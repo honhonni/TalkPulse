@@ -1,9 +1,9 @@
 package cn.edu.ncu.talkpulse.group.entity;
 
 
-public class groupinfo {
+public class Groupinfo {
 	// 群聊id
-	private int group_id;
+	private Integer group_id;
 
 	// 群聊名称
 	private String group_name;
@@ -12,13 +12,20 @@ public class groupinfo {
 	private String group_introduce;
 
 	// 群主id
-	private int group_hostid;
+	private Integer group_hostid;
 
-	public int getGroup_id() {
+	public Groupinfo(Integer group_id, String group_name, String group_introduce, Integer group_hostid) {
+		this.group_id=group_id;
+		this.group_name=group_name;
+		this.group_introduce=group_introduce;
+		this.group_hostid=group_hostid;
+	}
+
+	public Integer getGroup_id() {
 		return group_id;
 	}
 
-	public void setGroup_id(int group_id) {
+	public void setGroup_id(Integer group_id) {
 		this.group_id = group_id;
 	}
 
@@ -38,7 +45,7 @@ public class groupinfo {
 		this.group_introduce = group_introduce;
 	}
 
-	public int getGroup_hostid() {
+	public Integer getGroup_hostid() {
 		return group_hostid;
 	}
 

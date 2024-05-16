@@ -1,6 +1,6 @@
 package cn.edu.ncu.talkpulse;
 
-import cn.edu.ncu.talkpulse.group.entity.groupinfo;
+import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import cn.edu.ncu.talkpulse.group.service.GroupService;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -23,17 +23,17 @@ public class JSONUsage {
     @Test
     public void setUp() throws Exception {
 
-        System.out.println("ºìÉ«¾¯¸æ²»ÓÃ¹Ü£¬´ó¸Å¾ÍÊÇËµÄãÕâ¸ö¶«Î÷¿ì¹ıÆÚÁË");
-        System.out.println("ÏëÈ¡ÏûºìÉ«¾¯¸æ£¬ÔÚvmÅäÖÃÉÏ¼Ó-Xshare:off  -XX:+EnableDynamicAgentLoading");
-        System.out.println("vmÊÇÊ²Ã´£¬×Ô¼ºËÑ");
+        System.out.println("çº¢è‰²è­¦å‘Šä¸ç”¨ç®¡ï¼Œå¤§æ¦‚å°±æ˜¯è¯´ä½ è¿™ä¸ªä¸œè¥¿å¿«è¿‡æœŸäº†");
+        System.out.println("æƒ³å–æ¶ˆçº¢è‰²è­¦å‘Šï¼Œåœ¨vmé…ç½®ä¸ŠåŠ -Xshare:off  -XX:+EnableDynamicAgentLoading");
+        System.out.println("vmæ˜¯ä»€ä¹ˆï¼Œè‡ªå·±æœ");
 
-//        jsonÊı¾İ×ª»»¸ñÊ½
-//        ÓÃgroupinfo×ö²âÊÔÁË
-//        ÏñÕâÖÖ¸ù¾İ²ÎÊıgroup_hostid×¼È·²éÑ¯¾ßÌåÒ»ÌõÊı¾İµÄ£¬²»ÒªÓÃ list
+//        jsonæ•°æ®è½¬æ¢æ ¼å¼
+//        ç”¨groupinfoåšæµ‹è¯•äº†
+//        åƒè¿™ç§æ ¹æ®å‚æ•°group_hostidå‡†ç¡®æŸ¥è¯¢å…·ä½“ä¸€æ¡æ•°æ®çš„ï¼Œä¸è¦ç”¨ list
         JSONObject response = new JSONObject();
         response.put("status", "201");
         response.put("messages", "success");
-        List<groupinfo> list=groupService.selectAll(1);
+        List<Groupinfo> list=groupService.selectAll(1);
         response.put("data", list);
 
         System.out.println(response);
