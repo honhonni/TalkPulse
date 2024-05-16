@@ -22,11 +22,9 @@ public class CreateServiceImpl implements CreateService {
             return false;
         }else{
             Integer group_hostid = (Integer) session.getAttribute("user_id");
-            System.out.println(group_hostid);
             Groupinfo groupinfo = new Groupinfo(group_id,group_name,group_introduce,group_hostid);
             int res=createDao.CreateGroup(groupinfo);
             if(res==1){
-                System.out.println(group_hostid);
                 correDao.addcorre(group_hostid,group_id);
                 return true;
             }
