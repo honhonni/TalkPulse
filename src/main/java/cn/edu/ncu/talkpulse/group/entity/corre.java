@@ -1,24 +1,24 @@
 package cn.edu.ncu.talkpulse.group.entity;
 
 public class corre {
-   private int correuser_id;
-   private int corregroup_id;
+   private Integer correuser_id;
+   private Integer corregroup_id;
 
     private boolean newinform;
 
-    public int getCorreuser_id() {
+    public Integer getCorreuser_id() {
         return correuser_id;
     }
 
-    public void setCorreuser_id(int correuser_id) {
+    public void setCorreuser_id(Integer correuser_id) {
         this.correuser_id = correuser_id;
     }
 
-    public int getCorregroup_id() {
+    public Integer getCorregroup_id() {
         return corregroup_id;
     }
 
-    public void setCorregroup_id(int corregroup_id) {
+    public void setCorregroup_id(Integer corregroup_id) {
         this.corregroup_id = corregroup_id;
     }
 

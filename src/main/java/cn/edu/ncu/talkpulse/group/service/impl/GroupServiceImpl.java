@@ -2,7 +2,7 @@ package cn.edu.ncu.talkpulse.group.service.impl;
 
 
 import cn.edu.ncu.talkpulse.group.dao.GroupDao;
-import cn.edu.ncu.talkpulse.group.entity.groupinfo;
+import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import cn.edu.ncu.talkpulse.group.entity.groupvalidation;
 import cn.edu.ncu.talkpulse.group.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     private GroupDao groupDao;
 
-    @Override
-    public List<groupinfo>selectAll(int group_id){
-        return groupDao.selectAll(group_id);
-    }
+//    @Override
+//    public List<Groupinfo>selectAll(int group_id){
+//        return groupDao.selectAll(group_id);
+//    }
 
     @Autowired
     public GroupServiceImpl(GroupDao groupDao) {
@@ -107,20 +107,20 @@ public class GroupServiceImpl implements GroupService {
         return groupDao.rejectInvitation(invitationId,userId,status,readStatus,time);
     }
 
-    @Override
-    public groupinfo getGetGroupInfoById(int groupId) {
-        return groupDao.getGroupInfoById(groupId);
-    }
+//    @Override
+//    public Groupinfo getGetGroupInfoById(int groupId) {
+//        return groupDao.getGroupInfoById(groupId);
+//    }
 
     @Override
     public List<Map<String, Object>> getGroupMembers(int groupId) {
         return groupDao.getGroupMembers(groupId);
     }
 
-    @Override
-    public int createGroup(groupinfo groupinfo) {
-        return groupDao.createGroup(groupinfo);
-    }
+//    @Override
+//    public int createGroup(Groupinfo groupinfo) {
+//        return groupDao.createGroup(groupinfo);
+//    }
 
     @Override
     public int updateGroupIntroduce(int groupId, String newIntroduce) {
@@ -130,6 +130,11 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public String getGroupIntroduceById(int groupId) {
         return groupDao.getGroupIntroduceById(groupId);
+    }
+
+    @Override
+    public List<Groupinfo> selectAll(int i) {
+        return null;
     }
 
 

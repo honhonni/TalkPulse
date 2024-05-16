@@ -1,6 +1,6 @@
 package cn.edu.ncu.talkpulse.group.dao;
 
-import cn.edu.ncu.talkpulse.group.entity.groupinfo;
+import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import cn.edu.ncu.talkpulse.group.entity.groupvalidation;
 import org.apache.ibatis.annotations.*;
 
@@ -10,8 +10,10 @@ import java.util.Map;
 
 @Mapper
 public interface GroupDao {
+
+
     @Select("select group_id,group_name,group_introduce,group_hostid from Groupinfo where group_id=#{id}")
-    public List<groupinfo> selectAll(int group_id);
+    public List<Groupinfo> selectAll(int group_id);
 
     @Insert("INSERT INTO groupapply (groupapply_id, groupapply_sendardid, groupapply_time, groupapply_groupid, groupapply_hostid, groupapply_introduce, groupapply_status, groupapply_readstatus)" +
             "VALUES (#{senderid}, #{hostid}, #{time}, #{groupid}, #{hostid}, #{introduce}, #{status}, #{readstatus})")
@@ -112,7 +114,7 @@ public interface GroupDao {
                          @Param("time") LocalDateTime time);
     // 根据群聊ID获取群组信息
     @Select("SELECT group_id, group_name, group_introduce, group_hostid FROM groupinfo WHERE group_id = #{groupId}")
-    groupinfo getGroupInfoById(@Param("groupId") int groupId);
+    Groupinfo getGroupInfoById(@Param("groupId") int groupId);
     @Select("SELECT g.group_id, g.group_name, g.group_introduce, g.group_hostid, u.user_id, u.username " +
             "FROM groupinfo g " +
             "JOIN corre c ON g.group_id = c.corregroup_id " +
@@ -127,7 +129,7 @@ public interface GroupDao {
             "</script>"
     })
     @Options(useGeneratedKeys = true, keyProperty = "group_id", keyColumn = "group_id")
-    int createGroup(@Param("groupInfo") groupinfo groupInfo);//创建了一个新的群聊
+    int createGroup(@Param("groupInfo") Groupinfo groupInfo);//创建了一个新的群聊
     @Update("UPDATE groupinfo SET group_introduce = #{newIntroduce} WHERE group_id = #{groupId}")
     int updateGroupIntroduce(@Param("groupId") int groupId, @Param("newIntroduce") String newIntroduce);//修改群聊简介
     @Select("SELECT group_introduce FROM groupinfo WHERE group_id = #{groupId}")

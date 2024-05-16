@@ -12,7 +12,7 @@ import cn.edu.ncu.talkpulse.group.dao.GroupDao;
 //import cn.edu.ncu.talkpulse.user.entity.Friendship;
 //import cn.edu.ncu.talkpulse.user.entity.Record;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
-import cn.edu.ncu.talkpulse.group.entity.groupinfo;
+import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
