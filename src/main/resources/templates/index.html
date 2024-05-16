@@ -15,18 +15,11 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
                     <a class="navbar-brand" href="#">TALKPULSE</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-navbar-collapse">
-
                     <ul class="nav navbar-nav navbar-left">
                         <li class="active"><a href="/html/messages.html" target="fm">消息</a></li>
                         <li><a href="/html/friends.html" target="fm">好友</a></li>
@@ -92,18 +85,50 @@
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="javascript:;">用户名</a></li>
                         <li>
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownHead" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span>用户名</span>
                                     <img class="head" src="/images/defualt.png">
                                     <span class="caret"></span>
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="/html/info.html" target="fm">修改个人信息</a></li>
-                                    <li><a href="#">创建分组</a></li>
-                                    <li><a href="#">创建群聊</a></li>
-                                </ul>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <div class="my-info-box">
+                                        <div class="photo">
+                                            <img src="/images/defualt.png">
+                                            <span>张三</span>
+                                        </div>
+                                        <div class="info">
+                                            <ul class="info-list list-group">
+                                                <li class="list-group-item">
+                                                    <span>UID:</span>
+                                                    <span>123456</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span>昵称:</span>
+                                                    <span>张三</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span>性别:</span>
+                                                    <span>未知</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span>个性签名:</span>
+                                                    <span>法外狂徒</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <a href="/html/info.html" target="fm">修改个人信息</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <a href="#">创建分组</a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div><a href="#">创建群聊</a></div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                     </ul>
