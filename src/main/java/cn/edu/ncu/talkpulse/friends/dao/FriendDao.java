@@ -1,6 +1,7 @@
 package cn.edu.ncu.talkpulse.friends.dao;
 
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
+import cn.edu.ncu.talkpulse.friends.entity.Friend;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.friends.entity.Validation;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
@@ -31,6 +32,10 @@ public interface FriendDao {
 //    List<Validation> findValidationByUserId(Integer uid);
 //
 
+
+
+    @Select("select * from friend where firstid = #{myId} and secondid = #{userId}")
+    Friend isfriend(@Param("myId") Integer myId, @Param("userId") Integer userId);
     // 获取好友列表
     @Select("SELECT * FROM Friend WHERE firstid = #{user_id}")
     List<Friendship> getFriendsList(@Param("user_id") Long userId);

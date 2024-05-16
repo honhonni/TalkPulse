@@ -16,4 +16,9 @@ public interface AccountDao {
 
     @Select("select * from userinfo where user_id = #{userId} and user_pwd = #{user_pwd}")
     UserInfo checkUser(@Param("userId") Integer userId, @Param("user_pwd") String user_pwd);
+
+
+    @Select("select user_id,  user_name,  user_gender,  user_age,  user_introduce,  user_photo from userinfo where user_id = #{uid}")
+    public UserInfo searchUserById(Integer uid);
+
 }

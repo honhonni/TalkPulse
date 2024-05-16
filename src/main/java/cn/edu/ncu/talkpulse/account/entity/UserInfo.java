@@ -38,6 +38,14 @@ public class UserInfo {
         this.user_name = user_name;
         this.user_pwd = user_pwd;
     }
+    public UserInfo(Integer user_id, String user_name, String user_gender, Integer user_age, String user_introduce, String user_photo) {
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.user_gender = user_gender;
+        this.user_age = user_age;
+        this.user_introduce = user_introduce;
+        this.user_photo = user_photo;
+    }
 
     public UserInfo() {
     }
