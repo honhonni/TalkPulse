@@ -3,7 +3,6 @@ package cn.edu.ncu.talkpulse.friends.service;
 
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
-import cn.edu.ncu.talkpulse.group.entity.groupinfo;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Mapper;
