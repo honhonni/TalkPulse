@@ -3,6 +3,7 @@ package cn.edu.ncu.talkpulse.controller;
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.account.service.AccountService;
+import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,6 @@ public class AccountController {
         if(ok) return Result.success();
         else return Result.fail();
     }
+
 
 }
