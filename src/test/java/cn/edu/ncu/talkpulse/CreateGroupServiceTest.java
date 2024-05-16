@@ -1,7 +1,7 @@
 package cn.edu.ncu.talkpulse;
 
-import cn.edu.ncu.talkpulse.friends.service.FriendService;
-import com.alibaba.fastjson2.JSONObject;
+import cn.edu.ncu.talkpulse.group.service.CreateService;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
@@ -11,23 +11,22 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Enumeration;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-public class FriendServiceTest {
+public class CreateGroupServiceTest {
     @Autowired
-    private FriendService friendService;
+    private CreateService createService;
     @Autowired
     private HttpSession session;
-
-
     @Test
-    public void testSearch(){
-//        session.setAttribute('user_id',);
-//        JSONObject data  = friendService.search(1, "hk");
-//        System.out.println(data);
+    public void testCreat(){
+
+        session.setAttribute("user_id",11);
+        System.out.println(session.getAttribute("user_id"));
+        Boolean flag=createService.CreateGroup(99999999,"群","欢迎",session);
+        System.out.println(flag);
     }
-
-
 }

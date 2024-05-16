@@ -2,6 +2,7 @@ package cn.edu.ncu.talkpulse.friends.service.impl;
 
 
 
+import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.friends.dao.FriendDao;
 //import cn.edu.ncu.talkpulse.user.dao.FriendDao;
@@ -13,6 +14,8 @@ import cn.edu.ncu.talkpulse.group.dao.GroupDao;
 //import cn.edu.ncu.talkpulse.user.entity.Record;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
 import cn.edu.ncu.talkpulse.group.entity.groupinfo;
+import com.alibaba.fastjson2.JSONObject;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +35,38 @@ public class FriendServiceImpl implements FriendService {
     @Autowired
     private GroupDao groupDao;
 
+    @Autowired
+    private AccountDao accountDao;
 
     @Override
     public List<UserInfo> getFriendsList(Integer userId) {
         return null;
     }
+
+    // 查询用户
+    @Override
+    public JSONObject search(Integer userId, HttpSession session) {
+        Integer myId = (Integer) session.getAttribute("user_id");
+
+        UserInfo userInfo = accountDao.searchUserById(userId);
+        System.out.println(userInfo);
+        if (userInfo != null) {
+            Friend friend = friendDao.isfriend(myId, userId);
+            JSONObject data = new JSONObject();
+            data.put("data", userInfo);
+            if(friend != null){
+                data.put("isfriend", true );
+                return data;
+
+            }else{
+                data.put("isfriend", false );
+                return data;
+            }
+        } else {
+            return null;
+        }
+    }
+
 
     // 获取用户的好友分组列表
     public List<Friendship> getFriendGroups(Long userId) {

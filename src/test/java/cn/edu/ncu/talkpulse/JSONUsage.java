@@ -1,6 +1,6 @@
 package cn.edu.ncu.talkpulse;
 
-import cn.edu.ncu.talkpulse.group.entity.groupinfo;
+import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import cn.edu.ncu.talkpulse.group.service.GroupService;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -33,7 +33,7 @@ public class JSONUsage {
         JSONObject response = new JSONObject();
         response.put("status", "201");
         response.put("messages", "success");
-        List<groupinfo> list=groupService.selectAll(1);
+        List<Groupinfo> list=groupService.selectAll(1);
         response.put("data", list);
 
         System.out.println(response);
