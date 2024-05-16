@@ -12,34 +12,8 @@
     <!--    消息页面-->
     <div class="wrapper">
         <div class="col-md-2 col-sm-2 hidden-xs">
-            <!--                    好友或群聊列表-->
+            <!-- 好友或群聊列表-->
             <div class="messages-sender-list list-group">
-                <button type="button" class="list-group-item">
-                    <img src="/images/defualt.png" class="frieds-photo">
-                    俞杨
-                </button>
-                <button type="button" class="list-group-item">
-                    <img src="/images/defualt.png" class="frieds-photo">
-                    洪邦伟
-                </button>
-                <button type="button" class="list-group-item">
-                    <img src="/images/defualt.png" class="frieds-photo">
-                    黄康
-                </button>
-                <button type="button" class="list-group-item">
-                    <img src="/images/defualt.png" class="frieds-photo">
-                    黄弘扬
-                </button>
-                <button type="button" class="list-group-item">
-                    <img src="/images/defualt.png" class="frieds-photo">
-                    肖星明
-                </button>
-                <button type="button" class="list-group-item">
-                    <img src="/images/defualt.png" class="frieds-photo">好友6
-                </button>
-                <button type="button" class="list-group-item">
-                    <img src="/images/defualt.png" class="frieds-photo">好友7
-                </button>
             </div>
         </div>
         <div class="col-xs-8 col-sm-7 col-md-7">
@@ -48,55 +22,7 @@
                 <!--                        这是消息列表-->
                 <div class="messages">
                     <ul class="messages-list list-group">
-                        <li class="left list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本</span>
-                        </li>
-                        <li class="left list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>今天是个好日子啊</span>
-                        </li>
-                        <li class="left list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>今天是个好日子啊</span>
-                        </li>
-                        <li class="left list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>今天是个好日子啊</span>
-                        </li>
-                        <li class="left list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>今天是个好日子啊</span>
-                        </li>
-                        <li class="left list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>今天是个好日子啊</span>
-                        </li>
 
-                        <li class="right list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本这是一段很长很长的文本</span>
-                        </li>
-                        <li class="right list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>真是个好日子</span>
-                        </li>
-                        <li class="right list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>真是个好日子</span>
-                        </li>
-                        <li class="right list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>真是个好日子</span>
-                        </li>
-                        <li class="right list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>真是个好日子</span>
-                        </li>
-                        <li class="right list-group-item">
-                            <img src="/images/defualt.png" alt="" />
-                            <span>真是个好日子</span>
-                        </li>
                     </ul>
                     <div class="drager_bar">
                         <div class="drager"></div>
@@ -160,10 +86,37 @@
         </div>
     </div>
 </div>
+
+
+<!-- 定义模板 messages-sender-list -->
+<script type="text/html" id="tpl-messages-sender-list">
+    {{each data}}
+    <button type="button" class="list-group-item">
+        <img src="{{$value.img}}" class="frieds-photo">
+        {{$value.user_name}}
+    </button>
+    {{/each}}
+</script>
+<script type="text/html" id="tpl-messages-list">
+    {{each data}}
+    {{if $value.sendByme}}
+    <li class="right list-group-item">
+        <img src="{{$value.img}}" alt="" />
+        <span>{{$value.message}}</span>
+    </li>
+    {{else}}
+    <li class="left list-group-item">
+        <img src="{{$value.img}}" alt="" />
+        <span>{{$value.message}}</span>
+    </li>
+    {{/if}}
+    {{/each}}
+</script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/scroll.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/art-template.js"></script>
 <script type="text/javascript" src="/js/messages.js"></script>
 </body>
 </html>
