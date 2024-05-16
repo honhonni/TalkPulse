@@ -13,12 +13,13 @@ public interface GroupDao {
     @Select("select group_id,group_name,group_introduce,group_hostid from Groupinfo where group_id=#{id}")
     public List<groupinfo> selectAll(int group_id);
 
-    @Insert("INSERT INTO groupapply (groupapply_id,groupapply_sendardid,groupapply_time,groupapply_groupid,groupapply_hostid,groupapply_introduce,groupapply_status,groupapply_readstatus)"+
-            "VALUES(#{senderdid},#{hostid},#{groupid},#{status},#{readstatus},#{time})")
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    @Insert("INSERT INTO groupapply (groupapply_id, groupapply_sendardid, groupapply_time, groupapply_groupid, groupapply_hostid, groupapply_introduce, groupapply_status, groupapply_readstatus)" +
+            "VALUES (#{senderid}, #{hostid}, #{time}, #{groupid}, #{hostid}, #{introduce}, #{status}, #{readstatus})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "groupapply_id") // 假设主键是groupapply_id
     int applyForGroup(@Param("senderid") int senderid,
                       @Param("hostid") int hostid,
                       @Param("groupid") int groupid,
+                      @Param("introduce") String introduce,
                       @Param("status") boolean status,
                       @Param("readstatus") boolean readstatus,
                       @Param("time") LocalDateTime time);//（用户）申请入群方法

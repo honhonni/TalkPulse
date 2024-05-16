@@ -10,7 +10,7 @@ import java.util.Map;
 public interface GroupService {
 
     List<groupinfo> selectAll(int group_id);
-    int applyForGroup(int senderId, int hostId, int groupId, boolean status, boolean readStatus, LocalDateTime time);
+    int applyForGroup(int senderid, int hostid, int groupid, String introduce, boolean status, boolean readstatus, LocalDateTime time);
     int inviteUserToGroup(int senderId, int receiverId, int groupId, boolean status, boolean readStatus, LocalDateTime time);
     int GroupApply(int applyId, boolean status);
     int addUserToGroup(int userId,int groupId);
