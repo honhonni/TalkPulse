@@ -4,6 +4,8 @@ import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.group.dao.CreateDao;
 import cn.edu.ncu.talkpulse.group.service.CreateService;
 import cn.edu.ncu.talkpulse.group.service.ExitService;
+import cn.edu.ncu.talkpulse.group.service.InviteService;
+import cn.edu.ncu.talkpulse.group.service.UpdateInviteService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/group")
 public class GroupController {
@@ -19,8 +23,12 @@ public class GroupController {
     private CreateService createService;
    @Autowired
    private ExitService exitService;
+   @Autowired
+   private InviteService inviteService;
+   @Autowired
+   private UpdateInviteService updateInviteService;
    @PostMapping("/create")
-    public Result CreateGroup(@RequestParam("group_id")int groupId,
+    public Result CreateGroup(@RequestParam("group_id")Integer groupId,
                               @RequestParam("group_name")String groupName,
                               @RequestParam("group_introduce")String groupIntroduce,
                               HttpServletRequest request){
@@ -30,10 +38,34 @@ public class GroupController {
        else return Result.fail();
    }
    @PostMapping("exit")
-    public Result ExitGroup(@RequestParam("corregroup_id")int corregroup_id , HttpServletRequest request){
+    public Result ExitGroup(@RequestParam("corregroup_id")Integer corregroup_id , HttpServletRequest request){
        HttpSession session=request.getSession();
        Boolean ok= exitService.exitGroup(corregroup_id,session);
        if(ok) return Result.success();
        else return Result.fail();
+   }
+   @PostMapping("invite")
+   public Result InviteGroup(@RequestParam("groupvalidation_id")Integer groupvalidationId,
+                             @RequestParam("groupvalidation_receiverid")Integer groupvalidationReceiverId,
+                             @RequestParam("groupvalidation_groupid")Integer groupvalidationGroupId,
+                             @RequestParam("groupvalidation_time")LocalDateTime groupvalidationTime,
+                             HttpServletRequest request){
+      HttpSession session=request.getSession();
+      Boolean ok=inviteService.invite(groupvalidationId,groupvalidationReceiverId,groupvalidationGroupId,groupvalidationTime,session);
+      if(ok) return Result.success();
+      else return Result.fail();
+   }
+   @PostMapping("updateinvite")
+   public Result UpdateInvite(@RequestParam("groupvalidation_id")Integer groupvalidationId,
+                              @RequestParam("groupvalidation_senderid")Integer groupvalidationSenderId,
+                              HttpServletRequest request,
+                              @RequestParam("groupvalidation_groupid")Integer groupvalidationGroupId,
+                              @RequestParam("groupvalidation_status")String groupvalidationStatus,
+                              @RequestParam("groupvalidation_readstatus")String groupvalidationReadStatus,
+                              @RequestParam("groupvalidation_time")LocalDateTime groupvalidationTime){
+      HttpSession session=request.getSession();
+      Boolean ok=updateInviteService.updateinvite(groupvalidationId,groupvalidationSenderId,session,groupvalidationGroupId,groupvalidationStatus,groupvalidationReadStatus,groupvalidationTime);
+      if(ok) return Result.success();
+      else return Result.fail();
    }
 }
