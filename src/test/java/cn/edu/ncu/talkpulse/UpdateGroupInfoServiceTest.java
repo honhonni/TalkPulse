@@ -1,7 +1,6 @@
 package cn.edu.ncu.talkpulse;
 
-import cn.edu.ncu.talkpulse.group.service.ExitService;
-import jakarta.servlet.ServletContext;
+import cn.edu.ncu.talkpulse.group.service.UpdateGroupInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,27 +9,24 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Enumeration;
-
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-public class ExitGroupServiceTest {
+public class UpdateGroupInfoServiceTest {
     @Autowired
-    private ExitService exitService;
+    private UpdateGroupInfoService updateGroupInfoService;
     @Autowired
     private HttpSession session;
-
     @Test
-    public void testExit() {
+    public void TestDelete(){
         session.setAttribute("user_id",11);
-        Boolean flag = exitService.exitGroup(99999999, session);
+        Boolean flag=updateGroupInfoService.deleteIntroduce(1,"welocome",session);
         System.out.println(flag);
     }
     @Test
-    public void testDelete(){
+    public void TestAdd(){
         session.setAttribute("user_id",11);
-        Boolean flag=exitService.deleteGroup(1,"jj",session);
+        Boolean flag=updateGroupInfoService.addIntroduce(1,"welcome to",session);
         System.out.println(flag);
     }
 }

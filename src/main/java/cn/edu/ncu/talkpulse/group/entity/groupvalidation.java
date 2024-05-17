@@ -5,16 +5,16 @@ import java.time.LocalDateTime;
 
 public class groupvalidation {
 	// id
-	private int groupvalidation_id;
+	private Integer groupvalidation_id;
 
 	// 邀请者id
-	private int groupvalidation_senderid;
+	private Integer groupvalidation_senderid;
 
 	// 受邀者id
-	private int groupvalidation_receiverid;
+	private Integer groupvalidation_receiverid;
 
 	// 群聊id
-	private int groupvalidation_groupid;
+	private Integer groupvalidation_groupid;
 
 	// 验证状态
 	private boolean groupvalidation_status;
@@ -24,35 +24,35 @@ public class groupvalidation {
 
 	private LocalDateTime groupvalidation_time;
 
-	public int getGroupvalidation_id() {
+	public Integer getGroupvalidation_id() {
 		return groupvalidation_id;
 	}
 
-	public void setGroupvalidation_id(int groupvalidation_id) {
+	public void setGroupvalidation_id(Integer groupvalidation_id) {
 		this.groupvalidation_id = groupvalidation_id;
 	}
 
-	public int getGroupvalidation_senderid() {
+	public Integer getGroupvalidation_senderid() {
 		return groupvalidation_senderid;
 	}
 
-	public void setGroupvalidation_senderid(int groupvalidation_senderid) {
+	public void setGroupvalidation_senderid(Integer groupvalidation_senderid) {
 		this.groupvalidation_senderid = groupvalidation_senderid;
 	}
 
-	public int getGroupvalidation_receiverid() {
+	public Integer getGroupvalidation_receiverid() {
 		return groupvalidation_receiverid;
 	}
 
-	public void setGroupvalidation_receiverid(int groupvalidation_receiverid) {
+	public void setGroupvalidation_receiverid(Integer groupvalidation_receiverid) {
 		this.groupvalidation_receiverid = groupvalidation_receiverid;
 	}
 
-	public int getGroupvalidation_groupid() {
+	public Integer getGroupvalidation_groupid() {
 		return groupvalidation_groupid;
 	}
 
-	public void setGroupvalidation_groupid(int groupvalidation_groupid) {
+	public void setGroupvalidation_groupid(Integer groupvalidation_groupid) {
 		this.groupvalidation_groupid = groupvalidation_groupid;
 	}
 
