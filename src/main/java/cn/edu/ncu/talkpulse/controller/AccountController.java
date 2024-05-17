@@ -41,7 +41,7 @@ public class AccountController {
     @GetMapping( "/get")
     public Result get(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        UserInfo userInfo = accountService.get( session);
+        UserInfo userInfo = accountService.get(session);
         if(userInfo!=null) return Result.success(userInfo);
         else return Result.fail();
     }

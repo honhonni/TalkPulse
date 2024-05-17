@@ -36,8 +36,9 @@ public class AccountServiceTest {
 
     @Test
     public void testGet(){
-        session.setAttribute("user_id","5555");
+        session.setAttribute("user_id",5555);
         UserInfo userInfo = accountService.get(session);
         System.out.println(userInfo);
     }
+
 }
