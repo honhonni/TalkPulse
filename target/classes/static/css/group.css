@@ -4,15 +4,19 @@
 .wrapper>div{
     height: 100%;
 }
-/*左侧消息列表*/
+/*宸︿晶鍒楄〃*/
 .list-group-item:first-child,
 .list-group-item:last-child,
 .list-group-item{
     border: 0;
     font-size: 20px;
     border-radius: 20px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
 }
-.list-group-item .frieds-photo{
+.list-group-item .group-photo{
     width: 28px;
     height: 28px;
     margin-right: 8px;
@@ -59,31 +63,11 @@
     margin-left: 32px;
     box-sizing: border-box;
 }
-.我的好友{
-
-}
-
-/*滚动条*/
-.drager_bar {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 2px;
-    width: 8px;
-    height: 100%;
-}
-.drager_bar .drager {
-    display: none;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 10%;
-    border-radius: 4px;
-    background-color: #ccc;
-}
 
 
-/*info-box页面*/
+
+
+/*info-box椤甸潰*/
 .info-box{
     width: 100%;
     height: 100%;
@@ -122,3 +106,81 @@
     text-align: right;
     line-height: 1;
 }
+#quite{
+    background-color: red;
+}
+
+
+/*澶勭悊濂藉弸鐢宠证*/
+
+.friends-validation {
+    overflow-y: auto;
+    padding-left: 20px;
+    /*background-color: #fcfcfc;*/
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.friends-validation .friends-validation-list {
+    width: 100%;
+    padding: 4px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+}
+.friends-validation .friends-validation-list li{
+    padding: 4px;
+    box-sizing: border-box;
+}
+.friends-validation-list .list-group{
+    display: none;
+}
+.friends-validation-group{
+    cursor: pointer;
+}
+.friends-validation-group h2{
+    display: inline-block;
+    color: #0c0a09;
+    font-size: 18px;
+    font-weight: 600;
+
+}
+.friends-validation-list .list-group{
+    margin-left: 32px;
+    box-sizing: border-box;
+}
+
+/*鎼滅储濂藉弸淇℃伅*/
+.search-friends-info{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: #fcf8e3ff;
+}
+.search-friends-info .search-frieds-photo{
+    width: 48px;
+    height: 48px;
+    margin: 16px 0;
+    border-radius: 50%;
+}
+.search-friends-info .search-frieds-description{
+    flex: 1;
+    width: 100%;
+    margin: 12px 10px;
+}
+.search-friends-info .search-frieds-description div{
+    overflow: hidden;
+    width: 100%;
+    line-height: 32px;
+}
+.search-friends-info .search-frieds-description span{
+    float: left;
+    font-size: 16px;
+}
+.search-friends-info .search-frieds-description span:nth-child(2),
+.search-friends-info .search-frieds-description .search-frieds-option #add{
+    float: right;
+}
+
