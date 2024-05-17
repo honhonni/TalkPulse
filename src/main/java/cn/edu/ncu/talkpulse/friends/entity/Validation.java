@@ -1,81 +1,104 @@
 package cn.edu.ncu.talkpulse.friends.entity;
 
-// 加好友验证表
+import java.time.LocalDateTime;
+
+// 加好友申请表
 public class Validation {
     // id
-    private Integer validationId;
+    private Integer validation_id;
 
     // 发送者id
-    private Integer validationSenderid;
+    private Integer validation_senderid;
 
     // 接受者id
-    private Integer validationReceiverid;
+    private Integer validation_receiverid;
 
     // 验证状态
-    private Integer validationStatus;
+    private Integer validation_status;
 
     // 是否已读
-    private Integer validationReadstatus;
+    private Integer validation_readstatus;
+
+    // 申请时间
+    private LocalDateTime validation_time;
+
+    public LocalDateTime getValidation_time() {
+        return validation_time;
+    }
+
+    public void setValidation_time(LocalDateTime validation_time) {
+        this.validation_time = validation_time;
+    }
+
+    public Validation(Integer validation_id, Integer validation_senderid, Integer validation_receiverid, Integer validation_status, Integer validation_readstatus, LocalDateTime validation_time) {
+        this.validation_id = validation_id;
+        this.validation_senderid = validation_senderid;
+        this.validation_receiverid = validation_receiverid;
+        this.validation_status = validation_status;
+        this.validation_readstatus = validation_readstatus;
+        this.validation_time = validation_time;
+    }
 
     public Validation() {
     }
 
     public Validation(Integer validationId, Integer validationSenderid, Integer validationReceiverid, Integer validationStatus, Integer validationReadstatus) {
-        this.validationId = validationId;
-        this.validationSenderid = validationSenderid;
-        this.validationReceiverid = validationReceiverid;
-        this.validationStatus = validationStatus;
-        this.validationReadstatus = validationReadstatus;
+        this.validation_id = validationId;
+        this.validation_senderid = validationSenderid;
+        this.validation_receiverid = validationReceiverid;
+        this.validation_status = validationStatus;
+        this.validation_readstatus = validationReadstatus;
     }
 
     @Override
     public String toString() {
         return "Validation{" +
-                "validationId=" + validationId +
-                ", validationSenderid=" + validationSenderid +
-                ", validationReceiverid=" + validationReceiverid +
-                ", validationStatus=" + validationStatus +
-                ", validationReadstatus=" + validationReadstatus +
+                "validation_id=" + validation_id +
+                ", validation_senderid=" + validation_senderid +
+                ", validation_receiverid=" + validation_receiverid +
+                ", validation_status=" + validation_status +
+                ", validation_readstatus=" + validation_readstatus +
+                ", validation_time=" + validation_time +
                 '}';
     }
 
-    public Integer getValidationId() {
-        return validationId;
+    public Integer getValidation_id() {
+        return validation_id;
     }
 
-    public void setValidationId(Integer validationId) {
-        this.validationId = validationId;
+    public void setValidation_id(Integer validation_id) {
+        this.validation_id = validation_id;
     }
 
-    public Integer getValidationSenderid() {
-        return validationSenderid;
+    public Integer getValidation_senderid() {
+        return validation_senderid;
     }
 
-    public void setValidationSenderid(Integer validationSenderid) {
-        this.validationSenderid = validationSenderid;
+    public void setValidation_senderid(Integer validation_senderid) {
+        this.validation_senderid = validation_senderid;
     }
 
-    public Integer getValidationReceiverid() {
-        return validationReceiverid;
+    public Integer getValidation_receiverid() {
+        return validation_receiverid;
     }
 
-    public void setValidationReceiverid(Integer validationReceiverid) {
-        this.validationReceiverid = validationReceiverid;
+    public void setValidation_receiverid(Integer validation_receiverid) {
+        this.validation_receiverid = validation_receiverid;
     }
 
-    public Integer getValidationStatus() {
-        return validationStatus;
+    public Integer getValidation_status() {
+        return validation_status;
     }
 
-    public void setValidationStatus(Integer validationStatus) {
-        this.validationStatus = validationStatus;
+    public void setValidation_status(Integer validation_status) {
+        this.validation_status = validation_status;
     }
 
-    public Integer getValidationReadstatus() {
-        return validationReadstatus;
+    public Integer getValidation_readstatus() {
+        return validation_readstatus;
     }
 
-    public void setValidationReadstatus(Integer validationReadstatus) {
-        this.validationReadstatus = validationReadstatus;
+    public void setValidation_readstatus(Integer validation_readstatus) {
+        this.validation_readstatus = validation_readstatus;
     }
 }

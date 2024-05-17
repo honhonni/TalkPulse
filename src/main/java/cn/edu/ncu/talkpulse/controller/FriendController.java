@@ -2,22 +2,33 @@ package cn.edu.ncu.talkpulse.controller;
 
 import cn.edu.ncu.talkpulse.account.service.AccountService;
 import cn.edu.ncu.talkpulse.dto.Result;
+import cn.edu.ncu.talkpulse.friends.entity.Validation;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
+import cn.edu.ncu.talkpulse.friends.service.ValidationService;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/friend")
+@RequestMapping("/friends")
 public class FriendController {
     @Autowired
     private FriendService friendService;
+
+    @Autowired
+    private ValidationService validationService;
+
+    @Autowired
+    HttpServletRequest request;
+
+    private Integer getUserIdFromSession() {
+        return (Integer) request.getSession().getAttribute("user_id");
+    }
 
 
     @GetMapping("/search")
@@ -28,5 +39,33 @@ public class FriendController {
 
         if(data!=null) return Result.success(data);
         else return Result.fail();
+    }
+
+    // 添加好友接口
+    @PostMapping("/addFriend")
+    public Result addFriend(@RequestParam("friend_id") Integer friendId){
+        Integer uid = getUserIdFromSession();
+        if(uid==null) return Result.fail("非法请求，请先登录");
+        Boolean ok = validationService.sendValidation(uid, friendId);
+        if(ok) return Result.success();
+        else return Result.fail();
+    }
+
+    // 接收好友申请接口
+    @GetMapping
+    public Result getValidation(){
+        Integer uid = getUserIdFromSession();
+        if(uid==null) return Result.fail("非法请求，请先登录");
+        List<Validation> validations = validationService.getValidation(uid);
+        if(validations==null) return Result.fail();
+        else return Result.success(validations);
+    }
+
+    // 处理好友申请接口
+    @PostMapping
+    public Result handleValidation(){
+        Integer uid = getUserIdFromSession();
+        if(uid==null) return Result.fail("非法请求，请先登录");
+        return Result.success();
     }
 }
