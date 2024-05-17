@@ -1,11 +1,7 @@
 package cn.edu.ncu.talkpulse.controller;
 
 import cn.edu.ncu.talkpulse.dto.Result;
-import cn.edu.ncu.talkpulse.group.dao.CreateDao;
-import cn.edu.ncu.talkpulse.group.service.CreateService;
-import cn.edu.ncu.talkpulse.group.service.ExitService;
-import cn.edu.ncu.talkpulse.group.service.InviteService;
-import cn.edu.ncu.talkpulse.group.service.UpdateInviteService;
+import cn.edu.ncu.talkpulse.group.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +23,8 @@ public class GroupController {
    private InviteService inviteService;
    @Autowired
    private UpdateInviteService updateInviteService;
+   @Autowired
+   private UserApplyIntoService userApplyIntoService;
    @PostMapping("/create")
     public Result CreateGroup(@RequestParam("group_id")Integer groupId,
                               @RequestParam("group_name")String groupName,
@@ -36,14 +34,14 @@ public class GroupController {
        Boolean ok=createService.CreateGroup(groupId,groupName,groupIntroduce,session);
        if(ok) return Result.success();
        else return Result.fail();
-   }
+   }//创建群聊
    @PostMapping("exit")
     public Result ExitGroup(@RequestParam("corregroup_id")Integer corregroup_id , HttpServletRequest request){
        HttpSession session=request.getSession();
        Boolean ok= exitService.exitGroup(corregroup_id,session);
        if(ok) return Result.success();
        else return Result.fail();
-   }
+   }//退出群聊
    @PostMapping("invite")
    public Result InviteGroup(@RequestParam("groupvalidation_id")Integer groupvalidationId,
                              @RequestParam("groupvalidation_receiverid")Integer groupvalidationReceiverId,
@@ -54,7 +52,7 @@ public class GroupController {
       Boolean ok=inviteService.invite(groupvalidationId,groupvalidationReceiverId,groupvalidationGroupId,groupvalidationTime,session);
       if(ok) return Result.success();
       else return Result.fail();
-   }
+   }//邀请进入群聊
    @PostMapping("updateinvite")
    public Result UpdateInvite(@RequestParam("groupvalidation_id")Integer groupvalidationId,
                               @RequestParam("groupvalidation_senderid")Integer groupvalidationSenderId,
@@ -67,5 +65,16 @@ public class GroupController {
       Boolean ok=updateInviteService.updateinvite(groupvalidationId,groupvalidationSenderId,session,groupvalidationGroupId,groupvalidationStatus,groupvalidationReadStatus,groupvalidationTime);
       if(ok) return Result.success();
       else return Result.fail();
-   }
+   }//更新群聊信息
+   @PostMapping("userapplyinto")
+   public Result UserApplyInto(
+                               HttpServletRequest request,
+                               @RequestParam("groupapply_time")LocalDateTime groupapplyTime,
+                               @RequestParam("groupapply_groupid")Integer groupapplyGroupId
+                               ){
+      HttpSession session=request.getSession();
+      Boolean ok=userApplyIntoService.UserApplyInto(session,groupapplyTime,groupapplyGroupId);
+      if(ok) return Result.success();
+      else return Result.fail();
+   }//用户申请入群
 }
