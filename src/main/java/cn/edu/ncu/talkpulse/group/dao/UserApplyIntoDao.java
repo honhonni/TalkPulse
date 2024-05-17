@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 
 @Mapper
 public interface UserApplyIntoDao {
-    @Insert("insert into groupvalidation(groupapply_sendardid,groupapply_time,groupapply_groupid)values(#{groupapply_sendardid},#{groupapply_time},#{groupapply_groupid})")
-   int UserApplyinto(Integer groupapply_sendardid, LocalDateTime groupapply_time,Integer groupapply_groupid);
+    @Insert("insert into groupvalidation(groupapply_sendardid,groupapply_time,groupapply_groupid,groupapply_introduce)values(#{groupapply_sendardid},#{groupapply_time},#{groupapply_groupid},#{groupapply_introduce})")
+   int UserApplyinto(Integer groupapply_sendardid, LocalDateTime groupapply_time,Integer groupapply_groupid,String groupapply_introduce);
 }

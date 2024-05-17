@@ -1,6 +1,7 @@
 package cn.edu.ncu.talkpulse.controller;
 
 import cn.edu.ncu.talkpulse.dto.Result;
+import cn.edu.ncu.talkpulse.group.dao.UpdateGroupInfoDao;
 import cn.edu.ncu.talkpulse.group.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +26,8 @@ public class GroupController {
    private UpdateInviteService updateInviteService;
    @Autowired
    private UserApplyIntoService userApplyIntoService;
+   @Autowired
+   private UpdateGroupInfoService updateGroupInfoService;
    @PostMapping("/create")
     public Result CreateGroup(@RequestParam("group_id")Integer groupId,
                               @RequestParam("group_name")String groupName,
@@ -70,11 +73,21 @@ public class GroupController {
    public Result UserApplyInto(
                                HttpServletRequest request,
                                @RequestParam("groupapply_time")LocalDateTime groupapplyTime,
-                               @RequestParam("groupapply_groupid")Integer groupapplyGroupId
+                               @RequestParam("groupapply_groupid")Integer groupapplyGroupId,
+                               @RequestParam("groupapply_introduce")String groupapplyIntroduce
                                ){
       HttpSession session=request.getSession();
-      Boolean ok=userApplyIntoService.UserApplyInto(session,groupapplyTime,groupapplyGroupId);
+      Boolean ok=userApplyIntoService.UserApplyInto(session,groupapplyTime,groupapplyGroupId,groupapplyIntroduce);
       if(ok) return Result.success();
       else return Result.fail();
    }//用户申请入群
+   @PostMapping("updategroupinfo")
+   public Result UpdateGroupInfo(@RequestParam("group_id")Integer group_id,
+                                 @RequestParam("group_introduce")String group_introduce,
+                                 HttpServletRequest request){
+      HttpSession session=request.getSession();
+      Boolean ok=updateGroupInfoService.addIntroduce(group_id,group_introduce,session)&&updateGroupInfoService.deleteIntroduce(group_id,group_introduce,session);
+      if(ok) return Result.success();
+      else return Result.fail();
+   }
 }

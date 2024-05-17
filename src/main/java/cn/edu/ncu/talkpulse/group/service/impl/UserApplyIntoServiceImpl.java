@@ -13,9 +13,9 @@ public class UserApplyIntoServiceImpl implements UserApplyIntoService {
     @Autowired
     private UserApplyIntoDao userApplyIntoDao;
     @Override
-    public Boolean UserApplyInto(HttpSession session, LocalDateTime groupapply_time, Integer groupapply_groupid){
+    public Boolean UserApplyInto(HttpSession session, LocalDateTime groupapply_time, Integer groupapply_groupid,String groupapply_introduce){
         Integer groupapply_sendardid=(Integer) session.getAttribute("user_id");
-        int res= userApplyIntoDao.UserApplyinto(groupapply_sendardid,groupapply_time,groupapply_groupid);
+        int res= userApplyIntoDao.UserApplyinto(groupapply_sendardid,groupapply_time,groupapply_groupid,groupapply_introduce);
         if(res==1){
             return true;
         }else return false;

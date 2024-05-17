@@ -1,6 +1,6 @@
 package cn.edu.ncu.talkpulse;
 
-import cn.edu.ncu.talkpulse.group.service.UserApplyIntoService;
+import cn.edu.ncu.talkpulse.group.service.UpdateGroupInfoService;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,20 +9,24 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static java.time.LocalDateTime.now;
-
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-public class UserApplyIntoServiceTest {
+public class UpdateGroupInfoServiceTest {
     @Autowired
-    private UserApplyIntoService userApplyIntoService;
+    private UpdateGroupInfoService updateGroupInfoService;
     @Autowired
     private HttpSession session;
     @Test
-    public void UserApplyIntoTest(){
+    public void TestDelete(){
         session.setAttribute("user_id",11);
-        Boolean flag=userApplyIntoService.UserApplyInto(session,now(),1,"hello");
+        Boolean flag=updateGroupInfoService.deleteIntroduce(1,"welocome",session);
+        System.out.println(flag);
+    }
+    @Test
+    public void TestAdd(){
+        session.setAttribute("user_id",11);
+        Boolean flag=updateGroupInfoService.addIntroduce(1,"welcome to",session);
         System.out.println(flag);
     }
 }
