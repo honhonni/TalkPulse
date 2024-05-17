@@ -1,5 +1,6 @@
 package cn.edu.ncu.talkpulse;
 
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.account.service.AccountService;
 import cn.edu.ncu.talkpulse.group.service.GroupService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ public class AccountServiceTest {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private HttpServletRequest request;
+    private HttpSession session;
 
     @Test
     public void testRegister(){
@@ -28,8 +29,15 @@ public class AccountServiceTest {
 
     @Test
     public void testLogin(){
-        Boolean flag = accountService.login(1, "W848oa35qR", request.getSession());
+        Boolean flag = accountService.login(1, "W848oa35qR", session);
         System.out.println(flag);
-        System.out.println(request.getSession().getAttribute("user_id"));
+        System.out.println(session.getAttribute("user_id"));
+    }
+
+    @Test
+    public void testGet(){
+        session.setAttribute("user_id","5555");
+        UserInfo userInfo = accountService.get(session);
+        System.out.println(userInfo);
     }
 }

@@ -1,6 +1,7 @@
 package cn.edu.ncu.talkpulse.controller;
 
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.account.service.AccountService;
 import com.alibaba.fastjson2.JSONObject;
@@ -33,6 +34,15 @@ public class AccountController {
         HttpSession session = request.getSession();
         Boolean ok = accountService.login(userId, userPwd, session);
         if(ok) return Result.success();
+        else return Result.fail();
+    }
+
+
+    @GetMapping( "/get")
+    public Result get(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        UserInfo userInfo = accountService.get( session);
+        if(userInfo!=null) return Result.success(userInfo);
         else return Result.fail();
     }
 
