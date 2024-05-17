@@ -20,4 +20,13 @@ public class ExitServiceImpl implements ExitService {
         }
         else return false;
     }
+    @Override
+    public Boolean deleteGroup(Integer group_id,String group_introduce,HttpSession session){
+        Integer group_hostid=(Integer) session.getAttribute("user_id");
+        int res=exitDao.deleteGroup(group_id,group_introduce,group_hostid);
+        if(res==1){
+            exitDao.deleteGroupId(group_id);
+            return true;
+        }else return false;
+    }
 }
