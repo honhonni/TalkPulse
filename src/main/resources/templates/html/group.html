@@ -9,8 +9,9 @@
 </head>
 <body>
 <div class="box">
-    <!--    好友列表-->
+    <!--    群聊-->
     <div class="wrapper">
+<!--        群聊列表-->
         <div class="col-xs-4 col-sm-4 col-md-4">
             <!--                    好友或群聊列表-->
             <div class="groups list-box">
@@ -21,6 +22,54 @@
                             <h2>我创建的群聊</h2>
                         </div>
                         <div class="my-groups list-group">
+                        </div>
+                    </li>
+                    <li class="left list-group-item">
+                        <div class="groups-group">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <h2>我加入的群聊</h2>
+                        </div>
+                        <div class="join-groups list-group">
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+<!--        群聊信息-->
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="info-box">
+
+            </div>
+        </div>
+
+<!--        处理群聊申请相关信息申请-->
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <!--                    好友申请和好友验证列表-->
+            <div class="friends-validation">
+                <ul class="friends-validation-list list-group">
+
+                    <li class="left list-group-item">
+                        <div class="friends-validation-group">
+                            <input type="text" class="form-control" placeholder="Search friends" id="search-friends" autocomplete="off" name="search">
+                            <div class="search-friends-info">
+                                <img src="/images/avatar/defualt.png" class="search-frieds-photo">
+                                <div class="search-frieds-description">
+                                    <div class="search-frieds-id-time">
+                                        <span>123456</span>
+                                        <!--                                        <span>2024-05-12 10:22:12</span>-->
+                                    </div>
+                                    <div class="search-frieds-option">
+                                        <span>俞杨</span>
+                                        <button type="button" id="add" class="btn btn-primary">
+                                            添加好友
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="好友验证 list-group">
                             <button type="button" class="list-group-item">
                                 <img src="/images/defualt.png" class="frieds-photo">
                                 俞杨
@@ -50,11 +99,45 @@
                         </div>
                     </li>
                     <li class="left list-group-item">
-                        <div class="groups-group">
+                        <div class="friends-validation-group">
                             <span class="glyphicon glyphicon-chevron-right"></span>
-                            <h2>我加入的群聊</h2>
+                            <h2>好友验证</h2>
                         </div>
-                        <div class="join-groups list-group">
+                        <div class="好友验证 list-group">
+                            <button type="button" class="list-group-item">
+                                <img src="/images/defualt.png" class="frieds-photo">
+                                俞杨
+                            </button>
+                            <button type="button" class="list-group-item">
+                                <img src="/images/defualt.png" class="frieds-photo">
+                                洪邦伟
+                            </button>
+                            <button type="button" class="list-group-item">
+                                <img src="/images/defualt.png" class="frieds-photo">
+                                黄康
+                            </button>
+                            <button type="button" class="list-group-item">
+                                <img src="/images/defualt.png" class="frieds-photo">
+                                黄弘扬
+                            </button>
+                            <button type="button" class="list-group-item">
+                                <img src="/images/defualt.png" class="frieds-photo">
+                                肖星明
+                            </button>
+                            <button type="button" class="list-group-item">
+                                <img src="/images/defualt.png" class="frieds-photo">好友6
+                            </button>
+                            <button type="button" class="list-group-item">
+                                <img src="/images/defualt.png" class="frieds-photo">好友7
+                            </button>
+                        </div>
+                    </li>
+                    <li class="left list-group-item">
+                        <div class="friends-validation-group">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <h2>好友申请</h2>
+                        </div>
+                        <div class="好友申请 list-group">
                             <button type="button" class="list-group-item">
                                 <img src="/images/defualt.png" class="frieds-photo">
                                 俞杨
@@ -88,45 +171,60 @@
             </div>
 
         </div>
-
-        <div class="col-xs-8 col-sm-8 col-md-8">
-            <div class="info-box">
-                <div class="photo">
-                    <img src="/images/defualt.png">
-                    <span>张三</span>
-                </div>
-                <div class="info">
-                    <ul class="info-list list-group">
-                        <li class="list-group-item">
-                            <span>UID:</span>
-                            <span>123456</span>
-                        </li>
-                        <li class="list-group-item">
-                            <span>昵称:</span>
-                            <span>张三</span>
-                        </li>
-                        <li class="list-group-item">
-                            <span>性别:</span>
-                            <span>未知</span>
-                        </li>
-                        <li class="list-group-item">
-                            <span>个人介绍:</span>
-                            <span>法外狂徒</span>
-                        </li>
-                        <li class="list-group-item">
-                            <span>分组:</span>
-                            <span>我的好友</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
+<!--我创建的群聊-->
+<script type="text/html" id="tpl-my-groups">
+    {{each data[0]}}
+    <button type="button" class="list-group-item" gid="{{$value.GID}}">
+        <img src="{{$value.img}}" class="group-photo">
+        {{$value.group_name}}
+    </button>
+    {{/each}}
+    <div>
+        创建群聊
+    </div>
+</script>
+<!--我加入的群聊-->
+<script type="text/html" id="tpl-join-groups" gid="{{$value.GID}}">
+    {{each data[1]}}
+    <button type="button" class="list-group-item">
+        <img src="{{$value.img}}" class="group-photo">
+        {{$value.group_name}}
+    </button>
+    {{/each}}
+</script>
+<script type="text/javascript" id="tpl-info">
+    <div class="photo">
+        <img src="{{img}}" />
+        <span>{{group_name}}</span>
+    </div>
+    <div class="info">
+        <ul class="info-list list-group">
+            <li class="list-group-item">
+                <span>GID:</span>
+                <span>{{GID}}</span>
+            </li>
+            <li class="list-group-item">
+                <span>群聊名称:</span>
+                <span>{{group_name}}</span>
+            </li>
+            <li class="list-group-item">
+                <span>群介绍:</span>
+                <span>欢迎加入我们</span>
+            </li>
+            <li class="list-group-item">
+                <span>退出:</span>
+                <button type="button" id="quite" class="btn btn-primary">
+                    退出群聊
+                </button>
+            </li>
+        </ul>
+    </div>
+</script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/scroll.js"></script>
+<script type="text/javascript" src="/js/art-template.js"></script>
 <script type="text/javascript" src="/js/group.js"></script>
 </body>
 </html>
