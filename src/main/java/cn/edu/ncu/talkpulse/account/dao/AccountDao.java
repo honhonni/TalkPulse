@@ -19,6 +19,6 @@ public interface AccountDao {
 
 
     @Select("select user_id,  user_name,  user_gender,  user_age,  user_introduce,  user_photo from userinfo where user_id = #{uid}")
-    public UserInfo searchUserById(Integer uid);
+    UserInfo searchUserById(Integer uid);
 
 }

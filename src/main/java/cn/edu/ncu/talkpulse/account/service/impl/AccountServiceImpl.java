@@ -3,7 +3,6 @@ package cn.edu.ncu.talkpulse.account.service.impl;
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.account.service.AccountService;
-import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,5 +39,20 @@ public class AccountServiceImpl implements AccountService {
         }
         else return false;
     }
+
+    // 获取用户信息
+    @Override
+    public UserInfo get(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user_id");
+
+        UserInfo userInfo = accountDao.searchUserById(userId);
+        System.out.println(userInfo);
+        if (userInfo != null) {
+           return userInfo;
+        } else {
+            return null;
+        }
+    }
+
 
 }

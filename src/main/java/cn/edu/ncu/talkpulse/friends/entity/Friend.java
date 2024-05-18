@@ -3,18 +3,18 @@ package cn.edu.ncu.talkpulse.friends.entity;
 // 好友关系表
 public class Friend {
     // 一号用户id
-    private Integer firstuserId;
+    private Integer firstid;
 
     // 二号用户id
-    private Integer seconduserId;
+    private Integer secondid;
 
     // 1给2设置的分组id
-    private Integer givenfriendshipId;
+    private Integer given_friendshipid;
 
     public Friend(Integer firstuserId, Integer seconduserId, Integer givenfriendshipId) {
-        this.firstuserId = firstuserId;
-        this.seconduserId = seconduserId;
-        this.givenfriendshipId = givenfriendshipId;
+        this.firstid = firstuserId;
+        this.secondid = seconduserId;
+        this.given_friendshipid = givenfriendshipId;
     }
 
     public Friend() {
@@ -23,33 +23,33 @@ public class Friend {
     @Override
     public String toString() {
         return "Friend{" +
-                "firstuserId=" + firstuserId +
-                ", seconduserId=" + seconduserId +
-                ", givenfriendshipId=" + givenfriendshipId +
+                "firstuserId=" + firstid +
+                ", seconduserId=" + secondid +
+                ", givenfriendshipId=" + given_friendshipid +
                 '}';
     }
 
-    public Integer getFirstuserId() {
-        return firstuserId;
+    public Integer getFirstid() {
+        return firstid;
     }
 
-    public void setFirstuserId(Integer firstuserId) {
-        this.firstuserId = firstuserId;
+    public void setFirstid(Integer firstid) {
+        this.firstid = firstid;
     }
 
-    public Integer getSeconduserId() {
-        return seconduserId;
+    public Integer getSecondid() {
+        return secondid;
     }
 
-    public void setSeconduserId(Integer seconduserId) {
-        this.seconduserId = seconduserId;
+    public void setSecondid(Integer secondid) {
+        this.secondid = secondid;
     }
 
-    public Integer getGivenfriendshipId() {
-        return givenfriendshipId;
+    public Integer getGiven_friendshipid() {
+        return given_friendshipid;
     }
 
-    public void setGivenfriendshipId(Integer givenfriendshipId) {
-        this.givenfriendshipId = givenfriendshipId;
+    public void setGiven_friendshipid(Integer given_friendshipid) {
+        this.given_friendshipid = given_friendshipid;
     }
 }
