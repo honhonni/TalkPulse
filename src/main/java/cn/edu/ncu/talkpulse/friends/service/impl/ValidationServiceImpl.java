@@ -1,6 +1,7 @@
 package cn.edu.ncu.talkpulse.friends.service.impl;
 
 import cn.edu.ncu.talkpulse.dto.Result;
+import cn.edu.ncu.talkpulse.dto.WebSocketDTO;
 import cn.edu.ncu.talkpulse.friends.dao.ValidationDao;
 import cn.edu.ncu.talkpulse.friends.dao.FriendshipDao;
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
@@ -12,6 +13,7 @@ import cn.edu.ncu.talkpulse.friends.service.WebSocketServer;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,7 +59,8 @@ public class ValidationServiceImpl implements ValidationService {
 
         if(res==0) return Result.fail();
         else{
-            webSocketServer.sendToUser(friendId,"您有新的好友请求");
+            // webSocketServer.sendToUser(friendId,"您有新的好友请求");
+            webSocketServer.sendToUser(friendId, WebSocketDTO.FRIEND_REQUEST);
             return Result.success();
         }
     }
@@ -72,6 +75,7 @@ public class ValidationServiceImpl implements ValidationService {
 
     // 处理好友申请请求
     @Override
+    @Transactional
     public Result handleValidation(Integer uid, Integer validationId, Boolean agree) {
         Validation validation = validationDao.getValidationById(validationId);
         if(validation==null) return Result.fail("好友申请不存在");
