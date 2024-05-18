@@ -210,20 +210,7 @@
                     <li class="left list-group-item">
                         <div class="friends-validation-group">
                             <input type="text" class="form-control" placeholder="Search friends" id="search-friends" autocomplete="off" name="search">
-                            <div class="search-friends-info">
-                                <img src="/images/defualt.png" class="search-frieds-photo">
-                                <div class="search-frieds-description">
-                                    <div class="search-frieds-id-time">
-                                        <span>123456</span>
-                                        <span>2024-05-12 10:22:12</span>
-                                    </div>
-                                    <div class="search-frieds-option">
-                                        <span>俞杨</span>
-                                        <button type="button" id="add" class="btn btn-primary">
-                                            添加好友
-                                        </button>
-                                    </div>
-                                </div>
+                            <div class="search-friends-info-box">
                             </div>
                         </div>
                         <div class="好友验证 list-group">
@@ -331,10 +318,39 @@
 
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+<script type="text/html" id="tpl-search-friends-info">
+    <div class="search-friends-info">
+        <img src="{{data.user_photo}}" class="search-frieds-photo">
+        <!--        <img src='/images/avatar/defualt.png' class="search-frieds-photo">-->
+        <div class="search-frieds-description">
+            <div class="row1">
+                <span>{{data.user_id}}</span>
+                {{if isfriend != true}}
+                <button type="button" id="add" class="btn btn-primary">
+                    添加好友
+                </button>
+                {{/if}}
+            </div>
+            <div class="row2">
+                <span>{{data.user_name}}</span>
+                <span>{{isfriend == true ? "对象已是你的好友" : "请谨慎添加陌生人为好友"}}</span>
+            </div>
+        </div>
+    </div>
+</script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/js/scroll.js"></script>
+<script type="text/javascript" src="/js/art-template.js"></script>
 <script type="text/javascript" src="/js/friends.js"></script>
 </body>
 </html>

@@ -3,7 +3,14 @@ $(function (){
         method: 'get',
         url: '/account/get',
         success: function (res){
-            console.log(res)
+            if(res.status !== 200){
+                var htmlStr = template('tpl-info-dropdown', {
+                        user_name:"请重新登录",
+                        user_photo: "/images/avatar/defualt.png"
+                    })
+                $('.dropdown').html(htmlStr)
+                return
+            }
             var htmlStr = template('tpl-info-dropdown', res.data)
             $('.dropdown').html(htmlStr)
         }

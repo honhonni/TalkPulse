@@ -46,6 +46,7 @@ header{
 .navbar-default .navbar-right>li>.dropdown .head {
     width: 32px;
     height: 32px;
+    margin-left: 10px;
     border-radius: 50%;
 }
 .dropdown-menu{
@@ -87,12 +88,13 @@ header{
     text-align: right;
     line-height: 1;
 }
-.my-info-box .info .tip{
-    margin-left: 24px;
-    opacity: .5;
+#edit-info a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
 }
-.dropdown-menu>li>a{
-    font-size: 18px;
+#edit-info span{
+    color: #333;
 }
 
 

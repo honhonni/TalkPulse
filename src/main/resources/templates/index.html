@@ -126,24 +126,21 @@
                     </li>
                     <li class="list-group-item">
                         <span>昵称:</span>
-                        <span>张三</span>
+                        <span>{{user_name}}</span>
                     </li>
                     <li class="list-group-item">
                         <span>性别:</span>
-                        <span>未知</span>
+                        <span>{{user_gender}}</span>
                     </li>
                     <li class="list-group-item">
                         <span>个性签名:</span>
-                        <span>法外狂徒</span>
+                        <span>{{user_introduce}}</span>
                     </li>
-                    <li class="list-group-item">
-                        <a href="/html/info.html" target="fm" id="edit-info">修改个人信息</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="#">创建分组</a>
-                    </li>
-                    <li class="list-group-item">
-                        <div><a href="#">创建群聊</a></div>
+                    <li class="list-group-item" id="edit-info">
+                        <a href="/html/info.html" target="fm" >
+                            <span >编辑信息:</span>
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>
                     </li>
                 </ul>
             </div>

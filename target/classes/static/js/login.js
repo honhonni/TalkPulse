@@ -12,11 +12,11 @@ $(function(){
         $('.reg-container').hide()
     })
 
-    // Ìá½»ÊÂ¼ş
+    // æäº¤äº‹ä»¶
     form.on('submit(login)', function(data){
-        var field = data.field; // »ñÈ¡±íµ¥×Ö¶ÎÖµ
+        var field = data.field; // è·å–è¡¨å•å­—æ®µå€¼
 
-        // ´Ë´¦Ö´ĞĞ Ajax µÈ²Ù×÷
+        // æ­¤å¤„æ‰§è¡Œ Ajax ç­‰æ“ä½œ
         var data = {
             user_id: field.user_id,
             user_pwd: field.user_pwd
@@ -28,40 +28,40 @@ $(function(){
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             success:function(res) {
                 if (res.status !== 200) {
-                    return layer.msg("µÇÂ¼Ê§°Ü")
+                    return layer.msg("ç™»å½•å¤±è´¥")
                 }
-                layer.msg('µÇÂ¼³É¹¦£¡')
-                // Ìø×ªµ½ºóÌ¨Ö÷Ò³
+                layer.msg('ç™»å½•æˆåŠŸï¼')
+                // è·³è½¬åˆ°åå°ä¸»é¡µ
                 location.replace('/index.html')
             }
         })
 
 
 
-        return false; // ×èÖ¹Ä¬ÈÏ form Ìø×ª
+        return false; // é˜»æ­¢é»˜è®¤ form è·³è½¬
     });
 
 
-    // ×Ô¶¨ÒåÑéÖ¤¹æÔò
+    // è‡ªå®šä¹‰éªŒè¯è§„åˆ™
     form.verify({
         user_pwd: [
             /^[\S]{6,12}$/,
-            "ÃÜÂëÎª6-12Î»"
+            "å¯†ç ä¸º6-12ä½"
         ],
-        // È·ÈÏÃÜÂë
+        // ç¡®è®¤å¯†ç 
         confirmPassword: function(value, item){
             var passwordValue = $('#reg-password').val();
             if(value !== passwordValue){
-                return 'Á½´ÎÃÜÂëÊäÈë²»Ò»ÖÂ';
+                return 'ä¸¤æ¬¡å¯†ç è¾“å…¥ä¸ä¸€è‡´';
             }
         }
     });
 
-    // Ìá½»ÊÂ¼ş
+    // æäº¤äº‹ä»¶
     form.on('submit(reg)', function(data){
-        var field = data.field; // »ñÈ¡±íµ¥×Ö¶ÎÖµ
+        var field = data.field; // è·å–è¡¨å•å­—æ®µå€¼
 
-        // ·¢ÆğAjaxµÄPOSTÇëÇó
+        // å‘èµ·Ajaxçš„POSTè¯·æ±‚
 
         var data = {
             user_id: field.user_id,
@@ -75,15 +75,15 @@ $(function(){
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             success:function(res) {
                 if (res.status !== 200) {
-                    return layer.msg("×¢²áÊ§°Ü£¬ÇëÖØĞÂ×¢²á")
+                    return layer.msg("æ³¨å†Œå¤±è´¥ï¼Œè¯·é‡æ–°æ³¨å†Œ")
                 }
-                layer.msg('×¢²á³É¹¦£¬ÇëµÇÂ¼£¡')
-                // Ä£ÄâÈËµÄµã»÷ĞĞÎª
+                layer.msg('æ³¨å†ŒæˆåŠŸï¼Œè¯·ç™»å½•ï¼')
+                // æ¨¡æ‹Ÿäººçš„ç‚¹å‡»è¡Œä¸º
                 $('#to-login').click()
             }
         })
 
-        return false; // ×èÖ¹Ä¬ÈÏ form Ìø×ª
+        return false; // é˜»æ­¢é»˜è®¤ form è·³è½¬
     });
 
 })

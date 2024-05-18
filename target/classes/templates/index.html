@@ -87,48 +87,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <div class="dropdown">
-                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownHead" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span>用户名</span>
-                                    <img class="head" src="/images/avatar/defualt.png">
-                                    <span class="caret"></span>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <div class="my-info-box">
-                                        <div class="photo">
-                                            <img src="/images/avatar/defualt.png">
-                                            <span>张三</span>
-                                        </div>
-                                        <div class="info">
-                                            <ul class="info-list list-group">
-                                                <li class="list-group-item">
-                                                    <span>UID:</span>
-                                                    <span>123456</span>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>昵称:</span>
-                                                    <span>张三</span>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>性别:</span>
-                                                    <span>未知</span>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span>个性签名:</span>
-                                                    <span>法外狂徒</span>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <a href="/html/info.html" target="fm">修改个人信息</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <a href="#">创建分组</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div><a href="#">创建群聊</a></div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                         </li>
                     </ul>
@@ -147,8 +106,50 @@
         </iframe>
     </div>
 </div>
+<script type="text/html" id="tpl-info-dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownHead" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <span>{{user_name}}</span>
+        <img class="head" src="{{user_photo}}">
+        <span class="caret"></span>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <div class="my-info-box">
+            <div class="photo">
+                <img src="/images/avatar/defualt.png">
+                <span>{{user_name}}</span>
+            </div>
+            <div class="info">
+                <ul class="info-list list-group">
+                    <li class="list-group-item">
+                        <span>UID:</span>
+                        <span>{{user_id}}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span>昵称:</span>
+                        <span>{{user_name}}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span>性别:</span>
+                        <span>{{user_gender}}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span>个性签名:</span>
+                        <span>{{user_introduce}}</span>
+                    </li>
+                    <li class="list-group-item" id="edit-info">
+                        <a href="/html/info.html" target="fm" >
+                            <span >编辑信息:</span>
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/art-template.js"></script>
 <script type="text/javascript" src="/js/index.js"></script>
 </body>
 </html>

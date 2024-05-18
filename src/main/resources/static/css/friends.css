@@ -152,6 +152,11 @@
 }
 
 /*搜索好友信息*/
+.search-friends-info-box{
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+}
 .search-friends-info{
     display: flex;
     justify-content: space-between;
@@ -175,14 +180,18 @@
 .search-friends-info .search-frieds-description div{
     overflow: hidden;
     width: 100%;
-    line-height: 32px;
+    line-height: 28px;
 }
 .search-friends-info .search-frieds-description span{
     float: left;
     font-size: 16px;
 }
-.search-friends-info .search-frieds-description span:nth-child(2),
-.search-friends-info .search-frieds-description .search-frieds-option #add{
+.search-friends-info .search-frieds-description .row2 span:nth-child(2){
+    float: right;
+    color: red;
+}
+
+.search-friends-info .search-frieds-description #add{
     float: right;
 }
 

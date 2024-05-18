@@ -32,21 +32,15 @@
                             <div class="img-preview w100"></div>
                             <p class="size">100 x 100</p>
                         </div>
-                        <div>
-                            <!-- 宽高为 50px 的预览区域 -->
-                            <div class="img-preview w50"></div>
-                            <p class="size">50 x 50</p>
+                        <div class="avatar-button">
+                            <!-- 通过 accept 属性指定选择类型文件 -->
+                            <input type="file" id="file" accept="image/png,image/jpeg">
+                            <button type="button" class="layui-btn" id="bnt-choose-img">上传</button>
+                            <button type="button" class="layui-btn layui-btn-danger" id="btn-upload">确定</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 第二行的按钮区域 -->
-                <div class="row2">
-                    <!-- 通过 accept 属性指定选择类型文件 -->
-                    <input type="file" id="file" accept="image/png,image/jpeg">
-                    <button type="button" class="layui-btn" id="bnt-choose-img">上传</button>
-                    <button type="button" class="layui-btn layui-btn-danger" id="btn-upload">确定</button>
-                </div>
             </div>
         </div>
     </div>
@@ -142,8 +136,8 @@
 
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/layui.js"></script>
-    <script src="/js/Cropper.js"></script>
-    <script src="/js/jquery-cropper.js"></script>
+    <script type="text/javascript" src="/js/Cropper.js"></script>
+    <script type="text/javascript" src="/js/jquery-cropper.js"></script>
     <script type="text/javascript" src="/js/info.js"></script>
 </body>
 </html>
