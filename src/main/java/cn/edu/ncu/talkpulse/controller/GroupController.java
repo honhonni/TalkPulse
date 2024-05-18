@@ -89,5 +89,5 @@ public class GroupController {
       Boolean ok=updateGroupInfoService.addIntroduce(group_id,group_introduce,session)&&updateGroupInfoService.deleteIntroduce(group_id,group_introduce,session);
       if(ok) return Result.success();
       else return Result.fail();
-   }
+   }//更新群聊简介
 }
