@@ -1,8 +1,20 @@
 $(function (){
+    $.ajax({
+        method: 'get',
+        url: '/account/get',
+        success: function (res){
+            console.log(res)
+            var htmlStr = template('tpl-info-dropdown', res.data)
+            $('.dropdown').html(htmlStr)
+        }
+    })
+
     $('ul.navbar-left').on("click","li",function(){	// 切换选项
         $(this).addClass('active').siblings().removeClass('active')
     })
-
+    $('#edit-info').on('click', function (){
+        $('ul.navbar-left li').removeClass('active')
+    })
     $('#searchbutton').on('click',function (){
         $('#searchModal').modal('show')
     })
@@ -16,4 +28,6 @@ $(function (){
             modal_body.css('height', listHeight + 'px')
         }
     })
+
+
 })

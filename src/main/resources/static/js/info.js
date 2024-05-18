@@ -1,17 +1,17 @@
 $(function(){
     var layer = layui.layer
 
-    // 1.1 »ñÈ¡²Ã¼ôÇøÓòµÄ DOM ÔªËØ
+    // 1.1 è·å–è£å‰ªåŒºåŸŸçš„ DOM å…ƒç´ 
     var $image = $('#image')
-    // 1.2 ÅäÖÃÑ¡Ïî
+    // 1.2 é…ç½®é€‰é¡¹
     const options = {
-        // ×İºá±È
+        // çºµæ¨ªæ¯”
         aspectRatio: 1,
-        // Ö¸¶¨Ô¤ÀÀÇøÓò
+        // æŒ‡å®šé¢„è§ˆåŒºåŸŸ
         preview: '.img-preview'
     }
 
-    // 1.3 ´´½¨²Ã¼ôÇøÓò
+    // 1.3 åˆ›å»ºè£å‰ªåŒºåŸŸ
     $image.cropper(options)
 
     $('#bnt-choose-img').on('click',function(){
@@ -24,31 +24,31 @@ $(function(){
 
         var fileList = e.target.files
         if(fileList.length === 0){
-            return layer.msg("ÇëÑ¡ÔñÎÄ¼ş!")
+            return layer.msg("è¯·é€‰æ‹©æ–‡ä»¶!")
         }
 
         var newImgURL = URL.createObjectURL(fileList[0])
 
         $image
-            .cropper('destroy')      // Ïú»Ù¾ÉµÄ²Ã¼ôÇøÓò
-            .attr('src', newImgURL)  // ÖØĞÂÉèÖÃÍ¼Æ¬Â·¾¶
-            .cropper(options)        // ÖØĞÂ³õÊ¼»¯²Ã¼ôÇøÓò
+            .cropper('destroy')      // é”€æ¯æ—§çš„è£å‰ªåŒºåŸŸ
+            .attr('src', newImgURL)  // é‡æ–°è®¾ç½®å›¾ç‰‡è·¯å¾„
+            .cropper(options)        // é‡æ–°åˆå§‹åŒ–è£å‰ªåŒºåŸŸ
 
 
     })
     $('#btn-upload').on('click',function(){
-        // 1. ÄÃµ½ÓÃ»§²Ã¼ôºóµÄ Í¼Æ¬
+        // 1. æ‹¿åˆ°ç”¨æˆ·è£å‰ªåçš„ å›¾ç‰‡
         var dataURL = $image
-            .cropper('getCroppedCanvas', { // ´´½¨Ò»¸ö Canvas »­²¼
+            .cropper('getCroppedCanvas', { // åˆ›å»ºä¸€ä¸ª Canvas ç”»å¸ƒ
                 width: 100,
                 height: 100
             })
-            .toDataURL('image/png')       // ½« Canvas »­²¼ÉÏµÄÄÚÈİ£¬×ª»¯Îª base64 ¸ñÊ½µÄ×Ö·û´®
+            .toDataURL('image/png')       // å°† Canvas ç”»å¸ƒä¸Šçš„å†…å®¹ï¼Œè½¬åŒ–ä¸º base64 æ ¼å¼çš„å­—ç¬¦ä¸²
 
         var raw = JSON.stringify({
             "avatar": dataURL
         })
-        // 2. ÉÏ´«Í¼Æ¬
+        // 2. ä¸Šä¼ å›¾ç‰‡
 
         // $.ajax({
         //     method: 'patch',
@@ -57,9 +57,9 @@ $(function(){
         //     headers: {"Content-Type": "application/json"},
         //     success:function(res) {
         //         if(res.code !==0 ){
-        //             return layer.msg('¸ü»»Í·ÏñÊ§°Ü£¡')
+        //             return layer.msg('æ›´æ¢å¤´åƒå¤±è´¥ï¼')
         //         }
-        //         layer.msg('¸üĞÂÍ·Ïñ³É¹¦£¡')
+        //         layer.msg('æ›´æ–°å¤´åƒæˆåŠŸï¼')
         //         window.parent.getUserInfo()
         //     }
         // })

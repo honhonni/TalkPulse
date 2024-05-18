@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @RequestMapping("/group")
 public class GroupController {
    @Autowired
-    private CreateService createService;
+   private CreateService createService;
    @Autowired
    private ExitService exitService;
    @Autowired
