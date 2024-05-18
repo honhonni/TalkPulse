@@ -22,9 +22,7 @@ public class AccountController {
     public Result register(@RequestParam("user_id") Integer userId,
                            @RequestParam("user_name") String userName,
                            @RequestParam("user_pwd") String userPwd){
-        Boolean ok = accountService.register(userId, userName, userPwd);
-        if(ok) return Result.success();
-        else return Result.fail();
+        return accountService.register(userId, userName, userPwd);
     }
 
     @PostMapping( "/login")
@@ -32,9 +30,7 @@ public class AccountController {
                         @RequestParam("user_pwd") String userPwd,
                         HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Boolean ok = accountService.login(userId, userPwd, session);
-        if(ok) return Result.success();
-        else return Result.fail();
+        return accountService.login(userId, userPwd, session);
     }
 
 
