@@ -6,10 +6,7 @@ import cn.edu.ncu.talkpulse.group.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -32,10 +29,10 @@ public class GroupController {
     public Result CreateGroup(@RequestParam("group_id")Integer groupId,
                               @RequestParam("group_name")String groupName,
                               @RequestParam("group_introduce")String groupIntroduce,
-                              HttpServletRequest request,
-                              @RequestParam("group_photo") String groupPhoto){
+                              HttpServletRequest request
+                              ){
        HttpSession session = request.getSession();
-       Boolean ok=createService.CreateGroup(groupId,groupName,groupIntroduce,session,groupPhoto);
+       Boolean ok=createService.CreateGroup(groupId,groupName,groupIntroduce,session);
        if(ok) return Result.success();
        else return Result.fail();
    }//创建群聊
@@ -82,6 +79,16 @@ public class GroupController {
       if(ok) return Result.success();
       else return Result.fail();
    }//用户申请入群
+   @GetMapping("hostset")
+   public Result hostSet(@RequestParam("groupapply_groupid")Integer groupapply_grouid,
+                         HttpServletRequest request){
+      HttpSession session=request.getSession();
+      Boolean res=userApplyIntoService.hostSet(groupapply_grouid,session);
+      if(res) return Result.success(res);
+      else return Result.fail();
+
+
+   }
    @PostMapping("updategroupinfo")
    public Result UpdateGroupInfo(@RequestParam("group_id")Integer group_id,
                                  @RequestParam("group_introduce")String group_introduce,

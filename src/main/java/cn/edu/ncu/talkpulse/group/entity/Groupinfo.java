@@ -15,12 +15,11 @@ public class Groupinfo {
 	private Integer group_hostid;
 	private String group_photo;
 
-	public Groupinfo(Integer group_id, String group_name, String group_introduce, Integer group_hostid,String group_photo) {
+	public Groupinfo(Integer group_id, String group_name, String group_introduce, Integer group_hostid) {
 		this.group_id=group_id;
 		this.group_name=group_name;
 		this.group_introduce=group_introduce;
 		this.group_hostid=group_hostid;
-		this.group_photo=group_photo;
 	}
 
 	public Integer getGroup_id() {
