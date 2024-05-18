@@ -16,13 +16,13 @@ public class CreateServiceImpl implements CreateService {
     @Autowired
     private CorreDao correDao;
     @Override
-    public Boolean CreateGroup(Integer group_id,String group_name,String group_introduce, HttpSession session){
+    public Boolean CreateGroup(Integer group_id,String group_name,String group_introduce, HttpSession session,String group_photo){
         Groupinfo group= createDao.findGroupGId(group_id);
         if(group!=null){
             return false;
         }else{
             Integer group_hostid = (Integer) session.getAttribute("user_id");
-            Groupinfo groupinfo = new Groupinfo(group_id,group_name,group_introduce,group_hostid);
+            Groupinfo groupinfo = new Groupinfo(group_id,group_name,group_introduce,group_hostid,group_photo);
             int res=createDao.CreateGroup(groupinfo);
             if(res==1){
                 correDao.addcorre(group_hostid,group_id);

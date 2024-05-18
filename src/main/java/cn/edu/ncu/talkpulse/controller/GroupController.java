@@ -32,9 +32,10 @@ public class GroupController {
     public Result CreateGroup(@RequestParam("group_id")Integer groupId,
                               @RequestParam("group_name")String groupName,
                               @RequestParam("group_introduce")String groupIntroduce,
-                              HttpServletRequest request){
+                              HttpServletRequest request,
+                              @RequestParam("group_photo") String groupPhoto){
        HttpSession session = request.getSession();
-       Boolean ok=createService.CreateGroup(groupId,groupName,groupIntroduce,session);
+       Boolean ok=createService.CreateGroup(groupId,groupName,groupIntroduce,session,groupPhoto);
        if(ok) return Result.success();
        else return Result.fail();
    }//创建群聊

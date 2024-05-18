@@ -5,5 +5,5 @@ import jakarta.servlet.http.HttpSession;
 public interface CreateService {
 
 
-    Boolean CreateGroup(Integer group_id, String group_name, String group_introduce, HttpSession session);
+    Boolean CreateGroup(Integer group_id, String group_name, String group_introduce, HttpSession session,String group_photo);
 }

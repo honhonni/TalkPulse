@@ -26,7 +26,7 @@ public class CreateGroupServiceTest {
 
         session.setAttribute("user_id",11);
         System.out.println(session.getAttribute("user_id"));
-        Boolean flag=createService.CreateGroup(99999999,"群","欢迎",session);
+        Boolean flag=createService.CreateGroup(99999999,"群","欢迎",session,"should");
         System.out.println(flag);
     }
 }
