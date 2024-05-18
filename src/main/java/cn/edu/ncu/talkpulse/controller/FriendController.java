@@ -46,13 +46,11 @@ public class FriendController {
     public Result addFriend(@RequestParam("friend_id") Integer friendId){
         Integer uid = getUserIdFromSession();
         if(uid==null) return Result.fail("非法请求，请先登录");
-        Boolean ok = validationService.sendValidation(uid, friendId);
-        if(ok) return Result.success();
-        else return Result.fail();
+        return validationService.sendValidation(uid, friendId);
     }
 
     // 接收好友申请接口
-    @GetMapping
+    @GetMapping("/getValidation")
     public Result getValidation(){
         Integer uid = getUserIdFromSession();
         if(uid==null) return Result.fail("非法请求，请先登录");
@@ -62,10 +60,20 @@ public class FriendController {
     }
 
     // 处理好友申请接口
-    @PostMapping
-    public Result handleValidation(){
+    @PostMapping("/handleValidation")
+    public Result handleValidation(@RequestParam("validation_id") Integer validationId,
+                                   @RequestParam("agree") Boolean agree){
         Integer uid = getUserIdFromSession();
         if(uid==null) return Result.fail("非法请求，请先登录");
-        return Result.success();
+        return validationService.handleValidation(uid,validationId, agree);
+    }
+
+    // 移动好友分组
+    @PostMapping("/removeFriend")
+    public Result removeFriend(@RequestParam("friend_id") Integer friendId,
+                               @RequestParam("friendship_id") Integer friendshipId){
+        Integer uid = getUserIdFromSession();
+        if(uid==null) return Result.fail("非法请求，请先登录");
+        return validationService.removeFriend(uid, friendId, friendshipId);
     }
 }

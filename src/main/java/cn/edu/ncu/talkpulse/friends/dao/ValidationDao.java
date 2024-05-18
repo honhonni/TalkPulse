@@ -17,7 +17,10 @@ public interface ValidationDao {
 
     // 查询申请消息
     @Select("select * from validation where validation_senderid = #{senderid} and validation_receiverid = #{receiverid}")
-    Validation getValidationById(@Param("senderid") Integer senderid,@Param("receiverid")Integer receiverid);
+    Validation getValidationByUserId(@Param("senderid") Integer senderid, @Param("receiverid")Integer receiverid);
+
+    @Select("select * from validation where validation_id = #{id}")
+    Validation getValidationById(@Param("id") Integer id);
 
     // 更新申请
     @Update("UPDATE validation SET " +

@@ -1,5 +1,6 @@
 package cn.edu.ncu.talkpulse.group.service.impl;
 
+import cn.edu.ncu.talkpulse.dto.WebSocketDTO;
 import cn.edu.ncu.talkpulse.group.dao.UserApplyIntoDao;
 import cn.edu.ncu.talkpulse.group.service.UserApplyIntoService;
 import jakarta.servlet.http.HttpSession;

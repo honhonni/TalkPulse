@@ -11,6 +11,9 @@ public interface AccountDao {
     @Select("select * from userinfo where user_id = #{uid}")
     public UserInfo findUserById(Integer uid);
 
+    @Select("select count(*) from userinfo where user_id = #{uid}")
+    public int countUser(Integer uid);
+
     @Insert("insert into  userinfo(user_id, user_name, user_pwd) values (#{user_id}, #{user_name}, #{user_pwd})")
     int addUser(UserInfo user);
 

@@ -2,6 +2,7 @@ package cn.edu.ncu.talkpulse;
 
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.account.service.AccountService;
+import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.group.service.GroupService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,13 +24,13 @@ public class AccountServiceTest {
 
     @Test
     public void testRegister(){
-        Boolean flag = accountService.register(123, "hon", "123");
+        Result flag = accountService.register(1, "hk", "123456");
         System.out.println(flag);
     }
 
     @Test
     public void testLogin(){
-        Boolean flag = accountService.login(1, "W848oa35qR", session);
+        Result flag = accountService.login(1, "W848oa35qR", session);
         System.out.println(flag);
         System.out.println(session.getAttribute("user_id"));
     }
