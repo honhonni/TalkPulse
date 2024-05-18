@@ -23,7 +23,7 @@ public class AccountServiceTest {
 
     @Test
     public void testRegister(){
-        Boolean flag = accountService.register(1, "hk", "123456");
+        Boolean flag = accountService.register(123, "hon", "123");
         System.out.println(flag);
     }
 

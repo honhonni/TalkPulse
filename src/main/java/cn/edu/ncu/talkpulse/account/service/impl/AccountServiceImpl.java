@@ -17,6 +17,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Boolean register(Integer userId, String userName, String userPwd) {
         UserInfo user = accountDao.findUserById(userId);
+        System.out.println(user);
         if(user!=null){
             return false;
         }else{

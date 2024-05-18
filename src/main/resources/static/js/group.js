@@ -14,18 +14,9 @@ $(function (){
     var res = {
         data: [
             // 我创建的群聊
-            [
-                { group_name: '超级无敌霸气的名字', img: '/images/avatar/defualt.png', GID: '6666666'},
-                { group_name: '我创建的群1', img: '/images/avatar/defualt.png', GID: '6666666'},
-                { group_name: '我创建的群2', img: '/images/avatar/defualt.png', GID: '6666666'},
-                { group_name: '我创建的群3', img: '/images/avatar/defualt.png', GID: '6666666'},
-            ],
+            [],
             // 我加入的群聊
-            [
-                { group_name: '我加入的群1', img: '/images/avatar/defualt.png', GID: '6666666'},
-                { group_name: '我加入的群2', img: '/images/avatar/defualt.png', GID: '6666666'},
-                { group_name: '我加入的群3', img: '/images/avatar/defualt.png', GID: '6666666'},
-            ]
+            []
         ]
     }
 
@@ -33,7 +24,12 @@ $(function (){
     $('.my-groups').html(myGroupStr)
     var joinGroupStr = template('tpl-join-groups', res)
     $('.join-groups').html(joinGroupStr)
-    var infoStr = template('tpl-info', res.data[0][0])
+    var infoStr
+    if(res.data[0].length === 0){
+        infoStr = "你当前创建了 0 个群聊，加入了 0 个群聊"
+    }else{
+        infoStr = template('tpl-info', res.data[0][0])
+    }
     $('.info-box').html(infoStr)
     // 绑定事件
     $('.groups-list').on('click', 'button', function (){
@@ -129,6 +125,9 @@ $(function (){
             data: data,
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             success: function(res){
+                if(res.status !== 200){
+                    return layer.msg(res.message)
+                }
                 layer.msg(res.message)
                 // 调用父页面的方法，重新渲染用户的头像和用户信息
                 var newGroup = "\n" +

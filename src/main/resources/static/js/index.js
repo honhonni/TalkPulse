@@ -4,6 +4,8 @@ $(function (){
         url: '/account/get',
         success: function (res){
             console.log(res)
+            var htmlStr = template('tpl-info-dropdown', res.data)
+            $('.dropdown').html(htmlStr)
         }
     })
 
