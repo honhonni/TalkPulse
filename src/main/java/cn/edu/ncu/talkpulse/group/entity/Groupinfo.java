@@ -13,6 +13,7 @@ public class Groupinfo {
 
 	// 群主id
 	private Integer group_hostid;
+	private String group_photo;
 
 	public Groupinfo(Integer group_id, String group_name, String group_introduce, Integer group_hostid) {
 		this.group_id=group_id;
@@ -51,5 +52,13 @@ public class Groupinfo {
 
 	public void setGroup_hostid(Integer group_hostid) {
 		this.group_hostid = group_hostid;
+	}
+
+	public String getGroup_photo() {
+		return group_photo;
+	}
+
+	public void setGroup_photo(String group_photo) {
+		this.group_photo = group_photo;
 	}
 }

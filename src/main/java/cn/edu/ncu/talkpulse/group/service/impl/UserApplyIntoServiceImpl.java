@@ -20,4 +20,12 @@ public class UserApplyIntoServiceImpl implements UserApplyIntoService {
             return true;
         }else return false;
     }
+    @Override
+    public Boolean hostSet(Integer groupapply_groupid,HttpSession session){
+        Integer groupapply_hostid=(Integer) session.getAttribute("user_id");
+        int res=userApplyIntoDao.hostset(groupapply_groupid,groupapply_hostid);
+        if(res==1){
+            return true;
+        }else return false;
+    }
 }

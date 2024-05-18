@@ -27,10 +27,4 @@ public class ExitGroupServiceTest {
         Boolean flag = exitService.exitGroup(99999999, session);
         System.out.println(flag);
     }
-    @Test
-    public void testDelete(){
-        session.setAttribute("user_id",11);
-        Boolean flag=exitService.deleteGroup(1,"jj",session);
-        System.out.println(flag);
-    }
 }

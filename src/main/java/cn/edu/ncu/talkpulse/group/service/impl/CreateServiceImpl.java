@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+
 @Service("CreateGroup")
 public class CreateServiceImpl implements CreateService {
     @Autowired
@@ -29,6 +33,22 @@ public class CreateServiceImpl implements CreateService {
                 return true;
             }
             else return false;
+        }
+    }
+    @Override
+    public Boolean upphoto(Integer group_id,String group_photo){
+        try{
+            byte[] photoData= Base64.getDecoder().decode(group_photo);
+            String filePath="src/main.resources/static/images/avatar/img_"+group_id+"/.png";
+            FileOutputStream outputStream=new FileOutputStream(filePath);
+            outputStream.write(photoData);
+            outputStream.close();
+            System.out.println("Image saved successfully at:"+filePath);
+            int num= createDao.upphoto(group_id,group_photo);
+            return num>0;
+        }catch (IOException e){
+            System.out.println("Error saving image:"+e.getMessage());
+            return false;
         }
     }
 }
