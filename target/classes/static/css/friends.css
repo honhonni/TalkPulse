@@ -86,17 +86,22 @@
     font-weight: 700;
 }
 .info-box .info-list .list-group-item{
-
+    display: flex;
 }
 .info-box .info-list .list-group-item span:first-child{
     display: inline-block;
     width:72px;
+    height: 100%;
     /*margin-left: 10px;*/
     margin-right: 24px;
     font-size: 16px;
     font-weight: 700;
     text-align: right;
-    line-height: 1;
+    line-height: 28.57px;
+}
+.info-box .info-list .list-group-item span:last-child{
+    display: inline-block;
+    flex: 1;
 }
 #move-groups{
     display: inline-block;
@@ -114,7 +119,6 @@
 
 
 /*处理好友申请֤*/
-
 .friends-validation {
     overflow-y: auto;
     padding-left: 20px;
@@ -136,10 +140,12 @@
 .friends-validation-list .list-group{
     display: none;
 }
-.friends-validation-group{
+.friends-validation-group,
+.friends-apply-group{
     cursor: pointer;
 }
-.friends-validation-group h2{
+.friends-validation-group h2,
+.friends-apply-group h2{
     display: inline-block;
     color: #0c0a09;
     font-size: 18px;
