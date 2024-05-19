@@ -19,6 +19,7 @@ header{
     border: 0;
 }
 .navbar-default .navbar-nav>li{
+    position: relative;
 }
 .navbar-default .navbar-nav>li>a{
 }
@@ -28,6 +29,21 @@ header{
     background-color: transparent;
     color: orange;
 }
+.count{
+    display: none;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: red;
+    color: #fff;
+    font-size: 10px;
+    text-align: center;
+    line-height: 18px;
+}
+/*个人信息下拉框*/
 #dropdownHead{
     width: 100px;
     height: 32px;

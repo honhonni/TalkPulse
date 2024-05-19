@@ -83,40 +83,16 @@
                         <div class="friends-validation-group">
                             <span class="glyphicon glyphicon-chevron-right"></span>
                             <h2>好友验证</h2>
+                            <span id="verify-count" verify_count="0">0</span>
                         </div>
                         <div class="friends-verify-list list-group">
-                            <button type="button" class="list-group-item">
-                                <img src="/images/defualt.png" class="frieds-photo">
-                                俞杨
-                            </button>
-                            <button type="button" class="list-group-item">
-                                <img src="/images/defualt.png" class="frieds-photo">
-                                洪邦伟
-                            </button>
-                            <button type="button" class="list-group-item">
-                                <img src="/images/defualt.png" class="frieds-photo">
-                                黄康
-                            </button>
-                            <button type="button" class="list-group-item">
-                                <img src="/images/defualt.png" class="frieds-photo">
-                                黄弘扬
-                            </button>
-                            <button type="button" class="list-group-item">
-                                <img src="/images/defualt.png" class="frieds-photo">
-                                肖星明
-                            </button>
-                            <button type="button" class="list-group-item">
-                                <img src="/images/defualt.png" class="frieds-photo">好友6
-                            </button>
-                            <button type="button" class="list-group-item">
-                                <img src="/images/defualt.png" class="frieds-photo">好友7
-                            </button>
                         </div>
                     </li>
                     <li class="left list-group-item">
                         <div class="friends-apply-group">
                             <span class="glyphicon glyphicon-chevron-right"></span>
                             <h2>好友申请</h2>
+                            <span id="apply-count" apply-count="0">0</span>
                         </div>
                         <div class="friends-apply-list list-group">
 
@@ -160,15 +136,12 @@
 <script type="text/html" id="tpl-search-friends-info">
     <div class="search-friends-info">
         <img src="{{data.user_photo}}" class="search-frieds-photo">
-        <!--        <img src='/images/avatar/defualt.png' class="search-frieds-photo">-->
-        <div class="search-frieds-description">
+        <div class="box">
             <div class="row1">
                 <span>{{data.user_id}}</span>
-                {{if isfriend != true}}
-                <button type="button" id="add" class="btn btn-primary">
-                    添加好友
-                </button>
-                {{/if}}
+                <div class="checkbox">
+                    <span id="add">添加好友</span>
+                </div>
             </div>
             <div class="row2">
                 <span>{{data.user_name}}</span>
@@ -179,10 +152,28 @@
 </script>
 <!--好友验证-->
 <script type="text/html" id="tpl-friends-verify-list">
-    {{each data[0]}}
-    <button type="button" class="list-group-item" aid="{{$value.aid}}">
-        <img src="{{$value.user_photo}}" class="frieds-photo">
-        {{$value.user_name}}
+    {{each data}}
+    <button type="button" class="list-group-item" readstatus="{{$value.validation_readstatus}}">
+        <img src="{{$value.data.user_photo}}" class="frieds-validation-photo">
+        <div class="box">
+            <div class="row1">
+                <span>{{$value.validation_senderid}}</span>
+                <div class="checkbox" aid="{{$value.validation_id}}">
+                    {{if $value.validation_status == 0}}
+                    <span class="agree">同意</span>
+                    <span class="reject">拒绝</span>
+                    {{else if $value.validation_status == 1}}
+                    <span class="agreed">已同意</span>
+                    {{else if $value.validation_status == 2}}
+                    <span class="rejected">已拒绝</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="row2">
+                <span>{{$value.data.user_name}}</span>
+                <span>{{$value.validation_time}}</span>
+            </div>
+        </div>
     </button>
     {{/each}}
 </script>

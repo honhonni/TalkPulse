@@ -24,9 +24,9 @@ public class FriendServiceTest {
 
     @Test
     public void testSearch(){
-//        session.setAttribute('user_id',);
-//        JSONObject data  = friendService.search(1, "hk");
-//        System.out.println(data);
+        session.setAttribute("user_id",456);
+        JSONObject data  = friendService.search(1, session);
+        System.out.println(data);
     }
 
 

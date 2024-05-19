@@ -24,7 +24,7 @@ public class AccountServiceTest {
 
     @Test
     public void testRegister(){
-        Result flag = accountService.register(1, "hk", "123456");
+        Result flag = accountService.register(789, "alibaba", "789");
         System.out.println(flag);
     }
 

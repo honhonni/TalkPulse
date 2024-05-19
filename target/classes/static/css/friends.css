@@ -142,6 +142,7 @@
 }
 .friends-validation-group,
 .friends-apply-group{
+    position: relative;
     cursor: pointer;
 }
 .friends-validation-group h2,
@@ -156,13 +157,26 @@
     margin-left: 32px;
     box-sizing: border-box;
 }
+#verify-count{
+    /*display: none;*/
+    position: absolute;
+    left: 112px;
+    top: 20px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: red;
+    color: #fff;
+    font-size: 10px;
+    text-align: center;
+    line-height: 18px;
+}
 
 /*搜索好友信息*/
 .search-friends-info-box{
     width: 100%;
-    text-align: center;
-    font-size: 16px;
 }
+
 .search-friends-info{
     display: flex;
     justify-content: space-between;
@@ -178,26 +192,100 @@
     margin: 16px 0;
     border-radius: 50%;
 }
-.search-friends-info .search-frieds-description{
+.search-friends-info .box{
     flex: 1;
-    width: 100%;
     margin: 12px 10px;
-}
-.search-friends-info .search-frieds-description div{
-    overflow: hidden;
-    width: 100%;
-    line-height: 28px;
-}
-.search-friends-info .search-frieds-description span{
-    float: left;
     font-size: 16px;
 }
-.search-friends-info .search-frieds-description .row2 span:nth-child(2){
-    float: right;
+.search-friends-info .box .row1,
+.search-friends-info .box .row2{
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.search-friends-info .box .row1 .checkbox{
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
+.search-friends-info .box .row1 .checkbox span{
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 24px;
+    border-radius: 4px;
+    bottom: 5px;
+    background-color: #5cb85c;
+    color: #fff;
+    text-align: center;
+    line-height: 24px;
+
+}
+.search-friends-info .box .row2 span:last-child{
+    position: absolute;
+    right: 10px;
     color: red;
 }
 
-.search-friends-info .search-frieds-description #add{
-    float: right;
+/*好友验证列表样式*/
+.friends-verify-list{
+
 }
 
+.friends-verify-list>button{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100px;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+.friends-verify-list>button .frieds-validation-photo{
+    width: 48px;
+    height: 48px;
+    margin: 16px 0;
+    border-radius: 50%;
+}
+.friends-verify-list>button .box{
+    flex: 1;
+    margin: 12px 10px;
+    font-size: 16px;
+}
+.friends-verify-list>button .box .row1,
+.friends-verify-list>button .box .row2{
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.friends-verify-list>button .box .row1 .checkbox{
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
+.friends-verify-list>button .box .row1 .checkbox span{
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+    border-radius: 4px;
+    bottom: 5px;
+    color: #fff;
+    text-align: center;
+    line-height: 24px;
+}
+.friends-verify-list>button .box .row1 .checkbox .agree,
+.friends-verify-list>button .box .row1 .checkbox .agreed{
+    background-color: #5cb85c;
+}
+.friends-verify-list>button .box .row1 .checkbox .reject,
+.friends-verify-list>button .box .row1 .checkbox .rejected{
+    background-color: #c7254e;
+}
+.friends-verify-list>button .box .row1 .checkbox .agreed,
+.friends-verify-list>button .box .row1 .checkbox .rejected{
+    width: 60px;
+}
+.friends-verify-list>button .box .row2 span:last-child{
+    position: absolute;
+    right: 10px;
+}

@@ -31,6 +31,7 @@ $(function(){
                     return layer.msg("登录失败")
                 }
                 layer.msg('登录成功！')
+                localStorage.setItem('user_id',data.user_id);
                 // 跳转到后台主页
                 location.replace('/index.html')
             }

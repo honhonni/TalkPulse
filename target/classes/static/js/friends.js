@@ -87,46 +87,95 @@ $(function (){
 
 
 
-    var res = {
-        status: 200,
-        message: 'ok',
-        data: [
-            [
-                {aid: 1, user_photo: "/images/avatar/defualt.png", user_name: "李四", user_id: 1234},
-                {aid: 2, user_photo: "/images/avatar/defualt.png", user_name: "张三", user_id: 1235},
-            ],
-            [
-                {aid: 3, user_photo: "/images/avatar/defualt.png", user_name: "王五", user_id: 1236},
-                {aid: 4, user_photo: "/images/avatar/defualt.png", user_name: "赵六", user_id: 1237},
-            ]
-        ]
-    }
     // 好友验证列表
-    var htmlStr = template( 'tpl-friends-verify-list',res)
-    $('.friends-verify-list').html(htmlStr)
     $('.friends-validation-group').click(function (){
-        var class_string = $(this).find('span').attr('class')
+        var class_string = $(this).find('span').eq(0).attr('class')
         if(class_string.indexOf('right') >= 0){
             // console.log(this)
-            $(this).find('span').addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
+            $(this).find('span').eq(0).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
             $(this).siblings().show()
         }else{
-            $(this).find('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
+            $(this).find('span').eq(0).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
             $(this).siblings().hide()
         }
-    })
+        // 获取好友验证列表
+        $.ajax({
+            method: 'get',
+            url: '/friends/getValidation',
+            success: function (res){
+                // 获取验证列表
+                if(res.status !== 200){
+                    return console.log('获取验证列表失败！')
+                }
+                console.log(res)
+                for(let i = 0; i < res.data.length; i++){
+                    var validation = res.data[i]
+                    // 根据发起申请者id获取用户详细信息
+                    $.ajax({
+                        method: 'get',
+                        url: '/friends/search',
+                        data: {user_id: validation.validation_senderid},
+                        success: function (user){
+                            console.log(user)
+                            if(user.status != 200){
+                                return console.log('获取验证列表详细信息失败！')
+                            }
+                            res.data[i].data = user.data.data
+                            var htmlStr = template( 'tpl-friends-verify-list',res)
+                            $('.friends-verify-list').html(htmlStr)
 
+
+                            $('.friends-verify-list>button[readstatus=\'0\']').css('background-color', '#fcf8e3ff')
+
+                        }
+                    })
+                }
+            }
+        })
+    })
+    // 同意与拒绝好友申请
+    $('.friends-verify-list').on('click','.checkbox span',function (){
+        var class_string = $(this).attr('class')
+        var data = {}
+        data.validation_id = $(this).parent().attr('aid')
+
+
+        let htmlStr
+        if( class_string.indexOf('agree') >= 0){
+            data.agree = true
+            htmlStr = '<span class="agreed">已同意</span>'
+        }else{
+            data.agree = false
+            htmlStr = '<span class="rejected">已拒绝</span>'
+        }
+        $.ajax({
+            method: 'post',
+            url: '/friends/handleValidation',
+            data,
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            success: function (res){
+                if( res.status != 200){
+                    return console.log('好友申请处理失败')
+                }
+                console.log('好友申请处理成功')
+                $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(htmlStr)
+
+            }
+        })
+
+
+    })
     // 好友申请列表
     var htmlStr1 = template( 'tpl-friends-apply-list',res)
     $('.friends-apply-list').html(htmlStr1)
     $('.friends-apply-group').click(function (){
-        var class_string = $(this).find('span').attr('class')
+        var class_string = $(this).find('span').eq(0).attr('class')
         if(class_string.indexOf('right') >= 0){
             // console.log(this)
-            $(this).find('span').addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
+            $(this).find('span').eq(0).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
             $(this).siblings().show()
         }else{
-            $(this).find('span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
+            $(this).find('span').eq(0).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
             $(this).siblings().hide()
         }
     })
