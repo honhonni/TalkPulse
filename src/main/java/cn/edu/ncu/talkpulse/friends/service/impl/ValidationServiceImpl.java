@@ -73,6 +73,11 @@ public class ValidationServiceImpl implements ValidationService {
         return validations;
     }
 
+    @Override
+    public List<Validation> getMyValidation(Integer uid) {
+        return validationDao.getValidationsBySenderId(uid);
+    }
+
     // 处理好友申请请求
     @Override
     @Transactional

@@ -36,6 +36,10 @@ public interface ValidationDao {
     @Select("select * from validation where validation_receiverid = #{uid}")
     List<Validation> getValidationsByReceiverId(Integer uid);
 
+    // 查询当前用户发送的好友申请
+    @Select("select * from validation where validation_senderid = #{uid}")
+    List<Validation> getValidationsBySenderId(Integer uid);
+
     // 查询后设置已读
     @Update("update validation set validation_readstatus = 1 where validation_receiverid = #{uid}")
     void markValidationsAsRead(Integer uid);

@@ -14,6 +14,9 @@ public interface ValidationService {
     // 获取用户收到的好友申请
     List<Validation> getValidation(Integer uid);
 
+    // 获取用户发送的好友申请
+    List<Validation> getMyValidation(Integer uid);
+
     // 处理好友申请请求
     Result handleValidation(Integer uid, Integer validationId, Boolean agree);
 

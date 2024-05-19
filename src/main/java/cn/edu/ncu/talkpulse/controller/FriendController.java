@@ -59,6 +59,15 @@ public class FriendController {
         else return Result.success(validations);
     }
 
+    @GetMapping("/getMyValidation")
+    public Result getMyValidation(){
+        Integer uid = getUserIdFromSession();
+        if(uid==null) return Result.fail("非法请求，请先登录");
+        List<Validation> validations = validationService.getMyValidation(uid);
+        if(validations==null) return Result.fail();
+        else return Result.success(validations);
+    }
+
     // 处理好友申请接口
     @PostMapping("/handleValidation")
     public Result handleValidation(@RequestParam("validation_id") Integer validationId,
