@@ -2,6 +2,18 @@ $(function(){
     // 初始化
     init()
 
+    // check
+    $('.check').on('click','span',function (){
+        $(this).addClass('active').siblings().removeClass('active')
+        var value = $(this).html()
+        if(value === "更改头像"){
+            $('#update-avatar').show().siblings('form').hide()
+        }else if( value === "更改信息"){
+            $('#update-info').show().siblings('form').hide()
+        }else{
+            $('#update-password').show().siblings('form').hide()
+        }
+    })
 
 
     layui.use(['form', 'laydate', 'util'], function(){
@@ -12,15 +24,20 @@ $(function(){
 
         // 自定义验证规则
         form.verify({
-            password: function(value) {
-                if (!/(.+){6,12}$/.test(value)) {
-                    return '密码必须 6 到 12 位';
+            password: function(value){
+                if(value.length < 6 || value.length > 12){
+                    return "密码长度为 6-12 位"
+                }
+            },
+            confirmPassword: function(value){
+                if(value !== $('[name="new_pwd"]').val()){
+                    return "两次输入的密码不一致"
                 }
             }
         });
 
-        // 提交事件
-        form.on('submit(update)', function(data){
+        // update-info
+        form.on('submit(update-info)', function(data){
             var field = data.field; // 获取表单字段值
             console.log(field)
             $.ajax({
@@ -32,6 +49,24 @@ $(function(){
                         return layer.msg('修改信息失败！')
                     }
                     return layer.msg('修改信息成功！')
+                }
+            })
+            return false; // 阻止默认 form 跳转
+        });
+
+        // update-info
+        form.on('submit(update-password)', function(data){
+            var field = data.field; // 获取表单字段值
+            console.log(field)
+            $.ajax({
+                method: 'post',
+                url: '/account/updatepwd',
+                data: field,
+                success: function (res){
+                    if( res.status != 200){
+                        return layer.msg('修改密码失败！')
+                    }
+                    return layer.msg('修改密码成功！')
                 }
             })
             return false; // 阻止默认 form 跳转
@@ -51,15 +86,12 @@ $(function(){
         // 指定预览区域
         preview: '.img-preview'
     }
-
     // 1.3 创建裁剪区域
     $image.cropper(options)
 
     $('#bnt-choose-img').on('click',function(){
         $('#file').click()
-
     })
-
     $('#file').on('change',function(e){
         // console.log(e)
 

@@ -4,6 +4,7 @@ import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.account.service.UpdateAvatarService;
 import cn.edu.ncu.talkpulse.account.service.UpdateInfoService;
+import cn.edu.ncu.talkpulse.account.service.UpdatePwdService;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.account.service.AccountService;
 import com.alibaba.fastjson2.JSONObject;
@@ -21,6 +22,8 @@ public class AccountController {
     private UpdateAvatarService updateAvatarService;
     @Autowired
     private UpdateInfoService updateInfoService;
+    @Autowired
+    private UpdatePwdService updatePwdService;
     @Autowired
     private AccountDao accountDao;
 
@@ -63,11 +66,23 @@ public class AccountController {
                               @RequestParam("ugender") String ugender,
                               @RequestParam("uage") Integer uage,
                               @RequestParam("uintroduce") String uintroduce,
-                               HttpServletRequest request) {
+                              HttpServletRequest request) {
         HttpSession session = request.getSession();
         Integer userId = (Integer) request.getSession().getAttribute("user_id");
         if(userId==null) return Result.fail("非法请求，请先登录");
         Boolean flag = updateInfoService.updatetonew(userId, uname, ugender, uage, uintroduce);
+        if(flag) return Result.success();
+        else return Result.fail();
+    }
+
+    @PostMapping( "/updatepwd")
+    public Result updatepwd(@RequestParam("old_pwd") String old_pwd,
+                            @RequestParam("new_pwd") String new_pwd,
+                            HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) request.getSession().getAttribute("user_id");
+        if(userId==null) return Result.fail("非法请求，请先登录");
+        Boolean flag = updatePwdService.newpwd(userId, old_pwd, new_pwd );
         if(flag) return Result.success();
         else return Result.fail();
     }

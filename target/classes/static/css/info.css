@@ -1,5 +1,32 @@
+.check{
+    display: flex;
+    width: 500px;
+    margin: 0 auto;
+}
+.check span{
+    cursor: pointer;
+    flex: 1;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 8px;
+    line-height: 30px;
+    text-align: center;
+}
+.check span.active{
+    color: orange;
+    border: 1px solid orange;
+}
+
+#update-info,
+#update-password{
+    display: none;
+}
+
+
+
 .layui-form{
     width: 500px;
+    padding-top: 32px;
     margin: 0 auto;
 }
 .layui-form-label{

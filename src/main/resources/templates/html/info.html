@@ -12,8 +12,14 @@
     <link rel="stylesheet" href="/css/info.css">
 </head>
 <body>
+<div class="check">
+    <span class="active">更改头像</span>
+    <span>更改信息</span>
+    <span>更改密码</span>
+</div>
+<!--更改头像-->
 
-<form class="layui-form" action="">
+<form class="layui-form" id="update-avatar" action="">
     <div class="layui-form-item">
         <label class="layui-form-label">更改头像</label>
         <div class="layui-card">
@@ -44,6 +50,8 @@
             </div>
         </div>
     </div>
+</form>
+<form class="layui-form" id="update-info" action="">
     <div class="layui-form-item">
         <label class="layui-form-label">UID</label>
         <div class="layui-input-inline layui-input-wrap">
@@ -67,7 +75,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">年龄</label>
         <div class="layui-input-inline layui-input-wrap">
-            <input type="text" name="uage" lay-verify="required" autocomplete="off" class="layui-input">
+            <input type="text" name="uage" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
@@ -78,12 +86,40 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button type="submit" class="layui-btn" lay-submit lay-filter="update">确认修改</button>
+            <button type="submit" class="layui-btn" lay-submit lay-filter="update-info">确认修改</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
 </form>
-
+<form class="layui-form" id="update-password" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">原密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="old_pwd" lay-verify="required" placeholder="请输入原密码" autocomplete="off" class="layui-input"
+                   lay-affix="eye">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="new_pwd" lay-verify="required" placeholder="请输入新密码" autocomplete="off" class="layui-input"
+                   lay-affix="eye">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认新密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="re_pwd" lay-verify="required|confirmPassword" placeholder="请再次确认密码" autocomplete="off" class="layui-input"
+                   lay-affix="eye">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="update-password">确认修改</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
 
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/layui.js"></script>
