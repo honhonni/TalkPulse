@@ -30,8 +30,8 @@ public class UpdateAvatarServiceImpl implements UpdateAvatarService {
             byte[] photoData = Base64.getDecoder().decode(uphoto);
 
             // 保存图片到指定路径
-            String filePath = "src/main/resources/static/images/avatar/img_" + uid + ".png";
-            FileOutputStream outputStream = new FileOutputStream(filePath);
+            String filePath = "/images/avatar/img_" + uid + ".png";
+            FileOutputStream outputStream = new FileOutputStream("src/main/resources/static"+filePath);
             outputStream.write(photoData);
             outputStream.close();
             System.out.println("Image saved successfully at: " + filePath);

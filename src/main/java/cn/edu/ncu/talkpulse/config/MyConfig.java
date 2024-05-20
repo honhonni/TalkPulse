@@ -27,8 +27,10 @@ public class MyConfig implements WebMvcConfigurer {
                 //下面的是指可以对应resources文件下那些内容
                 .addResourceLocations("classpath:/")
                 .addResourceLocations("classpath:/templates/")
-                .addResourceLocations("classpath:/static/");
+                .addResourceLocations("file:src/main/resources/static/");
+
     }
+
 
 /*    @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

@@ -2,6 +2,8 @@ package cn.edu.ncu.talkpulse.controller;
 
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
+import cn.edu.ncu.talkpulse.account.service.UpdateAvatarService;
+import cn.edu.ncu.talkpulse.account.service.UpdateInfoService;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.account.service.AccountService;
 import com.alibaba.fastjson2.JSONObject;
@@ -15,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private UpdateAvatarService updateAvatarService;
+    @Autowired
+    private UpdateInfoService updateInfoService;
     @Autowired
     private AccountDao accountDao;
 
@@ -42,5 +48,28 @@ public class AccountController {
         else return Result.fail();
     }
 
+    @PostMapping( "/updateAvatar")
+    public Result updateAvatar(@RequestParam("uphoto") String uphoto,
+                               HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) request.getSession().getAttribute("user_id");
+        if(userId==null) return Result.fail("非法请求，请先登录");
+        Boolean flag = updateAvatarService.updatephoto(userId,  uphoto);
+        if(flag) return Result.success();
+        else return Result.fail();
+    }
+    @PostMapping( "/updatetonew")
+    public Result updatetonew(@RequestParam("uname") String uname,
+                              @RequestParam("ugender") String ugender,
+                              @RequestParam("uage") Integer uage,
+                              @RequestParam("uintroduce") String uintroduce,
+                               HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Integer userId = (Integer) request.getSession().getAttribute("user_id");
+        if(userId==null) return Result.fail("非法请求，请先登录");
+        Boolean flag = updateInfoService.updatetonew(userId, uname, ugender, uage, uintroduce);
+        if(flag) return Result.success();
+        else return Result.fail();
+    }
 
 }

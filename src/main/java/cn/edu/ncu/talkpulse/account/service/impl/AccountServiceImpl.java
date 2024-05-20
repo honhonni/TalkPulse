@@ -18,7 +18,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Result register(Integer userId, String userName, String userPwd) {
         UserInfo user = accountDao.findUserById(userId);
-        System.out.println(user);
+//        System.out.println(user);
         if(user!=null){
             return Result.fail("用户id已存在");
         }else{
@@ -48,7 +48,7 @@ public class AccountServiceImpl implements AccountService {
         Integer userId = (Integer) session.getAttribute("user_id");
 
         UserInfo userInfo = accountDao.searchUserById(userId);
-        System.out.println(userInfo);
+//        System.out.println(userInfo);
         if (userInfo != null) {
            return userInfo;
         } else {

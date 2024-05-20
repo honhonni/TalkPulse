@@ -1,27 +1,13 @@
 $(function (){
-    $.ajax({
-        method: 'get',
-        url: '/account/get',
-        success: function (res){
-            if(res.status !== 200){
-                var htmlStr = template('tpl-info-dropdown', {
-                        user_name:"请重新登录",
-                        user_photo: "/images/avatar/defualt.png"
-                    })
-                $('.dropdown').html(htmlStr)
-                return
-            }
-            var htmlStr = template('tpl-info-dropdown', res.data)
-            $('.dropdown').html(htmlStr)
-        }
-    })
+    // 获取个人信息
+    getUserInfo()
 
     // 导航栏切换
     $('ul.navbar-left').on("click","li",function(){	// 切换选项
         $(this).addClass('active').siblings().removeClass('active')
     })
     // 点击编辑个人信息后，导航栏取消选择
-    $('#edit-info').on('click', function (){
+    $('.dropdown').on('click', '#edit-info', function (){
         $('ul.navbar-left li').removeClass('active')
     })
     // 打开全局搜索框
@@ -107,4 +93,31 @@ $(function (){
         ws.close();
     }
 
+
+    function getUserInfo(){
+        $.ajax({
+            method: 'get',
+            url: '/account/get',
+            success: function (res){
+                if(res.status !== 200){
+                    var htmlStr = template('tpl-info-dropdown', {
+                        user_name:"请重新登录",
+                        user_photo: "/images/avatar/defualt.png"
+                    })
+                    $('.dropdown').html(htmlStr)
+                    return
+                }
+                // 加上时间戳，防止浏览器缓存，图片不刷新
+                var time = new Date().getTime();
+                res.data.user_photo = res.data.user_photo + "?res=" + time
+
+                var htmlStr = template('tpl-info-dropdown', res.data)
+                $('.dropdown').html(htmlStr)
+                for(var k in res.data){
+                    localStorage.setItem( k , res.data[k])
+                }
+            }
+        })
+    }
+    window.getUserInfo = getUserInfo
 })
