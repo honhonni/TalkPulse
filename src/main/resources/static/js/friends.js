@@ -158,7 +158,7 @@ $(function (){
                     return console.log('好友申请处理失败')
                 }
                 console.log('好友申请处理成功')
-                $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(htmlStr)
+                $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(成功)
 
             }
         })
