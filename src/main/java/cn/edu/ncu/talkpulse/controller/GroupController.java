@@ -44,18 +44,17 @@ public class GroupController {
        else return Result.fail();
    }//退出群聊
    @PostMapping("invite")
-   public Result InviteGroup(@RequestParam("groupvalidation_id")Integer groupvalidationId,
-                             @RequestParam("groupvalidation_receiverid")Integer groupvalidationReceiverId,
+   public Result InviteGroup(@RequestParam("groupvalidation_receiverid")Integer groupvalidationReceiverId,
                              @RequestParam("groupvalidation_groupid")Integer groupvalidationGroupId,
                              @RequestParam("groupvalidation_time")LocalDateTime groupvalidationTime,
                              HttpServletRequest request){
       HttpSession session=request.getSession();
-      Boolean ok=inviteService.invite(groupvalidationId,groupvalidationReceiverId,groupvalidationGroupId,groupvalidationTime,session);
+      Boolean ok=inviteService.invite(groupvalidationReceiverId,groupvalidationGroupId,groupvalidationTime,session);
       if(ok) return Result.success();
       else return Result.fail();
    }//邀请进入群聊
    @PostMapping("updateinvite")
-   public Result UpdateInvite(@RequestParam("groupvalidation_id")Integer groupvalidationId,
+   public Result UpdateInvite(
                               @RequestParam("groupvalidation_senderid")Integer groupvalidationSenderId,
                               HttpServletRequest request,
                               @RequestParam("groupvalidation_groupid")Integer groupvalidationGroupId,
@@ -63,7 +62,7 @@ public class GroupController {
                               @RequestParam("groupvalidation_readstatus")String groupvalidationReadStatus,
                               @RequestParam("groupvalidation_time")LocalDateTime groupvalidationTime){
       HttpSession session=request.getSession();
-      Boolean ok=updateInviteService.updateinvite(groupvalidationId,groupvalidationSenderId,session,groupvalidationGroupId,groupvalidationStatus,groupvalidationReadStatus,groupvalidationTime);
+      Boolean ok=updateInviteService.updateinvite(groupvalidationSenderId,session,groupvalidationGroupId,groupvalidationStatus,groupvalidationReadStatus,groupvalidationTime);
       if(ok) return Result.success();
       else return Result.fail();
    }//更新群聊信息
@@ -94,7 +93,7 @@ public class GroupController {
                                  @RequestParam("group_introduce")String group_introduce,
                                  HttpServletRequest request){
       HttpSession session=request.getSession();
-      Boolean ok=updateGroupInfoService.addIntroduce(group_id,group_introduce,session)&&updateGroupInfoService.deleteIntroduce(group_id,group_introduce,session);
+      Boolean ok=updateGroupInfoService.updateGroupIntroduce(group_introduce,group_id,session);
       if(ok) return Result.success();
       else return Result.fail();
    }//更新群聊简介

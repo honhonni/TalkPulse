@@ -3,6 +3,5 @@ package cn.edu.ncu.talkpulse.group.service;
 import jakarta.servlet.http.HttpSession;
 
 public interface UpdateGroupInfoService {
-    Boolean deleteIntroduce(Integer group_id, String group_introduce, HttpSession session);
-    Boolean addIntroduce(Integer group_id,String group_introduce,HttpSession session);
+    Boolean updateGroupIntroduce(String group_introduce,Integer group_id,HttpSession session);
 }

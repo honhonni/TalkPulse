@@ -35,7 +35,7 @@ public class CreateGroupServiceTest {
     }
     @Test
     public void testuppoto(){
-        File imageFile=new File("static/images/img.png");
+        File imageFile=new File("C:\\Users\\XM\\Desktop/\\deng.jpg");
         try{
             byte[] imageBytes=new byte[(int) imageFile.length()];
             FileInputStream fis=new FileInputStream(imageFile);

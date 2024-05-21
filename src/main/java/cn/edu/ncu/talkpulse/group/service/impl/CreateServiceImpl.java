@@ -39,12 +39,11 @@ public class CreateServiceImpl implements CreateService {
     public Boolean upphoto(Integer group_id,String group_photo){
         try{
             byte[] photoData= Base64.getDecoder().decode(group_photo);
-            String filePath="src/main.resources/static/images/avatar/img_"+group_id+"/.png";
-            FileOutputStream outputStream=new FileOutputStream(filePath);
+            String filePath = "/images/group/img_" + group_id + ".png";
+            FileOutputStream outputStream = new FileOutputStream("src/main/resources/static"+filePath);
             outputStream.write(photoData);
             outputStream.close();
-            System.out.println("Image saved successfully at:"+filePath);
-            int num= createDao.upphoto(group_id,group_photo);
+            int num= createDao.upphoto(group_id,filePath);
             return num>0;
         }catch (IOException e){
             System.out.println("Error saving image:"+e.getMessage());

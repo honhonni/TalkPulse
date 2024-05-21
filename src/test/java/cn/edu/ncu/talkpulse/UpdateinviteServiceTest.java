@@ -22,7 +22,7 @@ public class UpdateinviteServiceTest {
     @Test
     public void testUpdateInvite(){
         session.setAttribute("user_id",11);
-        Boolean flag =updateinviteServiceTest.updateinvite(1,1,session,1,"wfewf","rfwer",now());
+        Boolean flag =updateinviteServiceTest.updateinvite(11,session,1,"0","0",now());
         System.out.println(flag);
     }
 }
