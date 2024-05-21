@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class groupapply {
     private int groupapply_id;
-    private int groupapply_sendardid;
+    private int groupapply_senderid;
     private LocalDateTime groupapply_time;
     private int groupapply_groupid;
     private int groupapply_hostid;
@@ -20,12 +20,12 @@ public class groupapply {
         this.groupapply_id = groupapply_id;
     }
 
-    public int getGroupapply_sendardid() {
-        return groupapply_sendardid;
+    public int getGroupapply_senderid() {
+        return groupapply_senderid;
     }
 
-    public void setGroupapply_sendardid(int groupapply_sendardid) {
-        this.groupapply_sendardid = groupapply_sendardid;
+    public void setGroupapply_senderid(int groupapply_senderid) {
+        this.groupapply_senderid = groupapply_senderid;
     }
 
     public LocalDateTime getGroupapply_time() {

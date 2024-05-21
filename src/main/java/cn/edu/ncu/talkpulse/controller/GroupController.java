@@ -25,22 +25,32 @@ public class GroupController {
    private UserApplyIntoService userApplyIntoService;
    @Autowired
    private UpdateGroupInfoService updateGroupInfoService;
+   @Autowired
+   private HostapplyService hostapplyService;
    @PostMapping("/create")
     public Result CreateGroup(@RequestParam("group_id")Integer groupId,
                               @RequestParam("group_name")String groupName,
                               @RequestParam("group_introduce")String groupIntroduce,
+                              @RequestParam("group_photo")String groupPhoto,
                               HttpServletRequest request
                               ){
        HttpSession session = request.getSession();
        Boolean ok=createService.CreateGroup(groupId,groupName,groupIntroduce,session);
-       if(ok) return Result.success();
+       if(ok) {
+          createService.upphoto(groupId,groupPhoto);
+          return Result.success();
+       }
        else return Result.fail();
    }//创建群聊
    @PostMapping("exit")
     public Result ExitGroup(@RequestParam("corregroup_id")Integer corregroup_id , HttpServletRequest request){
        HttpSession session=request.getSession();
        Boolean ok= exitService.exitGroup(corregroup_id,session);
-       if(ok) return Result.success();
+       if(ok) {
+          System.out.println("200");
+
+          return Result.success();
+       }
        else return Result.fail();
    }//退出群聊
    @PostMapping("invite")
@@ -78,16 +88,6 @@ public class GroupController {
       if(ok) return Result.success();
       else return Result.fail();
    }//用户申请入群
-   @GetMapping("hostset")
-   public Result hostSet(@RequestParam("groupapply_groupid")Integer groupapply_grouid,
-                         HttpServletRequest request){
-      HttpSession session=request.getSession();
-      Boolean res=userApplyIntoService.hostSet(groupapply_grouid,session);
-      if(res) return Result.success(res);
-      else return Result.fail();
-
-
-   }
    @PostMapping("updategroupinfo")
    public Result UpdateGroupInfo(@RequestParam("group_id")Integer group_id,
                                  @RequestParam("group_introduce")String group_introduce,
@@ -97,4 +97,22 @@ public class GroupController {
       if(ok) return Result.success();
       else return Result.fail();
    }//更新群聊简介
+   @GetMapping("hostapply")
+   public Result HostApply(@RequestParam("groupapply_groupid")Integer groupapply_groupid,
+                           HttpServletRequest request){
+      HttpSession session=request.getSession();
+      Boolean ok=hostapplyService.hostapply(groupapply_groupid,session);
+      if(ok) return Result.success();
+      else return Result.fail();//群主接收群聊申请
+   }
+   @PostMapping("hostset")
+   public Result HostSet(@RequestParam("groupapply_status")Boolean groupapply_status,
+                         @RequestParam("groupapply_readstatus")Boolean groupapply_readstatus,
+                         @RequestParam("groupapply_groupid")Integer groupapply_groupid,
+                         HttpServletRequest request){
+      HttpSession session=request.getSession();
+      Boolean ok=hostapplyService.hostset(groupapply_status,groupapply_readstatus,groupapply_groupid,session);
+      if(ok) return Result.success();
+      else return Result.fail();//群主处理群聊申请
+   }
 }
