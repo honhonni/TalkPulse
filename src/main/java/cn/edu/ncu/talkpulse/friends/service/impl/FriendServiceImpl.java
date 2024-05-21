@@ -48,7 +48,6 @@ public class FriendServiceImpl implements FriendService {
         Integer myId = (Integer) session.getAttribute("user_id");
 
         UserInfo userInfo = accountDao.searchUserById(userId);
-        System.out.println(userInfo);
         if (userInfo != null) {
             Friend friend = friendDao.isfriend(myId, userId);
             JSONObject data = new JSONObject();

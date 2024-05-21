@@ -84,8 +84,9 @@ public class ValidationServiceImpl implements ValidationService {
     public Result handleValidation(Integer uid, Integer validationId, Boolean agree) {
         Validation validation = validationDao.getValidationById(validationId);
         if(validation==null) return Result.fail("好友申请不存在");
-        if(validation.getValidation_receiverid()!=uid) return Result.fail("非法请求，登录用户不匹配");
-        if(validation.getValidation_status()!=0) return Result.fail("已经处理过该好友请求");
+
+        if(! uid.equals(validation.getValidation_receiverid())) return Result.fail("非法请求，登录用户不匹配");
+        if(validation.getValidation_status() !=0 ) return Result.fail("已经处理过该好友请求");
 
         validation.setValidation_status(agree?1:-1);// 同意1，拒绝-1
         validationDao.updateValidation(validation);

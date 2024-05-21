@@ -14,9 +14,9 @@ $(function (){
     var res = {
         data: [
             // 我创建的群聊
-            [],
+            [1,2,3],
             // 我加入的群聊
-            []
+            [1,2,3,4]
         ]
     }
 
@@ -24,16 +24,15 @@ $(function (){
     $('.my-groups').html(myGroupStr)
     var joinGroupStr = template('tpl-join-groups', res)
     $('.join-groups').html(joinGroupStr)
-    var infoStr
-    if(res.data[0].length === 0){
-        infoStr = "你当前创建了 0 个群聊，加入了 0 个群聊"
-    }else{
-        infoStr = template('tpl-info', res.data[0][0])
-    }
+
+
+    var infoStr = template('tpl-info-summary', res)
     $('.info-box').html(infoStr)
+
     // 绑定事件
     $('.groups-list').on('click', 'button', function (){
         if($(this).prop('id') == 'create-group'){
+
             // console.log($(this).attr("gid"))
             infoStr = template('tpl-create-group', res.data[0][3])
             $('.info-box').html(infoStr)
@@ -103,43 +102,55 @@ $(function (){
                 //     }
                 // })
             })
+
+            $('.info-box').on('submit','.layui-form',function(e){
+                e.preventDefault()
+                // 获取群头像
+                var dataURL = $image
+                    .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
+                        width: 100,
+                        height: 100
+                    })
+                    .toDataURL('image/png')       // 将 Canvas 画布上的内容，转化为 base64 格式的字符串
+                dataURL = dataURL.replace("data:image/png;base64,","")
+                // 获取表单数据
+                var formData = $(this).serializeArray()
+                var data = {}
+                $.each(formData,function(index,field){
+                    data[field.name] = field.value
+                })
+
+                $.ajax({
+                    method: 'post',
+                    url: '/group/create',
+                    data: data,
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                    success: function(res){
+                        if(res.status !== 200){
+                            return layer.msg(res.message)
+                        }
+                        layer.msg(res.message)
+                        // 调用父页面的方法，重新渲染用户的头像和用户信息
+                        var newGroup = "\n" +
+                            "    <button type=\"button\" class=\"list-group-item\" gid=\"{{$value.GID}}\">\n" +
+                            "        <img src=\""+"/images/avatar/defualt.png"+"\" class=\"group-photo\">\n" +
+                            "        "+data.group_name+"\n" +
+                            "    </button>"
+                        $('.my-groups button').last().before(newGroup)
+                        $(".my-groups button").eq(-2).click()
+                    }
+                })
+            })
             return
+        }else{
+            // ajax获取群聊信息
+            infoStr = template('tpl-info', res.data[0][0])
+            $('.info-box').html(infoStr)
         }
-        // ajax获取群聊信息
-        infoStr = template('tpl-info', res.data[0][0])
-        $('.info-box').html(infoStr)
     })
 
 
-    $('.info-box').on('submit','.layui-form',function(e){
-        e.preventDefault()
-        var formData = $(this).serializeArray()
-        var data = {}
-        $.each(formData,function(index,field){
-            data[field.name] = field.value
-        })
 
-        $.ajax({
-            method: 'post',
-            url: '/group/create',
-            data: data,
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
-            success: function(res){
-                if(res.status !== 200){
-                    return layer.msg(res.message)
-                }
-                layer.msg(res.message)
-                // 调用父页面的方法，重新渲染用户的头像和用户信息
-                var newGroup = "\n" +
-                    "    <button type=\"button\" class=\"list-group-item\" gid=\"{{$value.GID}}\">\n" +
-                    "        <img src=\""+"/images/avatar/defualt.png"+"\" class=\"group-photo\">\n" +
-                    "        "+data.group_name+"\n" +
-                    "    </button>"
-                $('.my-groups button').last().before(newGroup)
-                $(".my-groups button").eq(-2).click()
-            }
-        })
-    })
 })
 
 $(function(){

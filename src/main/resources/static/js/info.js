@@ -75,7 +75,6 @@ $(function(){
         // update-info
         form.on('submit(update-password)', function(data){
             var field = data.field; // 获取表单字段值
-            console.log(field)
             $.ajax({
                 method: 'post',
                 url: '/account/updatepwd',
@@ -87,6 +86,8 @@ $(function(){
                     return layer.msg('修改密码成功！')
                 }
             })
+
+            $('#update-password .layui-btn-primary').click()
             return false; // 阻止默认 form 跳转
         });
 
@@ -169,7 +170,11 @@ $(function(){
                 });
             }
         })
-        $('[name=uage]').val(localStorage.getItem('user_age'))
+        if(localStorage.getItem('user_age') == -1){
+            $('[name=uage]').val('')
+        }else{
+            $('[name=uage]').val(localStorage.getItem('user_age'))
+        }
         $('[name=uintroduce]').val( localStorage.getItem('user_introduce'))
     }
 })
