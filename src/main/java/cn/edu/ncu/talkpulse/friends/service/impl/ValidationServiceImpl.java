@@ -1,21 +1,24 @@
 package cn.edu.ncu.talkpulse.friends.service.impl;
 
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
+import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
+import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
 import cn.edu.ncu.talkpulse.dto.WebSocketDTO;
 import cn.edu.ncu.talkpulse.friends.dao.ValidationDao;
 import cn.edu.ncu.talkpulse.friends.dao.FriendshipDao;
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.friends.entity.Validation;
 import cn.edu.ncu.talkpulse.friends.entity.Friend;
-import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.friends.service.ValidationService;
 import cn.edu.ncu.talkpulse.friends.service.WebSocketServer;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,7 +33,7 @@ public class ValidationServiceImpl implements ValidationService {
     @Autowired
     private FriendshipDao friendshipDao;
 
-    @Autowired
+    @Resource
     private AccountDao accountDao;
 
     // 发送添加好友申请
@@ -67,15 +70,33 @@ public class ValidationServiceImpl implements ValidationService {
 
     // 获取当前用户接受到的好友申请
     @Override
-    public List<Validation> getValidation(Integer uid) {
+    public List<ValidationSenderDTO> getValidation(Integer uid) {
         List<Validation> validations = validationDao.getValidationsByReceiverId(uid);
+        List<ValidationSenderDTO> result = new ArrayList<>(validations.size());
+        validations.forEach(validation -> {
+            // 封装好友申请发送者的头像和昵称
+            UserInfo sender = accountDao.findUserById(validation.getValidation_senderid());
+            ValidationSenderDTO validationSenderDTO = new ValidationSenderDTO(validation, sender.getUser_photo(), sender.getUser_name());
+            result.add(validationSenderDTO);
+        });
         validationDao.markValidationsAsRead(uid);// 设置已读
-        return validations;
+
+        return result;
     }
 
+    // 获取用户发送的好友请求
     @Override
-    public List<Validation> getMyValidation(Integer uid) {
-        return validationDao.getValidationsBySenderId(uid);
+    public List<ValidationReceiverDTO> getMyValidation(Integer uid) {
+        List<Validation> validations = validationDao.getValidationsBySenderId(uid);
+        List<ValidationReceiverDTO> result = new ArrayList<>(validations.size());
+        validations.forEach(validation -> {
+            // 封装好友申请接收者的头像和昵称
+            UserInfo receiver = accountDao.findUserById(validation.getValidation_receiverid());
+            ValidationReceiverDTO validationReceiverDTO = new ValidationReceiverDTO(validation, receiver.getUser_photo(), receiver.getUser_name());
+            result.add(validationReceiverDTO);
+        });
+
+        return result;
     }
 
     // 处理好友申请请求
@@ -84,8 +105,9 @@ public class ValidationServiceImpl implements ValidationService {
     public Result handleValidation(Integer uid, Integer validationId, Boolean agree) {
         Validation validation = validationDao.getValidationById(validationId);
         if(validation==null) return Result.fail("好友申请不存在");
-        if(validation.getValidation_receiverid()!=uid) return Result.fail("非法请求，登录用户不匹配");
-        if(validation.getValidation_status()!=0) return Result.fail("已经处理过该好友请求");
+
+        if(! uid.equals(validation.getValidation_receiverid())) return Result.fail("非法请求，登录用户不匹配");
+        if(validation.getValidation_status() !=0 ) return Result.fail("已经处理过该好友请求");
 
         validation.setValidation_status(agree?1:-1);// 同意1，拒绝-1
         validationDao.updateValidation(validation);

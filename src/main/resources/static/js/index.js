@@ -114,9 +114,9 @@ $(function (){
 
                 var htmlStr = template('tpl-info-dropdown', res.data)
                 $('.dropdown').html(htmlStr)
-                for(let k in localStorage){
-                    localStorage[k] = ''
-                }
+                // for(let k in localStorage){
+                //     localStorage[k] = ''
+                // }
                 for(let k in res.data){
                     localStorage.setItem( k , res.data[k])
                 }

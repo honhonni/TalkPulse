@@ -56,10 +56,9 @@ public class GroupController {
    @PostMapping("invite")
    public Result InviteGroup(@RequestParam("groupvalidation_receiverid")Integer groupvalidationReceiverId,
                              @RequestParam("groupvalidation_groupid")Integer groupvalidationGroupId,
-                             @RequestParam("groupvalidation_time")LocalDateTime groupvalidationTime,
                              HttpServletRequest request){
       HttpSession session=request.getSession();
-      Boolean ok=inviteService.invite(groupvalidationReceiverId,groupvalidationGroupId,groupvalidationTime,session);
+      Boolean ok=inviteService.invite(groupvalidationReceiverId,groupvalidationGroupId,session);
       if(ok) return Result.success();
       else return Result.fail();
    }//邀请进入群聊

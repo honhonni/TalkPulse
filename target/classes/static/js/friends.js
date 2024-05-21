@@ -156,6 +156,8 @@ $(function (){
             success: function (res){
                 if( res.status != 200){
                     return console.log('好友申请处理失败')
+                    htmlStr = '发送失败<span class="agree">同意</span><span class="reject">拒绝</span>'
+                    $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(htmlStr)
                 }
                 console.log('好友申请处理成功')
                 $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(htmlStr)

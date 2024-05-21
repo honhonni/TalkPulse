@@ -2,7 +2,8 @@ package cn.edu.ncu.talkpulse.friends.service;
 
 
 import cn.edu.ncu.talkpulse.dto.Result;
-import cn.edu.ncu.talkpulse.friends.entity.Validation;
+import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
+import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
 
 import java.util.List;
 
@@ -12,10 +13,10 @@ public interface ValidationService {
     Result sendValidation(Integer uid, Integer friendId);
 
     // 获取用户收到的好友申请
-    List<Validation> getValidation(Integer uid);
+    List<ValidationSenderDTO> getValidation(Integer uid);
 
     // 获取用户发送的好友申请
-    List<Validation> getMyValidation(Integer uid);
+    List<ValidationReceiverDTO> getMyValidation(Integer uid);
 
     // 处理好友申请请求
     Result handleValidation(Integer uid, Integer validationId, Boolean agree);

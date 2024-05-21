@@ -110,7 +110,7 @@
 
 
 
-
+<!--好友列表-->
 <script type="text/html" id="tpl-friends-list">
     {{each data}}
     <li class="left list-group-item">
@@ -131,16 +131,18 @@
 </script>
 
 
-
+<!--搜索好友显示-->
 <script type="text/html" id="tpl-search-friends-info">
     <div class="search-friends-info">
         <img src="{{data.user_photo}}" class="search-frieds-photo">
         <div class="box">
             <div class="row1">
                 <span>{{data.user_id}}</span>
+                {{if isfriend != true}}
                 <div class="checkbox">
                     <span id="add">添加好友</span>
                 </div>
+                {{/if}}
             </div>
             <div class="row2">
                 <span>{{data.user_name}}</span>

@@ -175,6 +175,8 @@
         </div>
     </div>
 </div>
+<!--群聊总概括-->
+
 <!--我创建的群聊-->
 <script type="text/html" id="tpl-my-groups">
     {{each data[0]}}
@@ -196,7 +198,29 @@
     </button>
     {{/each}}
 </script>
-<script type="text/javascript" id="tpl-info">
+<!--群聊总概括-->
+<script type="text/html" id="tpl-info-summary">
+    <div class="info-summary">
+        <h2>群聊概况</h2>
+        <ul class="info-list list-group">
+            <li class="list-group-item">
+                <span>群聊总数:</span>
+                <span>{{data[0].length + data[1].length}}</span>
+            </li>
+            <li class="list-group-item">
+                <span>我创建的群聊:</span>
+                <span>{{data[0].length}}</span>
+            </li>
+            <li class="list-group-item">
+                <span>我加入的群聊:</span>
+                <span>{{data[1].length}}</span>
+            </li>
+        </ul>
+    </div>
+</script>
+
+<!--群聊信息模板-->
+<script type="text/html" id="tpl-info">
     <div class="photo">
         <img src="{{img}}" />
         <span>{{group_name}}</span>
@@ -215,6 +239,7 @@
                 <span>群介绍:</span>
                 <span>欢迎加入我们</span>
             </li>
+            {{if }}
             <li class="list-group-item">
                 <span>退出:</span>
                 <button type="button" id="quite" class="btn btn-primary">
@@ -224,6 +249,7 @@
         </ul>
     </div>
 </script>
+<!--创建群聊模板-->
 <script type="text/html" id="tpl-create-group">
     <form class="layui-form" action="">
         <div class="layui-form-item">
@@ -242,13 +268,12 @@
                             <div>
                                 <!-- 宽高为 100px 的预览区域 -->
                                 <div class="img-preview w100"></div>
-                                <p class="size">100 x 100</p>
+                                <p class="size">60 x 60</p>
                             </div>
                             <div className="group-avatar-button">
                                 <!-- 通过 accept 属性指定选择类型文件 -->
                                 <input type="file" id="file" accept="image/png,image/jpeg" />
                                 <button type="button" class="layui-btn" id="bnt-choose-img">上传</button>
-                                <button type="button" class="layui-btn layui-btn-danger" id="btn-upload">确定</button>
                             </div>
                         </div>
                     </div>
@@ -258,19 +283,19 @@
         <div class="layui-form-item">
             <label class="layui-form-label">GID</label>
             <div class="layui-input-inline layui-input-wrap">
-                <input type="text" name="group_id" lay-verify="required" autoComplete="off" class="layui-input" />
+                <input type="text" name="group_id" lay-verify="required|gid" autoComplete="off" class="layui-input" />
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">群名称</label>
             <div class="layui-input-inline layui-input-wrap">
-                <input type="text" name="group_name" lay-verify="required" autoComplete="off" class="layui-input" />
+                <input type="text" name="group_name" lay-verify="required|group_name" autoComplete="off" class="layui-input" />
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">群介绍</label>
             <div class="layui-input-block">
-                <textarea name="group_introduce" placeholder="欢迎加入我们" class="layui-textarea"></textarea>
+                <textarea name="group_introduce" lay-verify="required|introduce" class="layui-textarea"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -280,6 +305,33 @@
             </div>
         </div>
     </form>
+</script>
+<!--接收入群邀请-->
+<script type="text/html" id="tpl-group-verify-list">
+    {{each data}}
+    <button type="button" class="list-group-item" readstatus="{{$value.validation_readstatus}}">
+        <img src="{{$value.data.user_photo}}" class="frieds-validation-photo">
+        <div class="box">
+            <div class="row1">
+                <span>{{$value.validation_senderid}}</span>
+                <div class="checkbox" aid="{{$value.validation_id}}">
+                    {{if $value.validation_status == 0}}
+                    <span class="agree">同意</span>
+                    <span class="reject">拒绝</span>
+                    {{else if $value.validation_status == 1}}
+                    <span class="agreed">已同意</span>
+                    {{else if $value.validation_status == 2}}
+                    <span class="rejected">已拒绝</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="row2">
+                <span>{{$value.data.user_name}}</span>
+                <span>{{$value.validation_time}}</span>
+            </div>
+        </div>
+    </button>
+    {{/each}}
 </script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
