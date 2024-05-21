@@ -55,13 +55,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">UID</label>
         <div class="layui-input-inline layui-input-wrap">
-            <input type="text" name="uid" lay-verify="required" autocomplete="off" class="layui-input">
+            <input type="text" name="uid" lay-verify="required|uid" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-inline layui-input-wrap">
-            <input type="text" name="uname" lay-verify="required" autocomplete="off" class="layui-input">
+            <input type="text" name="uname" lay-verify="required|uname" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -75,13 +75,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">年龄</label>
         <div class="layui-input-inline layui-input-wrap">
-            <input type="text" name="uage" autocomplete="off" class="layui-input">
+            <input type="text" name="uage" lay-verify="uage" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">个性签名</label>
         <div class="layui-input-block">
-            <textarea name="uintroduce" class="layui-textarea"></textarea>
+            <textarea name="uintroduce" lay-verify="uintroduce" class="layui-textarea"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
@@ -102,7 +102,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">新密码</label>
         <div class="layui-input-block">
-            <input type="password" name="new_pwd" lay-verify="required" placeholder="请输入新密码" autocomplete="off" class="layui-input"
+            <input type="password" name="new_pwd" lay-verify="required|password" placeholder="请输入新密码" autocomplete="off" class="layui-input"
                    lay-affix="eye">
         </div>
     </div>

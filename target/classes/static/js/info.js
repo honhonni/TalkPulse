@@ -24,9 +24,26 @@ $(function(){
 
         // 自定义验证规则
         form.verify({
+            uid: [
+                /^[0-9]{6}$/,
+                "UID 为 6 位数字"
+            ],
+            uname: [
+                /^[\S]{0,6}$/,
+                "用户名 为 0-6 位任意字符"
+            ],
+            uage: function(value){
+                if(value < 0 || value > 100){
+                    return "年龄为 0-100"
+                }
+            },
+            uintroduce: [
+                /^[\S]{0,20}$/,
+                "个性签名 最多 20 位任意字符"
+            ],
             password: function(value){
                 if(value.length < 6 || value.length > 12){
-                    return "密码长度为 6-12 位"
+                    return "密码为 6-12 位任意字符"
                 }
             },
             confirmPassword: function(value){
@@ -48,6 +65,7 @@ $(function(){
                     if( res.status != 200){
                         return layer.msg('修改信息失败！')
                     }
+                    window.parent.getUserInfo()
                     return layer.msg('修改信息成功！')
                 }
             })
@@ -75,7 +93,7 @@ $(function(){
     });
 
 
-
+    // 修改头像
     var layer = layui.layer
     // 1.1 获取裁剪区域的 DOM 元素
     var $image = $('#image')
@@ -133,9 +151,11 @@ $(function(){
         })
     })
 
+
+    // 初始化表单数据
     function init(){
         $('#image').attr('src', localStorage.getItem('user_photo'))
-        $('[name=uid]').val( localStorage.getItem('user_id'))
+        $('[name=uid]').val( String(localStorage.getItem('user_id')))
         $('[name=uname]').val( localStorage.getItem('user_name'))
 
         $('[name=ugender]').each(function (i, item) {

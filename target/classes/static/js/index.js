@@ -105,6 +105,7 @@ $(function (){
                         user_photo: "/images/avatar/defualt.png"
                     })
                     $('.dropdown').html(htmlStr)
+                    location.replace('/html/login.html')
                     return
                 }
                 // 加上时间戳，防止浏览器缓存，图片不刷新
@@ -113,7 +114,10 @@ $(function (){
 
                 var htmlStr = template('tpl-info-dropdown', res.data)
                 $('.dropdown').html(htmlStr)
-                for(var k in res.data){
+                for(let k in localStorage){
+                    localStorage[k] = ''
+                }
+                for(let k in res.data){
                     localStorage.setItem( k , res.data[k])
                 }
             }
