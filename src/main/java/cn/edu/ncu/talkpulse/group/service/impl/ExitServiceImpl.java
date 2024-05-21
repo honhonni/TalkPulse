@@ -17,7 +17,7 @@ public class ExitServiceImpl implements ExitService {
         Groupinfo group_hostid = ExitDao.judgeHost(corregroup_id);
         Integer correuser_id = (Integer) session.getAttribute("user_id");
         if (group_hostid == ExitDao.judgeHost(correuser_id)) {
-            int res = exitDao.deleteGroup(corregroup_id);
+            int res = exitDao.deleteGroupId(corregroup_id);
             if (res == 1) {
                 return true;
             } else return false;

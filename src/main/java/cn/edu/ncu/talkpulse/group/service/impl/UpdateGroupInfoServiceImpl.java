@@ -10,23 +10,14 @@ import org.springframework.stereotype.Service;
 public class UpdateGroupInfoServiceImpl implements UpdateGroupInfoService {
     @Autowired
     private UpdateGroupInfoDao updateGroupInfoDao;
+
     @Override
-    public Boolean deleteIntroduce(Integer group_id, String group_introduce, HttpSession session) {
+    public Boolean updateGroupIntroduce(String group_introduce, Integer group_id, HttpSession session) {
         Integer group_hostid = (Integer) session.getAttribute("user_id");
-        int res = updateGroupInfoDao.deleteIntroduce(group_id, group_introduce, group_hostid);
-        if(res==1)
-        {
+        int res = updateGroupInfoDao.updateGroupIntroduce(group_introduce, group_id, group_hostid);
+        if (res == 1) {
             return true;
-        }
-        else return false;
-    }
-    @Override
-    public Boolean addIntroduce(Integer group_id,String group_introduce,HttpSession session){
-        Integer group_hostid=(Integer) session.getAttribute("user_id");
-        int res=updateGroupInfoDao.addIntroduce(group_id,group_introduce,group_hostid);
-        if(res==1){
-            return true;
-        }
-        else return false;
+        } else return false;
     }
 }
+

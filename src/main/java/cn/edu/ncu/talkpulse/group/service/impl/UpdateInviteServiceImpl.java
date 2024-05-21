@@ -13,9 +13,9 @@ public class UpdateInviteServiceImpl implements UpdateInviteService {
     @Autowired
     private UpdateInviteDao updateInviteDao;
     @Override
-    public Boolean updateinvite(Integer groupvalidation_id, Integer groupvalidation_senderid, HttpSession session, Integer groupvalidation_groupid, String groupvalidation_status, String groupvalidation_readstatus, LocalDateTime groupvalidation_time){
+    public Boolean updateinvite(Integer groupvalidation_senderid, HttpSession session, Integer groupvalidation_groupid, String groupvalidation_status, String groupvalidation_readstatus, LocalDateTime groupvalidation_time){
         Integer groupvalidation_receiverid=(Integer) session.getAttribute("user_id");
-        int res=updateInviteDao.updateinvite(groupvalidation_id,groupvalidation_senderid,groupvalidation_receiverid,groupvalidation_groupid,groupvalidation_status,groupvalidation_readstatus,groupvalidation_time);
+        int res=updateInviteDao.updateinvite(groupvalidation_senderid,groupvalidation_receiverid,groupvalidation_groupid,groupvalidation_status,groupvalidation_readstatus,groupvalidation_time);
         if(res==1){
             return true;
         }else return false;

@@ -18,15 +18,10 @@ public class UpdateGroupInfoServiceTest {
     @Autowired
     private HttpSession session;
     @Test
-    public void TestDelete(){
+    public void TestUpdate(){
         session.setAttribute("user_id",11);
-        Boolean flag=updateGroupInfoService.deleteIntroduce(1,"welocome",session);
+        Boolean flag=updateGroupInfoService.updateGroupIntroduce("hallo",1,session);
         System.out.println(flag);
     }
-    @Test
-    public void TestAdd(){
-        session.setAttribute("user_id",11);
-        Boolean flag=updateGroupInfoService.addIntroduce(1,"welcome to",session);
-        System.out.println(flag);
-    }
+
 }

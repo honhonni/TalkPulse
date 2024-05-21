@@ -13,9 +13,9 @@ public class InviteServiceImpl implements InviteService {
     @Autowired
     private InviteDao inviteDao;
     @Override
-    public Boolean invite(Integer groupvalidation_id, Integer groupvalidation_receiverid, Integer groupvalidation_groupid, LocalDateTime groupvalidation_time, HttpSession session){
+    public Boolean invite( Integer groupvalidation_receiverid, Integer groupvalidation_groupid, LocalDateTime groupvalidation_time, HttpSession session){
         Integer groupvalidation_senderid=(Integer) session.getAttribute("user_id");
-        int res= inviteDao.invite(groupvalidation_id,groupvalidation_senderid,groupvalidation_receiverid,groupvalidation_groupid,groupvalidation_time);
+        int res= inviteDao.invite(groupvalidation_senderid,groupvalidation_receiverid,groupvalidation_groupid,groupvalidation_time);
         if(res==1){
             return true ;
         }else{
