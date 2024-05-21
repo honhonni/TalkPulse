@@ -20,6 +20,8 @@ public class FriendController {
     @Autowired
     private FriendService friendService;
 
+
+
     @Autowired
     private ValidationService validationService;
 
@@ -30,7 +32,7 @@ public class FriendController {
         return (Integer) request.getSession().getAttribute("user_id");
     }
 
-
+    //根据用户号查询信息接口
     @GetMapping("/search")
     public Result search(@RequestParam("user_id") Integer userId,
                          HttpServletRequest request) {
@@ -85,4 +87,27 @@ public class FriendController {
         if(uid==null) return Result.fail("非法请求，请先登录");
         return validationService.removeFriend(uid, friendId, friendshipId);
     }
+
+    //获取好友分组信息接口
+    @GetMapping("/getFriendship")
+    public Result getFriendship(
+                         HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        JSONObject data  = friendService.getFriendship(session);
+
+        if(data!=null) return Result.success(data);
+        else return Result.fail();
+    }
+
+    //创建新的好友分组接口
+    @PostMapping("/createFriendship")
+    public Result createFriendship(@RequestParam("friendship_name") String friendshipName,
+                         HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        JSONObject data  = friendService.createFriendship(friendshipName, session);
+
+        if(data!=null) return Result.success(data);
+        else return Result.fail();
+    }
+
 }

@@ -21,9 +21,9 @@ public interface FriendService {
 //    }
 //
     // 获取用户的好友分组列表
-    JSONObject getFriendGroups( HttpSession session);
+    JSONObject getFriendship( HttpSession session);
 
-    JSONObject createFriendGroup(String friendshipName, Integer userId);
+    JSONObject createFriendship(String friendshipName, HttpSession session);
 
     JSONObject search(Integer userId, HttpSession session);
 

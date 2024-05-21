@@ -2,7 +2,10 @@ package cn.edu.ncu.talkpulse.friends.dao;
 
 import cn.edu.ncu.talkpulse.friends.entity.Friend;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
+import com.alibaba.fastjson2.JSONObject;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface FriendshipDao {
@@ -27,5 +30,9 @@ public interface FriendshipDao {
     @Select("select * from friendship where creat_id = #{uid} and friendship_id = #{friendShipId}")
     Friendship getFriendShipById(@Param("uid") Integer uid, @Param("friendShipId") Integer friendShipId);
 
-
+    //创建好友分组
+    @Insert("INSERT INTO friendship (friendship_name, creat_id) VALUES (#{friendshipName}, #{creatId})")
+    int createFriendship(@Param("friendshipName") String friendshipName, @Param("creatId") Integer creatId);
+    @Select("SELECT COUNT(*) FROM friendship WHERE friendship_name = #{friendshipName}")
+    int countByFriendshipName(@Param("friendshipName") String friendshipName);
 }
