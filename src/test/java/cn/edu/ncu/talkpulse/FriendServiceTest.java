@@ -2,7 +2,6 @@ package cn.edu.ncu.talkpulse;
 
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
 import com.alibaba.fastjson2.JSONObject;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +27,11 @@ public class FriendServiceTest {
         JSONObject data  = friendService.search(1, session);
         System.out.println(data);
     }
-
+    @Test
+    public void testFriendGroups(){
+        session.setAttribute("user_id",555555);
+        JSONObject data  = friendService.getFriendGroups( session);
+        System.out.println(data);
+    }
 
 }
