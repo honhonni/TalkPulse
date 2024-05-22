@@ -1,35 +1,16 @@
 $(function (){
+    // 存储好友验证列表
+    let validation = []
+    // 获取好友验证列表
+    getValidaionList()
 
 
-    var res = {
-        status: 200,
-        message: "ok",
-        data: [
-            {
-                friendship_name: '我的好友',
-                friends: [
-                    {user_id: '1', user_name: '张三', user_photo: '/images/avatar/defualt.png'},
-                    {user_id: '2', user_name: '李四', user_photo: '/images/avatar/defualt.png'},
-                    {user_id: '3', user_name: '王五', user_photo: '/images/avatar/defualt.png'},
-                ]
-            },
-            {
-                friendship_name: '同学',
-                friends: [
-                    {user_id: '4', user_name: '赵六', user_photo: '/images/avatar/defualt.png'},
-                ]
-            },
-            {
-                friendship_name: '死党',
-                friends: [
-                    {user_id: '5', user_name: '孙七', user_photo: '/images/avatar/defualt.png'},
-                    {user_id: '6', user_name: '周八', user_photo: '/images/avatar/defualt.png'},
-                ]
-            }
-        ]
-    }
-
-
+    let res = [
+        {
+            friendship_name: '我的好友',
+            friends: []
+        }
+    ]
     // 好友列表
     var htmlStr = template('tpl-friends-list', res)
     $('.friends-list').html(htmlStr).on('click','.friends-group', function (){
@@ -47,15 +28,26 @@ $(function (){
     // 搜索好友
     $('#search-friends').on('keydown', function(event) {
         if (event.which === 13) { // 13代表回车键的键码
-            console.log($(this).val())
             $.ajax({
                 method: 'get',
                 url: '/friends/search',
                 data: {user_id: $(this).val()},
                 success: function (res){
                     if( res.status !== 200){
-                        $('.search-friends-info-box').html("<br>未查询到相关用户<br>")
+                        $('.search-friends-info-box').html("<br><h4>未查询到相关用户</h4><br>")
                         return
+                    }
+                    for(var i in validation.validationlist){
+                        if(validation.validationlist[i].validation_senderid == res.data.data.user_id){
+                            res.data.isfriend = 'received'
+                            break
+                        }
+                    }
+                    for(var i in validation.applylist){
+                        if(validation.applylist[i].validation_senderid == res.data.data.user_id){
+                            res.data.isfriend = 'sended'
+                            break
+                        }
                     }
                     var htmlStr = template( 'tpl-search-friends-info', res.data)
                     $('.search-friends-info-box').html(htmlStr)
@@ -77,7 +69,7 @@ $(function (){
                 if(res.status !== 200){
                     return $('.search-friends-info-box .row2 span').eq(1).html('发送好友申请失败')
                 }
-                $('.search-friends-info-box .row1 button').remove()
+                $('.search-friends-info-box .row1 div').remove()
                 $('.search-friends-info-box .row2 span').eq(1).html('发送好友申请成功')
             }
         })
@@ -85,20 +77,8 @@ $(function (){
 
 
 
-
-
-    // 好友验证列表
-    $('.friends-validation-group').click(function (){
-        var class_string = $(this).find('span').eq(0).attr('class')
-        if(class_string.indexOf('right') >= 0){
-            // console.log(this)
-            $(this).find('span').eq(0).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
-            $(this).siblings().show()
-        }else{
-            $(this).find('span').eq(0).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
-            $(this).siblings().hide()
-        }
-        // 获取好友验证列表
+    // 获取好友验证列表
+    function getValidaionList(){
         $.ajax({
             method: 'get',
             url: '/friends/getValidation',
@@ -107,34 +87,62 @@ $(function (){
                 if(res.status !== 200){
                     return console.log('获取验证列表失败！')
                 }
-                console.log(res)
-                for(let i = 0; i < res.data.length; i++){
-                    var validation = res.data[i]
-                    // 根据发起申请者id获取用户详细信息
-                    $.ajax({
-                        method: 'get',
-                        url: '/friends/search',
-                        data: {user_id: validation.validation_senderid},
-                        success: function (user){
-                            console.log(user)
-                            if(user.status != 200){
-                                return console.log('获取验证列表详细信息失败！')
-                            }
-                            res.data[i].data = user.data.data
-                            var htmlStr = template( 'tpl-friends-verify-list',res)
-                            $('.friends-verify-list').html(htmlStr)
+                validation = res.data
 
-
-                            $('.friends-verify-list>button[readstatus=\'0\']').css('background-color', '#fcf8e3ff')
-
+                // 好友验证列表及绑定事件
+                var htmlStr = template( 'tpl-friends-validation-list',res)
+                $('.friends-validation-list').html(htmlStr)
+                    // 验证列表事件绑定
+                    .on('click','.friends-validation-group',function (){
+                        var class_string = $(this).find('span').eq(0).attr('class')
+                        if(class_string.indexOf('right') >= 0){
+                            // console.log(this)
+                            $(this).find('span').eq(0).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
+                            $(this).siblings().show()
+                        }else{
+                            $(this).find('span').eq(0).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
+                            $(this).siblings().hide()
                         }
                     })
+                    // 申请列表事件绑定
+                    .on('click','.friends-apply-group',function (){
+                        var class_string = $(this).find('span').eq(0).attr('class')
+                        if(class_string.indexOf('right') >= 0){
+                            // console.log(this)
+                            $(this).find('span').eq(0).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
+                            $(this).siblings().show()
+                        }else{
+                            $(this).find('span').eq(0).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
+                            $(this).siblings().hide()
+                        }
+                    })
+                // 绑定数字
+                let verify_count = 0
+                // 记录有多少条未处理事件
+                for(var i in validation.validationlist){
+                    if(validation.validationlist[i].validation_status === 0){
+                        verify_count++
+                    }
                 }
+                var verify = $('.friends-validation-list').find('#verify-count')
+                verify.attr('verify_count',verify_count)
+                if(verify_count > 99){
+                    verify.html('99+').show()
+                }else if( verify_count > 0){
+                    verify.html(verify_count).show()
+                }else{
+                    verify.html(0).hide()
+                }
+                window.parent.setFriendsCount(verify_count)
+                // 第一次查看显示特殊颜色
+                $('.friends-validation-list>button[readstatus=\'0\']').css('background-color', '#fcf8e3ff')
             }
         })
-    })
+    }
+    window.getValidaionList = getValidaionList
+
     // 同意与拒绝好友申请
-    $('.friends-verify-list').on('click','.checkbox span',function (){
+    $('.friends-validation-list').on('click','.checkbox span',function (){
         var class_string = $(this).attr('class')
         var data = {}
         data.validation_id = $(this).parent().attr('aid')
@@ -162,6 +170,18 @@ $(function (){
                 console.log('好友申请处理成功')
                 $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(htmlStr)
 
+                // 绑定数字
+                var verify = $('.friends-validation-list').find('#verify-count')
+                let verify_count = Number(verify.attr('verify_count')) - 1
+                verify.attr('verify_count', verify_count)
+                if(verify_count > 99){
+                    verify.html('99+').show()
+                }else if( verify_count > 0){
+                    verify.html(verify_count).show()
+                }else{
+                    verify.html(0).hide()
+                }
+                window.parent.setFriendsCount(verify_count)
             }
         })
 
