@@ -45,12 +45,7 @@ public interface FriendDao {
     // 获取好友分组信息
 
     @Select("SELECT * FROM Friendship WHERE creat_id = #{userId}")
-    List<Friendship> getFriendGroups(@Param("userId") Integer userId);
-
-    // 创建好友分组
-    @Insert("INSERT INTO Friendship (friendshipName, user_id) VALUES (#{friendshipName}, #{user_id})")
-    @Options(useGeneratedKeys = true, keyProperty = "friendshipId")
-    int createFriendGroup(@Param("friendshipName") String friendshipName, @Param("user_id") Integer userId);
+    List<Friendship> getFriendship(@Param("userId") Integer userId);
 
 
 

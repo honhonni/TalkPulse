@@ -2,6 +2,8 @@ package cn.edu.ncu.talkpulse.controller;
 
 import cn.edu.ncu.talkpulse.account.service.AccountService;
 import cn.edu.ncu.talkpulse.dto.Result;
+import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
+import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
 import cn.edu.ncu.talkpulse.friends.entity.Validation;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
 import cn.edu.ncu.talkpulse.friends.service.ValidationService;
@@ -11,7 +13,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -19,6 +23,8 @@ import java.util.List;
 public class FriendController {
     @Autowired
     private FriendService friendService;
+
+
 
     @Autowired
     private ValidationService validationService;
@@ -30,7 +36,7 @@ public class FriendController {
         return (Integer) request.getSession().getAttribute("user_id");
     }
 
-
+    //根据用户号查询信息接口
     @GetMapping("/search")
     public Result search(@RequestParam("user_id") Integer userId,
                          HttpServletRequest request) {
@@ -49,24 +55,28 @@ public class FriendController {
         return validationService.sendValidation(uid, friendId);
     }
 
-    // 接收好友申请接口
+    // 接收好友申请接口（获取用户发送和接受到的好友申请）
     @GetMapping("/getValidation")
     public Result getValidation(){
         Integer uid = getUserIdFromSession();
         if(uid==null) return Result.fail("非法请求，请先登录");
-        List<Validation> validations = validationService.getValidation(uid);
-        if(validations==null) return Result.fail();
-        else return Result.success(validations);
+        List<ValidationSenderDTO> validationList = validationService.getValidation(uid);
+        List<ValidationReceiverDTO> applyList = validationService.getMyValidation(uid);
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("validationlist", validationList);
+        dataMap.put("applylist", applyList);
+        return Result.success(dataMap);
     }
 
-    @GetMapping("/getMyValidation")
+    /*@GetMapping("/getMyValidation")
+    @Deprecated // 弃用
     public Result getMyValidation(){
         Integer uid = getUserIdFromSession();
         if(uid==null) return Result.fail("非法请求，请先登录");
         List<Validation> validations = validationService.getMyValidation(uid);
         if(validations==null) return Result.fail();
         else return Result.success(validations);
-    }
+    }*/
 
     // 处理好友申请接口
     @PostMapping("/handleValidation")
@@ -85,4 +95,27 @@ public class FriendController {
         if(uid==null) return Result.fail("非法请求，请先登录");
         return validationService.removeFriend(uid, friendId, friendshipId);
     }
+
+    //获取好友分组信息接口
+    @GetMapping("/getFriendship")
+    public Result getFriendship(
+                         HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        JSONObject data  = friendService.getFriendship(session);
+
+        if(data!=null) return Result.success(data);
+        else return Result.fail();
+    }
+
+    //创建新的好友分组接口
+    @PostMapping("/createFriendship")
+    public Result createFriendship(@RequestParam("friendship_name") String friendshipName,
+                         HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        JSONObject data  = friendService.createFriendship(friendshipName, session);
+
+        if(data!=null) return Result.success(data);
+        else return Result.fail();
+    }
+
 }
