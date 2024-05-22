@@ -289,19 +289,18 @@
         <div class="layui-form-item">
             <label class="layui-form-label">群名称</label>
             <div class="layui-input-inline layui-input-wrap">
-                <input type="text" name="group_name" lay-verify="required|group_name" autoComplete="off" class="layui-input" />
+                <input type="text" name="group_name" lay-verify="required|gname" autoComplete="off" class="layui-input" />
             </div>
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">群介绍</label>
             <div class="layui-input-block">
-                <textarea name="group_introduce" lay-verify="required|introduce" class="layui-textarea"></textarea>
+                <textarea name="group_introduce" lay-verify="required|gintroduce" class="layui-textarea"></textarea>
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button type="submit" class="layui-btn" lay-submit lay-filter="demo1">创建</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button type="submit" class="layui-btn" lay-submit lay-filter="create">创建</button>
             </div>
         </div>
     </form>

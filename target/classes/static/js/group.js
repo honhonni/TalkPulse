@@ -32,116 +32,106 @@ $(function (){
     // 绑定事件
     $('.groups-list').on('click', 'button', function (){
         if($(this).prop('id') == 'create-group'){
-
-            // console.log($(this).attr("gid"))
+            // 显示创建群聊模板
             infoStr = template('tpl-create-group', res.data[0][3])
             $('.info-box').html(infoStr)
 
-            var layer = layui.layer
+            layui.use(['form'], function(){
+                var form = layui.form;
+                var layer = layui.layer;
 
-            // 1.1 获取裁剪区域的 DOM 元素
-            var $image = $('#image')
-            // 1.2 配置选项
-            const options = {
-                // 纵横比
-                aspectRatio: 1,
-                // 指定预览区域
-                preview: '.img-preview'
-            }
+                // 自定义验证规则
+                form.verify({
+                    gid: [
+                        /^[1-9][0-9]{7}$/,
+                        "UID 为 8 位数字(开头不为0)"
+                    ],
+                    gname: [
+                        /^[\S]{0,6}$/,
+                        "群名称 为 0-6 位任意字符"
+                    ],
+                    gintroduce: [
+                        /^[\S]{0,20}$/,
+                        "群介绍 最多 20 位任意字符"
+                    ],
+                });
 
-            // 1.3 创建裁剪区域
-            $image.cropper(options)
 
-            $('#bnt-choose-img').on('click',function(){
-                $('#file').click()
-                console.log($(this))
-            })
-
-            $('#file').on('change',function(e){
-                // console.log(e)
-
-                var fileList = e.target.files
-                if(fileList.length === 0){
-                    return layer.msg("请选择文件!")
+                // 1.1 获取裁剪区域的 DOM 元素
+                var $image = $('#image')
+                // 1.2 配置选项
+                const options = {
+                    // 纵横比
+                    aspectRatio: 1,
+                    // 指定预览区域
+                    preview: '.img-preview'
                 }
 
-                var newImgURL = URL.createObjectURL(fileList[0])
+                // 1.3 创建裁剪区域
+                $image.cropper(options)
 
-                $image
-                    .cropper('destroy')      // 销毁旧的裁剪区域
-                    .attr('src', newImgURL)  // 重新设置图片路径
-                    .cropper(options)        // 重新初始化裁剪区域
-
-
-            })
-            $('#btn-upload').on('click',function(){
-                // 1. 拿到用户裁剪后的 图片
-                var dataURL = $image
-                    .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
-                        width: 100,
-                        height: 100
-                    })
-                    .toDataURL('image/png')       // 将 Canvas 画布上的内容，转化为 base64 格式的字符串
-
-                var raw = JSON.stringify({
-                    "avatar": dataURL
-                })
-                // 2. 上传图片
-
-                // $.ajax({
-                //     method: 'patch',
-                //     url: '/my/update/avatar',
-                //     data: raw,
-                //     headers: {"Content-Type": "application/json"},
-                //     success:function(res) {
-                //         if(res.code !==0 ){
-                //             return layer.msg('更换头像失败！')
-                //         }
-                //         layer.msg('更新头像成功！')
-                //         window.parent.getUserInfo()
-                //     }
-                // })
-            })
-
-            $('.info-box').on('submit','.layui-form',function(e){
-                e.preventDefault()
-                // 获取群头像
-                var dataURL = $image
-                    .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
-                        width: 100,
-                        height: 100
-                    })
-                    .toDataURL('image/png')       // 将 Canvas 画布上的内容，转化为 base64 格式的字符串
-                dataURL = dataURL.replace("data:image/png;base64,","")
-                // 获取表单数据
-                var formData = $(this).serializeArray()
-                var data = {}
-                $.each(formData,function(index,field){
-                    data[field.name] = field.value
+                $('#bnt-choose-img').on('click',function(){
+                    $('#file').click()
+                    console.log($(this))
                 })
 
-                $.ajax({
-                    method: 'post',
-                    url: '/group/create',
-                    data: data,
-                    headers: {"Content-Type": "application/x-www-form-urlencoded"},
-                    success: function(res){
-                        if(res.status !== 200){
-                            return layer.msg(res.message)
-                        }
-                        layer.msg(res.message)
-                        // 调用父页面的方法，重新渲染用户的头像和用户信息
-                        var newGroup = "\n" +
-                            "    <button type=\"button\" class=\"list-group-item\" gid=\"{{$value.GID}}\">\n" +
-                            "        <img src=\""+"/images/avatar/defualt.png"+"\" class=\"group-photo\">\n" +
-                            "        "+data.group_name+"\n" +
-                            "    </button>"
-                        $('.my-groups button').last().before(newGroup)
-                        $(".my-groups button").eq(-2).click()
+                $('#file').on('change',function(e){
+                    // console.log(e)
+
+                    var fileList = e.target.files
+                    if(fileList.length === 0){
+                        return layer.msg("请选择文件!")
                     }
+
+                    var newImgURL = URL.createObjectURL(fileList[0])
+
+                    $image
+                        .cropper('destroy')      // 销毁旧的裁剪区域
+                        .attr('src', newImgURL)  // 重新设置图片路径
+                        .cropper(options)        // 重新初始化裁剪区域
                 })
-            })
-            return
+
+                // 创建群聊事件
+                form.on('submit(create)',function(fdata){
+                    var field = fdata.field; // 获取表单字段值
+                    // 获取群头像
+                    var dataURL = $image
+                        .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
+                            width: 100,
+                            height: 100
+                        })
+                        .toDataURL('image/png')       // 将 Canvas 画布上的内容，转化为 base64 格式的字符串
+                    var img = dataURL.replace("data:image/png;base64,","")
+
+                    var data = {}
+                    for(var k in field){
+                        data[k] = field[k]
+                    }
+                    data.group_photo = img
+                    $.ajax({
+                        method: 'post',
+                        url: '/group/create',
+                        data: data,
+                        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                        success: function(res){
+                            if(res.status !== 200){
+                                return layer.msg(res.message)
+                            }
+                            layer.msg(res.message)
+                            // 调用父页面的方法，重新渲染用户的头像和用户信息
+                            var newGroup = "\n" +
+                                "    <button type=\"button\" class=\"list-group-item\" gid=\""+data.group_id+"\">\n" +
+                                "        <img src=\""+dataURL+"\" class=\"group-photo\">\n" +
+                                "        "+data.group_name+"\n" +
+                                "    </button>"
+                            $('.my-groups button').last().before(newGroup)
+                            $(".my-groups button").eq(-2).click()
+                        }
+                    })
+                    return false
+                })
+
+            });
         }else{
             // ajax获取群聊信息
             infoStr = template('tpl-info', res.data[0][0])
@@ -151,7 +141,4 @@ $(function (){
 
 
 
-})
-
-$(function(){
 })
