@@ -52,7 +52,6 @@ public class FriendServiceImpl implements FriendService {
             if(friend != null){
                 data.put("isfriend", true );
                 return data;
-
             }else{
                 data.put("isfriend", false );
                 return data;

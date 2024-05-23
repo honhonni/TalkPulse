@@ -149,7 +149,7 @@ $(function (){
         if (event.which === 13) { // 13代表回车键的键码
             $.ajax({
                 method: 'get',
-                url: '/friends/search',
+                url: '/group/getGroupInfo',
                 data: {user_id: $(this).val()},
                 success: function (res){
                     if( res.status !== 200){
@@ -164,7 +164,7 @@ $(function (){
                     //     }
                     // }
                     // for(var i in validation.applylist){
-                    //     if(validation.applylist[i].validation_senderid == res.data.data.user_id
+                    //     if(validation.applylist[i].validation_receiverid == res.data.data.user_id
                     //         && validation.applylist[i].validation_status == 0){
                     //         res.data.isfriend = 'sended'
                     //         break

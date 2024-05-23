@@ -149,27 +149,27 @@ $(function (){
         if (event.which === 13) { // 13代表回车键的键码
             $.ajax({
                 method: 'get',
-                url: '/friends/search',
+                url: '/group/getGroupInfo',
                 data: {user_id: $(this).val()},
                 success: function (res){
                     if( res.status !== 200){
                         $('.search-groups-info-box').html("<br><h4>未查询到相关群聊</h4><br>")
                         return
                     }
-                    for(var i in validation.validationlist){
-                        if(validation.validationlist[i].validation_senderid == res.data.data.user_id
-                            && validation.validationlist[i].validation_status == 0){
-                            res.data.isfriend = 'received'
-                            break
-                        }
-                    }
-                    for(var i in validation.applylist){
-                        if(validation.applylist[i].validation_receiverid == res.data.data.user_id
-                            && validation.applylist[i].validation_status == 0){
-                            res.data.isfriend = 'sended'
-                            break
-                        }
-                    }
+                    // for(var i in validation.validationlist){
+                    //     if(validation.validationlist[i].validation_senderid == res.data.data.user_id
+                    //         && validation.validationlist[i].validation_status == 0){
+                    //         res.data.isfriend = 'received'
+                    //         break
+                    //     }
+                    // }
+                    // for(var i in validation.applylist){
+                    //     if(validation.applylist[i].validation_receiverid == res.data.data.user_id
+                    //         && validation.applylist[i].validation_status == 0){
+                    //         res.data.isfriend = 'sended'
+                    //         break
+                    //     }
+                    // }
                     var htmlStr = template( 'tpl-search-groups-info', res.data)
                     $('.search-groups-info-box').html(htmlStr)
                 }

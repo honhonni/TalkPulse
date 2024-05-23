@@ -201,7 +201,7 @@
         <img src="{{data.user_photo}}" class="search-groups-photo">
         <div class="box">
             <div class="row1">
-                <span>{{data.user_id}}</span>
+                <span>{{data.group_id}}</span>
                 {{if present == false}}
                 <div class="checkbox">
                     <span id="add">添加群聊</span>
@@ -209,15 +209,15 @@
                 {{/if}}
             </div>
             <div class="row2">
-                <span>{{data.user_name}}</span>
+                <span>{{data.group_name}}</span>
                 {{if present == 'received'}}
                 <span>对方给您发来了好友申请</span>
                 {{else if present == 'sended'}}
                 <span>您已发送过申请</span>
                 {{else if present == true}}
-                <span>对方已是您的好友</span>
+                <span>您已在该群内</span>
                 {{else}}
-                <span>请谨慎添加陌生人为好友</span>
+                <span>请谨慎添加陌生群聊</span>
                 {{/if}}
             </div>
         </div>
