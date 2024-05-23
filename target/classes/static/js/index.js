@@ -27,6 +27,7 @@ $(function (){
 
     // websocket连接，用于接收有关自己的消息
     const  url = 'ws://'+window.location.host+'/ws/'+localStorage.getItem('user_id');
+    console.log(url)
     const ws = new WebSocket(url)
     // 连接成功后的回调函数
     ws.onopen = function (params) {
@@ -44,7 +45,7 @@ $(function (){
                 ele.html(count).show()
             }
         }else if( e.data === '2'){
-            // 群申请有消息
+            // 好友申请有消息
             // 获取第二个元素
             var ele = $('.count').eq(1)
             var count = Number(ele.attr('count')) + 1
@@ -68,6 +69,8 @@ $(function (){
             }
 
         }else if( e.data === '3'){
+            // 群申请有消息
+            // 获取第三个元素
             var ele = $('.count').eq(2)
             var count = Number(ele.attr('count')) + 1
             ele.attr('count',count)
@@ -75,6 +78,18 @@ $(function (){
                 ele.html('99+').show()
             }else if( count > 0){
                 ele.html(count).show()
+            }
+            var iframe = $('#inlineFrame').contents();
+            if(iframe[0].title === '群聊'){
+                // console.log('当前在friends页面下')
+                var verify = iframe.find('#verify-count')
+                var verify_count = Number(verify.attr('verify_count')) + 1
+                verify.attr('verify_count',verify_count)
+                if(verify_count > 99){
+                    verify.html('99+').show()
+                }else if( verify_count > 0){
+                    verify.html(verify_count).show()
+                }
             }
         }
     };
@@ -94,6 +109,7 @@ $(function (){
     window.onbeforeunload = function() {
         ws.close();
     }
+
 
 
     function getUserInfo(){
@@ -128,6 +144,17 @@ $(function (){
     window.getUserInfo = getUserInfo
     window.setFriendsCount = function (count){
         var ele = $('.count').eq(1)
+        ele.attr('count',count)
+        if(count > 99){
+            ele.html('99+').show()
+        }else if( count > 0){
+            ele.html(count).show()
+        }else{
+            ele.html(0).hide()
+        }
+    }
+    window.setGroupsCount = function (count){
+        var ele = $('.count').eq(2)
         ele.attr('count',count)
         if(count > 99){
             ele.html('99+').show()
