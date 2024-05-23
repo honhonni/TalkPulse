@@ -1,18 +1,16 @@
 package cn.edu.ncu.talkpulse.group.dao;
 
+import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import jakarta.servlet.http.HttpSession;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UpdateGroupInfoDao {
 
-    @Update("UPDATE GroupInfo SET group_introduce = #{group_introduce} WHERE group_id = #{group_id} AND group_hostid = #{group_hostid};")
+    @Update("UPDATE GroupInfo SET group_introduce = #{group_introduce} WHERE group_id = #{group_id} AND group_hostid = #{group_hostid}")
     int updateGroupIntroduce(String group_introduce, Integer group_id, Integer group_hostid);//修改群聊简介
 
-
-
+    @Select("SELECT group_introduce from groupinfo and corre where group_id=#{group_id} and correuser_id=#{correuser_id}")
+    Groupinfo getGroupInfo(@Param("group_id")Integer group_id,@Param("correuser_id")Integer correuser_id);//获取群聊简介
 
 }

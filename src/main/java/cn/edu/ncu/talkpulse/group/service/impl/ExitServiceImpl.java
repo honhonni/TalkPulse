@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class ExitServiceImpl implements ExitService {
     @Autowired
     private ExitDao exitDao;
+
     @Override
     public  Boolean exitGroup(Integer corregroup_id, HttpSession session) {
         Groupinfo group_hostid = ExitDao.judgeHost(corregroup_id);
