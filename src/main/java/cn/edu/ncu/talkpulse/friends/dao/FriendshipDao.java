@@ -35,4 +35,6 @@ public interface FriendshipDao {
     int createFriendship(@Param("friendshipName") String friendshipName, @Param("creatId") Integer creatId);
     @Select("SELECT COUNT(*) FROM friendship WHERE friendship_name = #{friendshipName}")
     int countByFriendshipName(@Param("friendshipName") String friendshipName);
+
+
 }
