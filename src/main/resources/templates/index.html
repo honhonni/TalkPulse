@@ -143,7 +143,11 @@
                     </li>
                     <li class="list-group-item">
                         <span>年龄:</span>
+                        {{if user_age == -1}}
+                        <span>未设置</span>
+                        {{else}}
                         <span>{{user_age}}</span>
+                        {{/if}}
                     </li>
                     <li class="list-group-item">
                         <span>个性签名:</span>

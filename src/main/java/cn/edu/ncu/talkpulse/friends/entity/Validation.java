@@ -22,19 +22,6 @@ public class Validation {
     // 申请时间
     private LocalDateTime validation_time;
 
-    // 发送者头像
-    private String validation_sender_photo;
-
-    // 接收者头像
-    private String validation_receiver_photo;
-
-    // 发送者头像
-    private String validation_sender_name;
-
-    // 接收者头像
-    private String validation_receiver_name;
-
-
     public LocalDateTime getValidation_time() {
         return validation_time;
     }

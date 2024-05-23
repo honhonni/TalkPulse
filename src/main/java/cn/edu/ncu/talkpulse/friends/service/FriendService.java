@@ -2,12 +2,8 @@ package cn.edu.ncu.talkpulse.friends.service;
 
 
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
-import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -16,9 +12,18 @@ public interface FriendService {
 
     List<UserInfo> getFriendsList(Integer userId);
 
-    List<Friendship> getFriendGroups(Long userId);
 
-    int createFriendGroup(String friendshipName, Long userId);
+
+    // 获取用户的好友分组列表
+//    @Override
+//    public List<Friendship> getFriendGroups(Integer userId) {
+//        return friendDao.getFriendGroups(userId);
+//    }
+//
+    // 获取用户的好友分组列表
+    JSONObject getFriendship( HttpSession session);
+
+    JSONObject createFriendship(String friendshipName, HttpSession session);
 
     JSONObject search(Integer userId, HttpSession session);
 

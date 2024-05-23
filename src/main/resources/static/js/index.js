@@ -26,7 +26,7 @@ $(function (){
     })
 
     // websocket连接，用于接收有关自己的消息
-    const  url = 'ws://localhost/ws/'+localStorage.getItem('user_id');
+    const  url = 'ws://'+window.location.host+'/ws/'+localStorage.getItem('user_id');
     const ws = new WebSocket(url)
     // 连接成功后的回调函数
     ws.onopen = function (params) {
@@ -44,6 +44,8 @@ $(function (){
                 ele.html(count).show()
             }
         }else if( e.data === '2'){
+            // 群申请有消息
+            // 获取第二个元素
             var ele = $('.count').eq(1)
             var count = Number(ele.attr('count')) + 1
             ele.attr('count',count)
@@ -114,9 +116,9 @@ $(function (){
 
                 var htmlStr = template('tpl-info-dropdown', res.data)
                 $('.dropdown').html(htmlStr)
-                for(let k in localStorage){
-                    localStorage[k] = ''
-                }
+                // for(let k in localStorage){
+                //     localStorage[k] = ''
+                // }
                 for(let k in res.data){
                     localStorage.setItem( k , res.data[k])
                 }
@@ -124,4 +126,15 @@ $(function (){
         })
     }
     window.getUserInfo = getUserInfo
+    window.setFriendsCount = function (count){
+        var ele = $('.count').eq(1)
+        ele.attr('count',count)
+        if(count > 99){
+            ele.html('99+').show()
+        }else if( count > 0){
+            ele.html(count).show()
+        }else{
+            ele.html(0).hide()
+        }
+    }
 })

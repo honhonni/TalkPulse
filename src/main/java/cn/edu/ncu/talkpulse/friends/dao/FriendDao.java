@@ -1,9 +1,7 @@
 package cn.edu.ncu.talkpulse.friends.dao;
 
-import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.friends.entity.Friend;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
-import cn.edu.ncu.talkpulse.friends.entity.Validation;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import org.apache.ibatis.annotations.*;
 
@@ -38,20 +36,16 @@ public interface FriendDao {
     Friend isfriend(@Param("myId") Integer myId, @Param("userId") Integer userId);
     // 获取好友列表
     @Select("SELECT * FROM Friend WHERE firstid = #{user_id}")
-    List<Friendship> getFriendsList(@Param("user_id") Long userId);
+    List<Friendship> getFriendsList(@Param("user_id") Integer userId);
 
     // 获取所在群列表
     @Select("SELECT * FROM GroupMember WHERE user_id = #{user_id}")
-    List<Groupinfo> getUserGroups(@Param("user_id") Long userId);
+    List<Groupinfo> getUserGroups(@Param("user_id") Integer userId);
 
     // 获取好友分组信息
-    @Select("SELECT * FROM Friendship WHERE user_id = #{user_id}")
-    List<Friendship> getFriendGroups(@Param("user_id") Long userId);
 
-    // 创建好友分组
-    @Insert("INSERT INTO Friendship (friendshipName, user_id) VALUES (#{friendshipName}, #{user_id})")
-    @Options(useGeneratedKeys = true, keyProperty = "friendshipId")
-    int createFriendGroup(@Param("friendshipName") String friendshipName, @Param("user_id") Long userId);
+    @Select("SELECT * FROM Friendship WHERE creat_id = #{userId}")
+    List<Friendship> getFriendship(@Param("userId") Integer userId);
 
 
 
