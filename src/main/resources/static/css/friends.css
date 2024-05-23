@@ -107,9 +107,66 @@
     display: inline-block;
     width: 100px;
     height: 36px;
-    font-size: 14px;
+    font-size: 20px;
     text-align: center;
 }
+
+.custom-select {
+    position:relative;
+    display:inline-block;
+}
+
+.custom-select select {
+    display:none;/* 隐藏原生下拉框 */
+}
+
+.select-selected {
+    background-color:#f2f2f2;
+    padding-left: 20px;
+    padding-right: 40px;
+    cursor:pointer;
+    /*display: inline-block;*/
+    min-width: 160px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 20px;
+    text-align: left;
+}
+
+.select-selected:after {
+    content:"\25BC";/* 使用Unicode字符表示向下箭头 */
+    position:absolute;
+    top:50%;
+    right:10px;
+    transform:translateY(-50%);
+}
+
+.select-items {
+    position:absolute;
+    background-color:#f9f9f9;
+    min-width:160px;
+    max-height:200px;
+    overflow-y:auto;
+    box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+    display:none;
+    z-index:1;
+}
+
+.select-items div {
+    padding:12px 16px;
+    cursor:pointer;
+}
+
+.select-items div:hover {
+    background-color:#f2f2f2;
+}
+
+.add-option-input {
+    padding:10px;
+}
+
+
+
 
 #delete{
     width: 100px;

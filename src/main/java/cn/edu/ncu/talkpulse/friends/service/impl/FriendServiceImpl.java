@@ -118,25 +118,17 @@ public class FriendServiceImpl implements FriendService {
     }
     // 获取用户的好友分组信息
     @Override
-    public JSONObject getFriendship(HttpSession session) {
+    public List<Friendship> getFriendship(HttpSession session) {
         Integer userId = (Integer) session.getAttribute("user_id");
 
         List<Friendship> getFriendship = friendDao.getFriendship(userId);
         JSONObject data = new JSONObject();
-        System.out.println(getFriendship);
 
         if (getFriendship != null && !getFriendship.isEmpty()) {
-            // 如果查询结果非空，就返回这些分组信息
-            data.put("status", 200);
-            data.put("message", "Success");
-            data.put("data", getFriendship);
+            return getFriendship;
         } else {
-            // 如果查询结果为空，说明该用户没有好友分组，或查询失败
-            data.put("status", 201);
-            data.put("message", "No Content");
-            data.put("data", "没有找到好友分组或用户不存在");
+            return null;
         }
-        return data;
     }
     //创建好友分组
     @Override
