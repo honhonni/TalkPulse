@@ -1,6 +1,7 @@
 package cn.edu.ncu.talkpulse;
 
 import cn.edu.ncu.talkpulse.group.service.UpdateGroupInfoService;
+import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,5 +24,10 @@ public class UpdateGroupInfoServiceTest {
         Boolean flag=updateGroupInfoService.updateGroupIntroduce("hallo",1,session);
         System.out.println(flag);
     }
-
+    @Test
+    public void testgetGroupInfo(){
+        session.setAttribute("user_id",11);
+        JSONObject data=updateGroupInfoService.getGroupInfo(1,session);
+        System.out.println(data);
+    }
 }
