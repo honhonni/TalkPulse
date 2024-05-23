@@ -27,7 +27,7 @@ public class UpdateGroupInfoServiceTest {
     @Test
     public void testgetGroupInfo(){
         session.setAttribute("user_id",123456);
-        JSONObject data=updateGroupInfoService.getGroupInfo(32121311,session);
+        JSONObject data=updateGroupInfoService.getGroupInfo(11111111,session);
         System.out.println(data);
     }
 }

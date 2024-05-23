@@ -107,8 +107,38 @@
     </div>
 </script>
 
+<!--我创建的群聊信息模板-->
+<script type="text/html" id="tpl-mygroups-info">
+    <div class="photo">
+        <img src="{{img}}" />
+        <span>{{group_name}}</span>
+    </div>
+    <div class="info">
+        <ul class="info-list list-group">
+            <li class="list-group-item">
+                <span>GID:</span>
+                <span>{{GID}}</span>
+            </li>
+            <li class="list-group-item">
+                <span>群聊名称:</span>
+                <span>{{group_name}}</span>
+            </li>
+            <li class="list-group-item">
+                <span>群介绍:</span>
+                <span>欢迎加入我们</span>
+            </li>
+            {{if }}
+            <li class="list-group-item">
+                <span>退出:</span>
+                <button type="button" id="quite" class="btn btn-primary">
+                    退出群聊
+                </button>
+            </li>
+        </ul>
+    </div>
+</script>
 <!--群聊信息模板-->
-<script type="text/html" id="tpl-info">
+<script type="text/html" id="tpl-joingroups-info">
     <div class="photo">
         <img src="{{img}}" />
         <span>{{group_name}}</span>
@@ -198,20 +228,20 @@
 <!--搜索群聊显示-->
 <script type="text/html" id="tpl-search-groups-info">
     <div class="search-groups-info">
-        <img src="{{data.user_photo}}" class="search-groups-photo">
+        <img src="{{group.group_photo}}" class="search-groups-photo">
         <div class="box">
             <div class="row1">
-                <span>{{data.group_id}}</span>
+                <span>{{group.group_id}}</span>
                 {{if present == false}}
                 <div class="checkbox">
-                    <span id="add">添加群聊</span>
+                    <span id="add">申请入群</span>
                 </div>
                 {{/if}}
             </div>
             <div class="row2">
-                <span>{{data.group_name}}</span>
+                <span>{{group.group_name}}</span>
                 {{if present == 'received'}}
-                <span>对方给您发来了好友申请</span>
+                <span>您有入群邀请待处理</span>
                 {{else if present == 'sended'}}
                 <span>您已发送过申请</span>
                 {{else if present == true}}

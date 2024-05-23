@@ -22,7 +22,7 @@ public class UserApplyIntoServiceTest {
     @Test
     public void UserApplyIntoTest(){
         session.setAttribute("user_id",11);
-        Boolean flag=userApplyIntoService.UserApplyInto(session,now(),1,"hello");
+        Boolean flag=userApplyIntoService.UserApplyInto(session,1);
         System.out.println(flag);
     }
 }

@@ -12,8 +12,8 @@ import java.util.Map;
 public interface GroupDao {
 
 
-    @Select("select group_id,group_name,group_introduce,group_hostid from Groupinfo where group_id=#{id}")
-    public List<Groupinfo> selectAll(int group_id);
+    @Select("select group_hostid from groupinfo where group_id=#{group_id}")
+    Integer getGruophostid(int group_id);
 
     @Insert("INSERT INTO groupapply (groupapply_id, groupapply_sendardid, groupapply_time, groupapply_groupid, groupapply_hostid, groupapply_introduce, groupapply_status, groupapply_readstatus)" +
             "VALUES (#{senderid}, #{hostid}, #{time}, #{groupid}, #{hostid}, #{introduce}, #{status}, #{readstatus})")

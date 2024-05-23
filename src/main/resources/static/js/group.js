@@ -150,7 +150,7 @@ $(function (){
             $.ajax({
                 method: 'get',
                 url: '/group/getGroupInfo',
-                data: {user_id: $(this).val()},
+                data: {group_id: $(this).val()},
                 success: function (res){
                     if( res.status !== 200){
                         $('.search-groups-info-box').html("<br><h4>未查询到相关群聊</h4><br>")
@@ -159,17 +159,18 @@ $(function (){
                     // for(var i in validation.validationlist){
                     //     if(validation.validationlist[i].validation_senderid == res.data.data.user_id
                     //         && validation.validationlist[i].validation_status == 0){
-                    //         res.data.isfriend = 'received'
+                    //         res.data.present = 'received'
                     //         break
                     //     }
                     // }
                     // for(var i in validation.applylist){
                     //     if(validation.applylist[i].validation_receiverid == res.data.data.user_id
                     //         && validation.applylist[i].validation_status == 0){
-                    //         res.data.isfriend = 'sended'
+                    //         res.data.present = 'sended'
                     //         break
                     //     }
                     // }
+                    console.log(res)
                     var htmlStr = template( 'tpl-search-groups-info', res.data)
                     $('.search-groups-info-box').html(htmlStr)
                 }
@@ -180,17 +181,17 @@ $(function (){
     $('.search-groups-info-box').on('click','#add',function (){
         $.ajax({
             method: 'post',
-            url: '/friends/addFriend',
+            url: '/group/userapplyinto',
             data: {
-                friend_id: $('.search-groups-info-box .row1 span').eq(0).html()
+                groupapply_groupid: $('.search-groups-info-box .row1 span').eq(0).html()
             },
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             success: function (res){
                 if(res.status !== 200){
-                    return $('.search-groups-info-box .row2 span').eq(1).html('发送好友申请失败')
+                    return $('.search-groups-info-box .row2 span').eq(1).html('发送入群申请失败')
                 }
                 $('.search-groups-info-box .row1 div').remove()
-                $('.search-groups-info-box .row2 span').eq(1).html('发送好友申请成功')
+                $('.search-groups-info-box .row2 span').eq(1).html('发送入群申请成功')
             }
         })
     })

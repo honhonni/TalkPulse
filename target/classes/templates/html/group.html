@@ -198,20 +198,20 @@
 <!--搜索群聊显示-->
 <script type="text/html" id="tpl-search-groups-info">
     <div class="search-groups-info">
-        <img src="{{data.user_photo}}" class="search-groups-photo">
+        <img src="{{group.group_photo}}" class="search-groups-photo">
         <div class="box">
             <div class="row1">
-                <span>{{data.group_id}}</span>
+                <span>{{group.group_id}}</span>
                 {{if present == false}}
                 <div class="checkbox">
-                    <span id="add">添加群聊</span>
+                    <span id="add">申请入群</span>
                 </div>
                 {{/if}}
             </div>
             <div class="row2">
-                <span>{{data.group_name}}</span>
+                <span>{{group.group_name}}</span>
                 {{if present == 'received'}}
-                <span>对方给您发来了好友申请</span>
+                <span>您有入群邀请待处理</span>
                 {{else if present == 'sended'}}
                 <span>您已发送过申请</span>
                 {{else if present == true}}

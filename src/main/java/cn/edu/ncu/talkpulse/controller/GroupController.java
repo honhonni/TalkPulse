@@ -78,14 +78,11 @@ public class GroupController {
       else return Result.fail();
    }//更新群聊信息
    @PostMapping("userapplyinto")
-   public Result UserApplyInto(
-                               HttpServletRequest request,
-                               @RequestParam("groupapply_time")LocalDateTime groupapplyTime,
-                               @RequestParam("groupapply_groupid")Integer groupapplyGroupId,
-                               @RequestParam("groupapply_introduce")String groupapplyIntroduce
+   public Result UserApplyInto(HttpServletRequest request,
+                               @RequestParam("groupapply_groupid")Integer groupapplyGroupId
                                ){
       HttpSession session=request.getSession();
-      Boolean ok=userApplyIntoService.UserApplyInto(session,groupapplyTime,groupapplyGroupId,groupapplyIntroduce);
+      Boolean ok=userApplyIntoService.UserApplyInto(session,groupapplyGroupId);
       if(ok) return Result.success();
       else return Result.fail();
    }//用户申请入群
@@ -117,7 +114,7 @@ public class GroupController {
       else return Result.fail();//群主处理群聊申请
    }
    @GetMapping("/getGroupInfo")//获取群聊简介接口
-   public Result result(@RequestParam("group_Id") Integer group_id,
+   public Result result(@RequestParam("group_id") Integer group_id,
                         HttpServletRequest request){
       HttpSession session=request.getSession();
       JSONObject data=updateGroupInfoService.getGroupInfo(group_id,session);

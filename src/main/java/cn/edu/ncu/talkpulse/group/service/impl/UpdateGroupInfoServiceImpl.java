@@ -26,6 +26,7 @@ public class UpdateGroupInfoServiceImpl implements UpdateGroupInfoService {
     public JSONObject getGroupInfo(Integer group_id, HttpSession session){
         Integer correuser_id=(Integer) session.getAttribute("user_id");
         Groupinfo groupinfo=updateGroupInfoDao.getGroupInfo(group_id);
+//        System.out.println(groupinfo);
         JSONObject data=new JSONObject();
         if(groupinfo!=null){
             data.put("group",groupinfo);
@@ -37,7 +38,6 @@ public class UpdateGroupInfoServiceImpl implements UpdateGroupInfoService {
                 data.put("present",false);
             }
             return data;
-
         }
         else{
             return null;
