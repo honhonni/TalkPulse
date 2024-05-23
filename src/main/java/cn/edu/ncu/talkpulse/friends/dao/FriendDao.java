@@ -3,7 +3,6 @@ package cn.edu.ncu.talkpulse.friends.dao;
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.friends.entity.Friend;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
-import cn.edu.ncu.talkpulse.friends.entity.FriendshipWithFriendsDTO;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import org.apache.ibatis.annotations.*;
 
@@ -41,9 +40,19 @@ public interface FriendDao {
     @Select("SELECT u.user_id,u.user_name , u.user_gender, u.user_age,u.user_introduce, u.user_photo FROM friend f,userinfo u WHERE f.given_friendshipid = #{friendshipid} and f.secondid = u.user_id")
     List<UserInfo> getfriendsid(@Param("friendshipid") Integer friendshipid);
 
-    // 获取所在群列表
-    @Select("SELECT * FROM GroupMember WHERE user_id = #{user_id}")
-    List<Groupinfo> getUserGroups(@Param("user_id") Integer userId);
+
+    // 获取用户创建的群组和用户所在的群组（包括加入的群组）
+    @Select("SELECT g.group_id, g.group_name, g.group_introduce, g.group_photo " +
+                "FROM groupinfo g " +
+                "WHERE g.group_hostid = #{userId} " +
+                "UNION " +
+                "SELECT gi.group_id, gi.group_name, gi.group_introduce, gi.group_photo " +
+                "FROM corre c " +
+                "JOIN groupinfo gi ON c.corregroup_id = gi.group_id " +
+                "WHERE c.correuser_id = #{userId}")
+        List<Groupinfo> getAllUserGroups(@Param("userId") Integer userId);
+
+
 
     // 获取好友分组信息
 

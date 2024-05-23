@@ -119,20 +119,22 @@ public class FriendController {
     }
 
     //获取好友列表接口
-
-//    @GetMapping("/getFriendList")
-//    public Result getFriendList(@RequestParam("friendship_name") String friendshipName,
-//                                   HttpServletRequest request) {
-//        HttpSession session = request.getSession();
-//        JSONObject data  = friendService.getAllFriendshipsAndFriends(friendshipName, session);
-//
-//        if(data!=null) return Result.success(data);
-//        else return Result.fail();
-//    }
     @GetMapping("/getFriendList")
     public Result getFriendList(HttpServletRequest request) {
         HttpSession session = request.getSession();
         JSONArray data = friendService.getAllFriendshipsAndFriends(session);
+
+        if (data != null ) {
+            return Result.success(data);
+        } else {
+            return Result.fail();
+        }
+    }
+    //获取用户所在群接口
+    @GetMapping("/getUserGroups")
+    public Result getUserGroups(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        JSONArray data = friendService.getAllUserGroups(session);
 
         if (data != null ) {
             return Result.success(data);

@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 public interface FriendService {
-//    List<Record> searchRecords(String keyword, Integer user_id);
+
 
 
 
@@ -19,8 +19,8 @@ public interface FriendService {
     //获取好友列表
     JSONArray getAllFriendshipsAndFriends(HttpSession session);
 
-
-
+    //获取所在群列表
+    JSONArray getAllUserGroups(HttpSession session);
 
     // 获取用户的好友分组列表
     JSONObject getFriendship( HttpSession session);
