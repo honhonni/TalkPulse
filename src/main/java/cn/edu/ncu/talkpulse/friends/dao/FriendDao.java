@@ -1,7 +1,9 @@
 package cn.edu.ncu.talkpulse.friends.dao;
 
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.friends.entity.Friend;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
+import cn.edu.ncu.talkpulse.friends.entity.FriendshipWithFriendsDTO;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import org.apache.ibatis.annotations.*;
 
@@ -34,9 +36,10 @@ public interface FriendDao {
 
     @Select("select * from friend where firstid = #{myId} and secondid = #{userId}")
     Friend isfriend(@Param("myId") Integer myId, @Param("userId") Integer userId);
+
     // 获取好友列表
-    @Select("SELECT * FROM Friend WHERE firstid = #{user_id}")
-    List<Friendship> getFriendsList(@Param("user_id") Integer userId);
+    @Select("SELECT u.user_id,u.user_name , u.user_gender, u.user_age,u.user_introduce, u.user_photo FROM friend f,userinfo u WHERE f.given_friendshipid = #{friendshipid} and f.secondid = u.user_id")
+    List<UserInfo> getfriendsid(@Param("friendshipid") Integer friendshipid);
 
     // 获取所在群列表
     @Select("SELECT * FROM GroupMember WHERE user_id = #{user_id}")
@@ -46,6 +49,7 @@ public interface FriendDao {
 
     @Select("SELECT * FROM Friendship WHERE creat_id = #{userId}")
     List<Friendship> getFriendship(@Param("userId") Integer userId);
+
 
 
 

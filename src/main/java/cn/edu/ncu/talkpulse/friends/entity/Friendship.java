@@ -57,4 +57,6 @@ public class Friendship {
     public void setFriendship_name(String friendship_name) {
         this.friendship_name = friendship_name;
     }
+
+
 }
