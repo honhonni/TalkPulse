@@ -4,12 +4,15 @@ package cn.edu.ncu.talkpulse.friends.service.impl;
 
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
+import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.friends.dao.FriendDao;
 import cn.edu.ncu.talkpulse.friends.dao.FriendshipDao;
 import cn.edu.ncu.talkpulse.friends.entity.Friend;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.group.dao.GroupDao;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
+import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +35,6 @@ public class FriendServiceImpl implements FriendService {
     @Autowired
     private FriendshipDao friendshipDao;
 
-    @Override
-    public List<UserInfo> getFriendsList(Integer userId) {
-        return null;
-    }
 
 
 
@@ -52,7 +51,6 @@ public class FriendServiceImpl implements FriendService {
             if(friend != null){
                 data.put("isfriend", true );
                 return data;
-
             }else{
                 data.put("isfriend", false );
                 return data;
@@ -62,14 +60,63 @@ public class FriendServiceImpl implements FriendService {
         }
     }
 
+    // 获取用户的好友列表
+    @Override
+    public JSONArray getAllFriendshipsAndFriends(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user_id");
 
-    // 获取用户的好友分组列表
-//    @Override
-//    public List<Friendship> getFriendGroups(Integer userId) {
-//        return friendDao.getFriendGroups(userId);
-//    }
-//
-    // 获取用户的好友分组列表
+        // 获取分组
+        List<Friendship> friendships = friendDao.getFriendship(userId);
+        JSONArray friendshipsArray = new JSONArray();
+        // 处理数据库查询结果
+        if (friendships != null && !friendships.isEmpty()) {
+            for (int i = 0; i < friendships.size(); i++) {
+                JSONObject friendshipJson = new JSONObject();
+                friendshipJson.put("friendship_id", friendships.get(i).getFriendship_id());
+                friendshipJson.put("friendship_name", friendships.get(i).getFriendship_name());
+                List<UserInfo> userInfos = friendDao.getfriendsid(friendships.get(i).getFriendship_id());
+                friendshipJson.put("friendlist", userInfos);
+                friendshipsArray.add(friendshipJson);
+            }
+            return friendshipsArray;
+        }else {
+            return null;
+        }
+    }
+    //获取用户所在群列表
+    @Override
+    public JSONArray getAllUserGroups(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user_id");
+
+
+        List<Groupinfo> allGroups = friendDao.getAllUserGroups(userId);
+        JSONObject response = new JSONObject();
+        JSONArray createdGroupsArray = new JSONArray();
+        JSONArray joinedGroupsArray = new JSONArray();
+        for (Groupinfo group : allGroups) {
+            JSONObject groupJson = new JSONObject();
+            groupJson.put("group_id", group.getGroup_id());
+            groupJson.put("group_name", group.getGroup_name());
+            groupJson.put("group_introduce", group.getGroup_introduce());
+            groupJson.put("group_photo", group.getGroup_photo());
+
+            if (group.getGroup_hostid().equals(userId)) {
+                // 如果群主ID等于用户ID，说明是用户创建的群组
+                createdGroupsArray.add(groupJson);
+            } else {
+                // 否则，是用户加入的群组
+                joinedGroupsArray.add(groupJson);
+            }
+        }
+
+
+
+        JSONArray dataArray = new JSONArray();
+        dataArray.add(createdGroupsArray); // 我创建的群聊列表
+        dataArray.add(joinedGroupsArray);  // 我加入的群聊列表
+        return dataArray;
+    }
+    // 获取用户的好友分组信息
     @Override
     public JSONObject getFriendship(HttpSession session) {
         Integer userId = (Integer) session.getAttribute("user_id");
@@ -93,37 +140,19 @@ public class FriendServiceImpl implements FriendService {
     }
     //创建好友分组
     @Override
-    public JSONObject createFriendship(String friendshipName, HttpSession session) {
+    public Result createFriendship(String friendshipName, HttpSession session) {
         Integer creatId = (Integer) session.getAttribute("user_id");
-
-        // 检查分组名是否为空
-        if (friendshipName == null || friendshipName.trim().isEmpty()) {
-            JSONObject data = new JSONObject();
-            data.put("success", false);
-            data.put("message", "分组名不能为空");
-            return data;
-        }
 
         // 在数据库中检查是否已经存在该分组名
         int count = friendshipDao.countByFriendshipName(friendshipName);
-        if (count > 0) {
-            // 如果分组名已存在，直接返回错误信息
-            JSONObject data = new JSONObject();
-            data.put("success", false);
-            data.put("message", "该分组名已存在，请重新命名分组名");
-            return data;
-        }
+        if (count > 0) return Result.fail("该分组名已存在，请重新命名分组名");
 
         // 分组名不存在，执行创建分组操作
         int affectedRows = friendshipDao.createFriendship(friendshipName, creatId);
-        JSONObject data = new JSONObject();
         if (affectedRows > 0) {
-            data.put("success", true);
-            data.put("message", "好友分组创建成功");
+            return Result.success();
         } else {
-            data.put("success", false);
-            data.put("message", "好友分组创建失败");
+            return Result.fail("创建失败");
         }
-        return data;
     }
 }

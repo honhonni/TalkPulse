@@ -45,7 +45,7 @@ $(function (){
                         }
                     }
                     for(var i in validation.applylist){
-                        if(validation.applylist[i].validation_senderid == res.data.data.user_id
+                        if(validation.applylist[i].validation_receiverid == res.data.data.user_id
                             && validation.applylist[i].validation_status == 0){
                             res.data.isfriend = 'sended'
                             break

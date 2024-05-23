@@ -1,7 +1,10 @@
 package cn.edu.ncu.talkpulse;
 
+import cn.edu.ncu.talkpulse.controller.FriendController;
+import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
@@ -30,7 +33,7 @@ public class FriendServiceTest {
         System.out.println(data);
     }
     @Test
-    public void testgetFriendShip(){
+    public void testGetFriendShip(){
         session.setAttribute("user_id",555555);
         JSONObject data  = friendService.getFriendship( session);
         System.out.println(data);
@@ -38,9 +41,31 @@ public class FriendServiceTest {
     @Test
     public void testCreatFriendShip(){
 
-        session.setAttribute("creat_id",666666);
-        String friendshipName = "测试分组3";
-        JSONObject data  = friendshipService.createFriendship(friendshipName ,session);
+        session.setAttribute("user_id",666666);
+        String friendshipName = "allalla";
+        Result data  = friendshipService.createFriendship(friendshipName ,session);
         System.out.println(data);
     }
+    @Test
+    public void testGetFriendList(){
+
+        session.setAttribute("user_id",666666);
+
+        JSONArray data  = friendService.getAllFriendshipsAndFriends(session);
+        System.out.println(data);
+
+
+    }
+
+    @Test
+    public void testGetUserGroups(){
+
+        session.setAttribute("user_id",666666);
+
+        JSONArray data  = friendService.getAllUserGroups(session);
+        System.out.println(data);
+
+
+    }
+
 }

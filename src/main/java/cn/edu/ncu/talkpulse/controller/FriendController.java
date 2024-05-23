@@ -7,6 +7,7 @@ import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
 import cn.edu.ncu.talkpulse.friends.entity.Validation;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
 import cn.edu.ncu.talkpulse.friends.service.ValidationService;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -112,10 +113,34 @@ public class FriendController {
     public Result createFriendship(@RequestParam("friendship_name") String friendshipName,
                          HttpServletRequest request) {
         HttpSession session = request.getSession();
-        JSONObject data  = friendService.createFriendship(friendshipName, session);
+        Result result  = friendService.createFriendship(friendshipName, session);
 
-        if(data!=null) return Result.success(data);
-        else return Result.fail();
+        return result;
+    }
+
+    //获取好友列表接口
+    @GetMapping("/getFriendList")
+    public Result getFriendList(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        JSONArray data = friendService.getAllFriendshipsAndFriends(session);
+
+        if (data != null ) {
+            return Result.success(data);
+        } else {
+            return Result.fail();
+        }
+    }
+    //获取用户所在群接口
+    @GetMapping("/getUserGroups")
+    public Result getUserGroups(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        JSONArray data = friendService.getAllUserGroups(session);
+
+        if (data != null ) {
+            return Result.success(data);
+        } else {
+            return Result.fail();
+        }
     }
 
 }

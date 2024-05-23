@@ -67,7 +67,7 @@
     margin-left: 32px;
     box-sizing: border-box;
 }
-
+/*群聊总概况*/
 .info-summary h2{
     /*text-align: center;*/
     margin: 30px;
@@ -120,7 +120,7 @@
     background-color: red;
 }
 
-
+/*裁剪头像区域*/
 .layui-form{
     width: 100%;
     margin: 0 auto;
@@ -196,7 +196,7 @@
 
 /*处理好友申请֤*/
 
-.friends-validation {
+.groups-validation {
     overflow-y: auto;
     padding-left: 20px;
     /*background-color: #fcfcfc;*/
@@ -204,36 +204,58 @@
     height: 100%;
     box-sizing: border-box;
 }
-.friends-validation .friends-validation-list {
+.groups-validation .groups-validation-list {
     width: 100%;
     padding: 4px;
     padding-bottom: 20px;
     box-sizing: border-box;
 }
-.friends-validation .friends-validation-list li{
+.groups-validation .groups-validation-list li{
     padding: 4px;
     box-sizing: border-box;
 }
-.friends-validation-list .list-group{
+.groups-validation-list .list-group{
     display: none;
 }
-.friends-validation-group{
+.groups-validation-group,
+.groups-apply-group{
+    position: relative;
     cursor: pointer;
 }
-.friends-validation-group h2{
+.groups-validation-group h2,
+.groups-apply-group h2{
     display: inline-block;
     color: #0c0a09;
     font-size: 18px;
     font-weight: 600;
 
 }
-.friends-validation-list .list-group{
-    margin-left: 32px;
+.groups-validation-list .list-group{
+    /*margin-left: 32px;*/
     box-sizing: border-box;
 }
+#verify-count{
+    /*display: none;*/
+    position: absolute;
+    left: 112px;
+    top: 20px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: red;
+    color: #fff;
+    font-size: 10px;
+    text-align: center;
+    line-height: 18px;
+}
 
-/*搜索好友信息*/
-.search-friends-info{
+
+/*搜索群聊信息*/
+.search-groups-info-box{
+    width: 100%;
+}
+
+.search-groups-info{
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -242,28 +264,115 @@
     margin-top: 10px;
     background-color: #fcf8e3ff;
 }
-.search-friends-info .search-frieds-photo{
+.search-groups-info .search-groups-photo{
     width: 48px;
     height: 48px;
     margin: 16px 0;
     border-radius: 50%;
 }
-.search-friends-info .search-frieds-description{
+.search-groups-info .box{
     flex: 1;
-    width: 100%;
     margin: 12px 10px;
-}
-.search-friends-info .search-frieds-description div{
-    overflow: hidden;
-    width: 100%;
-    line-height: 32px;
-}
-.search-friends-info .search-frieds-description span{
-    float: left;
     font-size: 16px;
 }
-.search-friends-info .search-frieds-description span:nth-child(2),
-.search-friends-info .search-frieds-description .search-frieds-option #add{
-    float: right;
+.search-groups-info .box .row1,
+.search-groups-info .box .row2{
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.search-groups-info .box .row1 .checkbox{
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
+.search-groups-info .box .row1 .checkbox span{
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 24px;
+    border-radius: 4px;
+    bottom: 5px;
+    background-color: #5cb85c;
+    color: #fff;
+    text-align: center;
+    line-height: 24px;
+}
+.search-groups-info .box .row2 span:last-child{
+    position: absolute;
+    right: 10px;
+    color: red;
+}
+#add{
+    cursor: pointer;
+}
+
+
+/*群聊验证列表样式*/
+.groups-verify-list>button,
+.groups-apply-list>button{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100px;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+.groups-verify-list>button .groups-validation-photo,
+.groups-apply-list>button .groups-validation-photo{
+    width: 48px;
+    height: 48px;
+    margin: 16px 0;
+    border-radius: 50%;
+}
+.groups-verify-list>button .box,
+.groups-apply-list>button .box{
+    flex: 1;
+    margin: 12px 10px;
+    font-size: 16px;
+}
+.groups-verify-list>button .box .row1,
+.groups-verify-list>button .box .row2,
+.groups-apply-list>button .box .row1,
+.groups-apply-list>button .box .row2{
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.groups-verify-list>button .box .row1 .checkbox,
+.groups-apply-list>button .box .row1 .checkbox{
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
+.groups-verify-list>button .box .row1 .checkbox span,
+.groups-apply-list>button .box .row1 .checkbox span{
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+    border-radius: 4px;
+    bottom: 5px;
+    color: #fff;
+    text-align: center;
+    line-height: 24px;
+}
+.groups-verify-list>button .box .row2 span:last-child,
+.groups-apply-list>button .box .row1 span:last-child,
+.groups-apply-list>button .box .row2 span:last-child{
+    position: absolute;
+    right: 10px;
+}
+.groups-verify-list>button .box .row1 .checkbox .agree,
+.groups-verify-list>button .box .row1 .checkbox .agreed{
+    background-color: #5cb85c;
+}
+.groups-verify-list>button .box .row1 .checkbox .reject,
+.groups-verify-list>button .box .row1 .checkbox .rejected{
+    background-color: #c7254e;
+}
+.groups-verify-list>button .box .row1 .checkbox .agreed,
+.groups-verify-list>button .box .row1 .checkbox .rejected{
+    width: 60px;
 }
 
