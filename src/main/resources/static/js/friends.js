@@ -38,13 +38,15 @@ $(function (){
                         return
                     }
                     for(var i in validation.validationlist){
-                        if(validation.validationlist[i].validation_senderid == res.data.data.user_id){
+                        if(validation.validationlist[i].validation_senderid == res.data.data.user_id
+                            && validation.validationlist[i].validation_status == 0){
                             res.data.isfriend = 'received'
                             break
                         }
                     }
                     for(var i in validation.applylist){
-                        if(validation.applylist[i].validation_senderid == res.data.data.user_id){
+                        if(validation.applylist[i].validation_senderid == res.data.data.user_id
+                            && validation.applylist[i].validation_status == 0){
                             res.data.isfriend = 'sended'
                             break
                         }

@@ -220,12 +220,14 @@
     color: #fff;
     text-align: center;
     line-height: 24px;
-
 }
 .search-friends-info .box .row2 span:last-child{
     position: absolute;
     right: 10px;
     color: red;
+}
+#add{
+    cursor: pointer;
 }
 
 /*好友验证列表样式*/
