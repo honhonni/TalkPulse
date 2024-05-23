@@ -25,21 +25,22 @@ public class UpdateGroupInfoServiceImpl implements UpdateGroupInfoService {
     @Override
     public JSONObject getGroupInfo(Integer group_id, HttpSession session){
         Integer correuser_id=(Integer) session.getAttribute("user_id");
-        Groupinfo groupinfo=updateGroupInfoDao.getGroupInfo(group_id,correuser_id);
+        Groupinfo groupinfo=updateGroupInfoDao.getGroupInfo(group_id);
         JSONObject data=new JSONObject();
         if(groupinfo!=null){
-            data.put("status",200);
-            data.put("message","查询成功");
-            data.put("present",true);
             data.put("group",groupinfo);
+            corre correinfo=updateGroupInfoDao.getcorreInfo(correuser_id,group_id);
+            if(correinfo!=null) {
+                data.put("present", true);
+            }
+            else {
+                data.put("present",false);
+            }
             return data;
+
         }
         else{
-            data.put("status",201);
-            data.put("message","查询失败");
-            data.put("prsent",false);
-            data.put("group",groupinfo);
-            return data;
+            return null;
         }
     }
 }
