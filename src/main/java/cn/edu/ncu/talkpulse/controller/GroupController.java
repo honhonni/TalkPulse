@@ -3,8 +3,10 @@ package cn.edu.ncu.talkpulse.controller;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.group.dao.UpdateGroupInfoDao;
 import cn.edu.ncu.talkpulse.group.service.*;
+import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.tomcat.Jar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -113,5 +115,13 @@ public class GroupController {
       Boolean ok=hostapplyService.hostset(groupapply_status,groupapply_readstatus,groupapply_groupid,session);
       if(ok) return Result.success();
       else return Result.fail();//群主处理群聊申请
+   }
+   @GetMapping("/getGroupInfo")//获取群聊简介接口
+   public Result result(@RequestParam("group_Id") Integer group_id,
+                        HttpServletRequest request){
+      HttpSession session=request.getSession();
+      JSONObject data=updateGroupInfoService.getGroupInfo(group_id,session);
+      if(data!=null) return Result.success(data);
+      else return Result.fail();
    }
 }

@@ -56,7 +56,16 @@ $(function(){
         // update-info
         form.on('submit(update-info)', function(data){
             var field = data.field; // 获取表单字段值
-            console.log(field)
+            // console.log(field)
+            if( !field.hasOwnProperty('ugender')){
+                field.ugender = '保密'
+            }
+            if(field.uage === ''){
+                field.uage = -1
+            }
+            if(field.uintroduce === ''){
+                field.uintroduce = '未设置个性签名'
+            }
             $.ajax({
                 method: 'post',
                 url: '/account/updatetonew',

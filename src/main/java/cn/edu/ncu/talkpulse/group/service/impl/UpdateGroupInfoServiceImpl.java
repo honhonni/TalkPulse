@@ -1,7 +1,10 @@
 package cn.edu.ncu.talkpulse.group.service.impl;
 
 import cn.edu.ncu.talkpulse.group.dao.UpdateGroupInfoDao;
+import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
+import cn.edu.ncu.talkpulse.group.entity.corre;
 import cn.edu.ncu.talkpulse.group.service.UpdateGroupInfoService;
+import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,27 @@ public class UpdateGroupInfoServiceImpl implements UpdateGroupInfoService {
         if (res == 1) {
             return true;
         } else return false;
+    }
+    @Override
+    public JSONObject getGroupInfo(Integer group_id, HttpSession session){
+        Integer correuser_id=(Integer) session.getAttribute("user_id");
+        Groupinfo groupinfo=updateGroupInfoDao.getGroupInfo(group_id);
+        JSONObject data=new JSONObject();
+        if(groupinfo!=null){
+            data.put("group",groupinfo);
+            corre correinfo=updateGroupInfoDao.getcorreInfo(correuser_id,group_id);
+            if(correinfo!=null) {
+                data.put("present", true);
+            }
+            else {
+                data.put("present",false);
+            }
+            return data;
+
+        }
+        else{
+            return null;
+        }
     }
 }
 

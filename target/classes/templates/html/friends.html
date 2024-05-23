@@ -187,7 +187,7 @@
                 <img src="{{$value.validation_receiver_photo}}" class="frieds-validation-photo">
                 <div class="box">
                     <div class="row1">
-                        <span>{{$value.validation_senderid}}</span>
+                        <span>{{$value.validation_receiverid}}</span>
                         {{if $value.validation_status == 0}}
                         <span>等待对方验证……</span>
                         {{else if $value.validation_status == 1}}
@@ -205,33 +205,6 @@
             {{/each}}
         </div>
     </li>
-</script>
-<!--好友申请-->
-<script type="text/html" id="tpl-friends-apply-list">
-    {{each data}}
-    <button type="button" class="list-group-item" readstatus="{{$value.validation_readstatus}}">
-        <img src="{{$value.data.user_photo}}" class="frieds-validation-photo">
-        <div class="box">
-            <div class="row1">
-                <span>{{$value.validation_senderid}}</span>
-                <div class="checkbox" aid="{{$value.validation_id}}">
-                    {{if $value.validation_status == 0}}
-                    <span class="agree">同意</span>
-                    <span class="reject">拒绝</span>
-                    {{else if $value.validation_status == 1}}
-                    <span class="agreed">已同意</span>
-                    {{else if $value.validation_status == 2}}
-                    <span class="rejected">已拒绝</span>
-                    {{/if}}
-                </div>
-            </div>
-            <div class="row2">
-                <span>{{$value.data.user_name}}</span>
-                <span>{{$value.validation_time}}</span>
-            </div>
-        </div>
-    </button>
-    {{/each}}
 </script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
