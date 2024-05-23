@@ -93,9 +93,6 @@ public class FriendServiceImpl implements FriendService {
         JSONObject response = new JSONObject();
         JSONArray createdGroupsArray = new JSONArray();
         JSONArray joinedGroupsArray = new JSONArray();
-
-
-
         for (Groupinfo group : allGroups) {
             JSONObject groupJson = new JSONObject();
             groupJson.put("group_id", group.getGroup_id());
