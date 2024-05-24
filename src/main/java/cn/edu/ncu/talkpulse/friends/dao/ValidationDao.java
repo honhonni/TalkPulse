@@ -33,11 +33,11 @@ public interface ValidationDao {
     int updateValidation(Validation validation);
 
     // 查询当前用户的被添加好友申请
-    @Select("select * from validation where validation_receiverid = #{uid}")
+    @Select("select * from validation where validation_receiverid = #{uid} ORDER BY validation_time DESC;")
     List<Validation> getValidationsByReceiverId(Integer uid);
 
     // 查询当前用户发送的好友申请
-    @Select("select * from validation where validation_senderid = #{uid}")
+    @Select("select * from validation where validation_senderid = #{uid} ORDER BY validation_time DESC;")
     List<Validation> getValidationsBySenderId(Integer uid);
 
     // 查询后设置已读

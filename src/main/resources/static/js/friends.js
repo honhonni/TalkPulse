@@ -3,14 +3,13 @@ $(function (){
     let friendship = {}
     // 存储好友验证列表
     let validation = []
-    // 获取好友验证列表
-    getValidaionList()
     // 初始化页面
     init()
 
 
     // 初始化页面
     function init(){
+        // 获取好友分组
         $.ajax({
             method: 'get',
             url: '/friends/getFriendship',
@@ -21,7 +20,7 @@ $(function (){
                 friendship = res.data
             }
         })
-        // 好友列表
+        // 获取好友列表
         $.ajax({
             method: 'get',
             url: '/friends/getFriendList',
@@ -34,10 +33,50 @@ $(function (){
                 $('.friends-list').html(htmlStr)
             }
         })
+        // 获取好友验证列表
+        $.ajax({
+            method: 'get',
+            url: '/friends/getValidation',
+            success: function (res){
+                // 获取验证列表
+                if(res.status !== 200){
+                    return console.log('获取验证列表失败！')
+                }
+                validation = res.data
+
+                // 好友验证列表及绑定事件
+                var verifyStr = template( 'tpl-friends-verify-list',res.data)
+                $('.friends-verify-list').html(verifyStr)
+                var applyStr = template( 'tpl-friends-apply-list',res.data)
+                $('.friends-apply-list').html(applyStr)
+
+                // 绑定数字
+                let verify_count = 0
+                // 记录有多少条未处理事件
+                for(var i in validation.validationlist){
+                    if(validation.validationlist[i].validation_status === 0){
+                        verify_count++
+                    }
+                }
+                var verify = $('.friends-validation-list').find('#verify-count')
+                verify.attr('verify_count',verify_count)
+                if(verify_count > 99){
+                    verify.html('99+').show()
+                }else if( verify_count > 0){
+                    verify.html(verify_count).show()
+                }else{
+                    verify.html(0).hide()
+                }
+                window.parent.setFriendsCount(verify_count)
+                // 第一次查看显示特殊颜色
+                $('.friends-validation-list>button[readstatus=\'0\']').css('background-color', '#fcf8e3ff')
+            }
+        })
     }
 
+    window.initFriends = init
 
-   // 绑定好友列表分组点击事件
+   // 绑定好友列表分组展开事件
     $('.friends-list').on('click','.friends-group', function (){
         var class_string = $(this).find('span').attr('class')
         if(class_string.indexOf('right') >= 0){
@@ -155,7 +194,7 @@ $(function (){
 
     })
 
-    // 搜索好友
+    // 绑定搜索好友事件
     $('#search-friends').on('keydown', function(event) {
         if (event.which === 13) { // 13代表回车键的键码
             $.ajax({
@@ -203,75 +242,40 @@ $(function (){
                 }
                 $('.search-friends-info-box .row1 div').remove()
                 $('.search-friends-info-box .row2 span').eq(1).html('发送好友申请成功')
+                init()
             }
         })
     })
 
 
 
-    // 获取好友验证列表
-    function getValidaionList(){
-        $.ajax({
-            method: 'get',
-            url: '/friends/getValidation',
-            success: function (res){
-                // 获取验证列表
-                if(res.status !== 200){
-                    return console.log('获取验证列表失败！')
-                }
-                validation = res.data
-
-                // 好友验证列表及绑定事件
-                var htmlStr = template( 'tpl-friends-validation-list',res)
-                $('.friends-validation-list').html(htmlStr)
-                    // 验证列表事件绑定
-                    .on('click','.friends-validation-group',function (){
-                        var class_string = $(this).find('span').eq(0).attr('class')
-                        if(class_string.indexOf('right') >= 0){
-                            // console.log(this)
-                            $(this).find('span').eq(0).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
-                            $(this).siblings().show()
-                        }else{
-                            $(this).find('span').eq(0).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
-                            $(this).siblings().hide()
-                        }
-                    })
-                    // 申请列表事件绑定
-                    .on('click','.friends-apply-group',function (){
-                        var class_string = $(this).find('span').eq(0).attr('class')
-                        if(class_string.indexOf('right') >= 0){
-                            // console.log(this)
-                            $(this).find('span').eq(0).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
-                            $(this).siblings().show()
-                        }else{
-                            $(this).find('span').eq(0).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
-                            $(this).siblings().hide()
-                        }
-                    })
-                // 绑定数字
-                let verify_count = 0
-                // 记录有多少条未处理事件
-                for(var i in validation.validationlist){
-                    if(validation.validationlist[i].validation_status === 0){
-                        verify_count++
-                    }
-                }
-                var verify = $('.friends-validation-list').find('#verify-count')
-                verify.attr('verify_count',verify_count)
-                if(verify_count > 99){
-                    verify.html('99+').show()
-                }else if( verify_count > 0){
-                    verify.html(verify_count).show()
-                }else{
-                    verify.html(0).hide()
-                }
-                window.parent.setFriendsCount(verify_count)
-                // 第一次查看显示特殊颜色
-                $('.friends-validation-list>button[readstatus=\'0\']').css('background-color', '#fcf8e3ff')
+    // 绑定好友验证展开事件
+    $('.friends-validation-list')
+        // 验证列表事件绑定
+        .on('click','.friends-validation-group',function (){
+            var class_string = $(this).find('span').eq(0).attr('class')
+            if(class_string.indexOf('right') >= 0){
+                // console.log(this)
+                $(this).find('span').eq(0).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
+                $(this).siblings().show()
+            }else{
+                $(this).find('span').eq(0).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
+                $(this).siblings().hide()
             }
         })
-    }
-    window.getValidaionList = getValidaionList
+        // 申请列表事件绑定
+        .on('click','.friends-apply-group',function (){
+            var class_string = $(this).find('span').eq(0).attr('class')
+            if(class_string.indexOf('right') >= 0){
+                // console.log(this)
+                $(this).find('span').eq(0).addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-right')
+                $(this).siblings().show()
+            }else{
+                $(this).find('span').eq(0).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
+                $(this).siblings().hide()
+            }
+        })
+
 
     // 同意与拒绝好友申请
     $('.friends-validation-list').on('click','.checkbox span',function (){
@@ -314,6 +318,7 @@ $(function (){
                     verify.html(0).hide()
                 }
                 window.parent.setFriendsCount(verify_count)
+                init()
             }
         })
 
