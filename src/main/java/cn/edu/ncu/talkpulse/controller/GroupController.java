@@ -29,6 +29,11 @@ public class GroupController {
    private UpdateGroupInfoService updateGroupInfoService;
    @Autowired
    private HostapplyService hostapplyService;
+   @Autowired
+   HttpServletRequest request;
+   private Integer getGroupIdFromSession(){
+      return (Integer) request.getSession().getAttribute("user_id");
+   }
    @PostMapping("/create")//创建群聊
     public Result CreateGroup(@RequestParam("group_id")Integer groupId,
                               @RequestParam("group_name")String groupName,

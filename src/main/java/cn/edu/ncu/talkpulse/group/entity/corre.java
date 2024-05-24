@@ -5,6 +5,10 @@ public class corre {
    private Integer corregroup_id;
 
     private boolean newinform;
+    public corre(Integer correuser_id,Integer corregroup_id){
+        this.correuser_id=correuser_id;
+        this.corregroup_id=corregroup_id;
+    }
 
     public Integer getCorreuser_id() {
         return correuser_id;
