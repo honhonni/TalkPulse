@@ -62,7 +62,7 @@ public class FriendServiceTest {
 
         session.setAttribute("user_id",666666);
 
-        JSONArray data  = friendService.getAllUserGroups(session);
+        JSONArray data  = JSONArray.of(friendService.getAllUserGroups(session));
         System.out.println(data);
 
 

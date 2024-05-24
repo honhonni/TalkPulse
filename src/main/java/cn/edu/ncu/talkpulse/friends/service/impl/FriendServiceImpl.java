@@ -4,6 +4,7 @@ package cn.edu.ncu.talkpulse.friends.service.impl;
 
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
+
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.friends.dao.FriendDao;
 import cn.edu.ncu.talkpulse.friends.dao.FriendshipDao;
@@ -83,38 +84,36 @@ public class FriendServiceImpl implements FriendService {
             return null;
         }
     }
+
     //获取用户所在群列表
     @Override
-    public JSONArray getAllUserGroups(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("user_id");
+    public Result getAllUserGroups(HttpSession session) {
 
+            Integer userId = (Integer) session.getAttribute("user_id");
+            List<Groupinfo> allGroups = friendDao.getAllUserGroups(userId);
 
-        List<Groupinfo> allGroups = friendDao.getAllUserGroups(userId);
-        JSONObject response = new JSONObject();
-        JSONArray createdGroupsArray = new JSONArray();
-        JSONArray joinedGroupsArray = new JSONArray();
-        for (Groupinfo group : allGroups) {
-            JSONObject groupJson = new JSONObject();
-            groupJson.put("group_id", group.getGroup_id());
-            groupJson.put("group_name", group.getGroup_name());
-            groupJson.put("group_introduce", group.getGroup_introduce());
-            groupJson.put("group_photo", group.getGroup_photo());
+            JSONObject response = new JSONObject();
+            JSONArray createdGroupsArray = new JSONArray();
+            JSONArray joinedGroupsArray = new JSONArray();
+            for (Groupinfo group : allGroups) {
+                JSONObject groupJson = new JSONObject();
+                groupJson.put("group_id", group.getGroup_id());
+                groupJson.put("group_name", group.getGroup_name());
+                groupJson.put("group_introduce", group.getGroup_introduce());
+                groupJson.put("group_photo", group.getGroup_photo());
 
-            if (group.getGroup_hostid().equals(userId)) {
-                // 如果群主ID等于用户ID，说明是用户创建的群组
-                createdGroupsArray.add(groupJson);
-            } else {
-                // 否则，是用户加入的群组
-                joinedGroupsArray.add(groupJson);
+                if (group.getGroup_hostid().equals(userId)) {
+                    createdGroupsArray.add(groupJson);
+                } else {
+                    joinedGroupsArray.add(groupJson);
+                }
             }
-        }
 
+            JSONArray dataArray = new JSONArray();
+            dataArray.add(createdGroupsArray);
+            dataArray.add(joinedGroupsArray);
+            return Result.success(dataArray);
 
-
-        JSONArray dataArray = new JSONArray();
-        dataArray.add(createdGroupsArray); // 我创建的群聊列表
-        dataArray.add(joinedGroupsArray);  // 我加入的群聊列表
-        return dataArray;
     }
     // 获取用户的好友分组信息
     @Override

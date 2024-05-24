@@ -1,13 +1,10 @@
 package cn.edu.ncu.talkpulse.friends.service;
 
 
-import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
-
-import java.util.List;
 
 public interface FriendService {
 
@@ -20,7 +17,7 @@ public interface FriendService {
     JSONArray getAllFriendshipsAndFriends(HttpSession session);
 
     //获取所在群列表
-    JSONArray getAllUserGroups(HttpSession session);
+    Result getAllUserGroups(HttpSession session);
 
     // 获取用户的好友分组列表
     JSONObject getFriendship( HttpSession session);
