@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static sun.security.krb5.internal.rcache.DflCache.uid;
-
 @Service("invite")
 public class InviteServiceImpl implements InviteService {
     @Autowired
