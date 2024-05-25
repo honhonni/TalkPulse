@@ -2,7 +2,7 @@ package cn.edu.ncu.talkpulse.group.service.impl;
 
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.group.dao.CorreDao;
-import cn.edu.ncu.talkpulse.group.entity.corre;
+import cn.edu.ncu.talkpulse.group.entity.Corre;
 import cn.edu.ncu.talkpulse.group.service.CorreService;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;

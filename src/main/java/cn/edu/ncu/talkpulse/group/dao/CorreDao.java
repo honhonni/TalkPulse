@@ -1,5 +1,6 @@
 package cn.edu.ncu.talkpulse.group.dao;
 
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.group.entity.Corre;
 import org.apache.ibatis.annotations.*;
 
