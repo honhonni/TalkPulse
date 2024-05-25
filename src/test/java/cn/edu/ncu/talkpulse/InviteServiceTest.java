@@ -1,7 +1,6 @@
 package cn.edu.ncu.talkpulse;
 
 import cn.edu.ncu.talkpulse.group.service.InviteService;
-import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,11 +24,5 @@ public class InviteServiceTest {
         session.setAttribute("user_id",11);
         Boolean flag =inviteService.invite(789,1,session);
         System.out.println(flag);
-    }
-    @Test
-    public void testgetgroupapply(){
-        session.setAttribute("user_id",123456);
-        JSONObject data=inviteService.getgroupapply(32121311,session,1,1);
-        System.out.println(data);
     }
 }

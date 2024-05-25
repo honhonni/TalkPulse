@@ -14,8 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,7 +35,7 @@ public class FriendServiceTest {
     @Test
     public void testGetFriendShip(){
         session.setAttribute("user_id",555555);
-        List<Friendship> data  = friendService.getFriendship( session);
+        JSONObject data  = friendService.getFriendship( session);
         System.out.println(data);
     }
     @Test
@@ -64,7 +62,7 @@ public class FriendServiceTest {
 
         session.setAttribute("user_id",666666);
 
-        JSONArray data  = friendService.getAllUserGroups(session);
+        JSONArray data  = JSONArray.of(friendService.getAllUserGroups(session));
         System.out.println(data);
 
 

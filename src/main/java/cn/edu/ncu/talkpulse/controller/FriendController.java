@@ -4,7 +4,6 @@ import cn.edu.ncu.talkpulse.account.service.AccountService;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
 import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
-import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.friends.entity.Validation;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
 import cn.edu.ncu.talkpulse.friends.service.ValidationService;
@@ -103,7 +102,7 @@ public class FriendController {
     public Result getFriendship(
                          HttpServletRequest request) {
         HttpSession session = request.getSession();
-        List<Friendship> data  = friendService.getFriendship(session);
+        JSONObject data  = friendService.getFriendship(session);
 
         if(data!=null) return Result.success(data);
         else return Result.fail();
@@ -135,7 +134,7 @@ public class FriendController {
     @GetMapping("/getUserGroups")
     public Result getUserGroups(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        JSONArray data = friendService.getAllUserGroups(session);
+        JSONArray data = JSONArray.of(friendService.getAllUserGroups(session));
 
         if (data != null ) {
             return Result.success(data);

@@ -25,6 +25,45 @@
 <!--        好友详细信息-->
         <div class="col-xs-5 col-sm-5 col-md-5">
             <div class="info-box">
+                <div class="photo">
+                    <img src="/images/avatar/defualt.png">
+                    <span>张三</span>
+                </div>
+                <div class="info">
+                    <ul class="info-list list-group">
+                        <li class="list-group-item">
+                            <span>UID:</span>
+                            <span>123456</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>昵称:</span>
+                            <span>张三</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>性别:</span>
+                            <span>未知</span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>个人介绍:</span>
+                            <span>法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒法外狂徒</span>
+                        </li>
+
+                        <li class="list-group-item">
+                            <span>当前分组:</span>
+                            <select name="move-groups" id="move-groups">
+                                <option value="我的好友">我的好友</option>
+                                <option value="基友">基友</option>
+                                <option value="死党">死党</option>
+                            </select>
+                        </li>
+                        <li class="list-group-item">
+                            <span>删除:</span>
+                            <button type="button" id="delete" class="btn btn-primary">
+                                删除好友
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 <!--        处理好友申请相关信息申请-->
@@ -55,13 +94,13 @@
 <!--好友列表-->
 <script type="text/html" id="tpl-friends-list">
     {{each data}}
-    <li class="left list-group-item" friendship_id="{{$value.friendship_id}}" friendship_name="{{$value.friendship_name}}">
+    <li class="left list-group-item">
         <div class="friends-group">
             <span class="glyphicon glyphicon-chevron-right"></span>
             <h2>{{$value.friendship_name}}</h2>
         </div>
         <div class="list-group">
-            {{each $value.friendlist}}
+            {{each $value.friends}}
             <button type="button" class="list-group-item" uid="{{$value.user_id}}">
                 <img src="{{$value.user_photo}}" class="frieds-photo">
                 {{$value.user_name}}
@@ -70,63 +109,6 @@
         </div>
     </li>
     {{/each}}
-</script>
-
-<!--好友详情-->
-<script type="text/html" id="tpl-friends-info">
-    <div class="photo">
-        <img src="{{user_photo}}">
-        <span>{{user_name}}</span>
-    </div>
-    <div class="info">
-        <ul class="info-list list-group">
-            <li class="list-group-item">
-                <span>UID:</span>
-                <span>{{user_id}}</span>
-            </li>
-            <li class="list-group-item">
-                <span>昵称:</span>
-                <span>{{user_name}}</span>
-            </li>
-            <li class="list-group-item">
-                <span>性别:</span>
-                <span>{{user_gender}}</span>
-            </li>
-            <li class="list-group-item">
-                <span>年龄:</span>
-                <span>{{user_age >= 0? user_age:"未设置"}}</span>
-            </li>
-            <li class="list-group-item">
-                <span>个人介绍:</span>
-                <span>{{user_introduce}}</span>
-            </li>
-
-            <li class="list-group-item">
-                <span>当前分组:</span>
-                <div class="custom-select">
-                    <div class="select-selected">{{friendship_name}}</div>
-                    <div class="select-items">
-                        {{each friendship}}
-                        <div friendship_id="{{$value.friendship_id}}">{{$value.friendship_name}}</div>
-                        {{/each}}
-                        <div class="add-option">创建分组</div>
-                    </div>
-                </div>
-<!--                <select name="move-groups" id="move-groups">-->
-<!--                    {{each friendship}}-->
-<!--                    <option value="{{$value.friendship_id}}">{{$value.friendship_name}}</option>-->
-<!--                    {{/each}}-->
-<!--                    <option id="add-friendship">添加分组</option>-->
-<!--                </select>-->
-            </li>
-            <li class="list-group-item">
-                <span>删除:</span>
-                <button type="button" id="delete" class="btn btn-primary">
-                    删除好友
-                </button>
-            </li>
-        </ul>
-    </div>
 </script>
 
 
