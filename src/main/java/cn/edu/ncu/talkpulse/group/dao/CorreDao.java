@@ -13,21 +13,27 @@ public interface CorreDao {
     @Select("SELECT correuser_id AND corregroup_id FROM corre where correuser_id=#{correuser_id} AND corregroup_id=#{corregroup_id}" )
     Corre ingroup(Integer correuser_id, Integer corregroup_id);
 
+    //获取群聊成员
+    @Select("SELECT * FROM corre\n" +
+            "JOIN userinfo\n" +
+            "WHERE corre.corregroup_id =#{corregroup_id}")
+    List<UserInfo> getgroup(Integer corregroup_id);
+
     // 更新群消息状态
     @Update("update corre set newinform = #{newinform} where correuser_id = #{correuser_id} and corregroup_id = #{corregroup_id}")
     int updateState(Corre c);
 
     // 批量更新有新的群消息
     @Update({
-        "<script>",
-        "update corre",
-        "set newInform = 1",
-        "where correuser_id IN ",
-        "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'>",
-        "#{id}",
-        "</foreach>",
-        "and corregroup_id = #{gid}",
-        "</script>"
+            "<script>",
+            "update corre",
+            "set newInform = 1",
+            "where correuser_id IN ",
+            "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'>",
+            "#{id}",
+            "</foreach>",
+            "and corregroup_id = #{gid}",
+            "</script>"
     })
     int batchUpdateState(@Param("gid")Integer gid,@Param("ids")List<Integer> ids);
 

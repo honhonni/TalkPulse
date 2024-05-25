@@ -2,6 +2,7 @@ package cn.edu.ncu.talkpulse.group.entity;
 
 public class Corre {
    private Integer correuser_id;
+   private String correuser_name;
    private Integer corregroup_id;
    private boolean newinform;
 
@@ -17,6 +18,14 @@ public class Corre {
     public Corre(Integer correuser_id, Integer corregroup_id){
         this.correuser_id=correuser_id;
         this.corregroup_id=corregroup_id;
+    }
+
+    public String getCorreuser_name() {
+        return correuser_name;
+    }
+
+    public void setCorreuser_name(String correuser_name) {
+        this.correuser_name = correuser_name;
     }
 
     public Integer getCorreuser_id() {

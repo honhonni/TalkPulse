@@ -1,6 +1,7 @@
 package cn.edu.ncu.talkpulse.group.service.impl;
 
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
 import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
@@ -10,7 +11,9 @@ import cn.edu.ncu.talkpulse.group.dao.InviteDao;
 import cn.edu.ncu.talkpulse.group.entity.Corre;
 import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.service.InviteService;
+import com.alibaba.fastjson2.JSONObject;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service("invite")
 public class InviteServiceImpl implements InviteService {

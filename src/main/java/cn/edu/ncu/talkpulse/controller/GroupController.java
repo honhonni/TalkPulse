@@ -1,16 +1,20 @@
 package cn.edu.ncu.talkpulse.controller;
 
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
-import cn.edu.ncu.talkpulse.group.dao.UpdateGroupInfoDao;
+import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
+import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
 import cn.edu.ncu.talkpulse.group.service.*;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.apache.tomcat.Jar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/group")
@@ -29,6 +33,8 @@ public class GroupController {
    private UpdateGroupInfoService updateGroupInfoService;
    @Autowired
    private HostapplyService hostapplyService;
+   @Autowired
+   private CorreService correService;
    @Autowired
    HttpServletRequest request;
    private Integer getGroupIdFromSession(){
@@ -60,15 +66,6 @@ public class GroupController {
        }
        else return Result.fail();
    }
-   /*@PostMapping("invite")//邀请进入群聊
-   public Result InviteGroup(@RequestParam("groupvalidation_receiverid")Integer groupvalidationReceiverId,
-                             @RequestParam("groupvalidation_groupid")Integer groupvalidationGroupId,
-                             HttpServletRequest request){
-      HttpSession session=request.getSession();
-      Boolean ok=inviteService.invite(groupvalidationReceiverId,groupvalidationGroupId,session);
-      if(ok) return Result.success();
-      else return Result.fail();
-   }*/
    @PostMapping("updateinvite")//更新群聊信息
    public Result UpdateInvite(
                               @RequestParam("groupvalidation_senderid")Integer groupvalidationSenderId,
@@ -129,14 +126,42 @@ public class GroupController {
       if(data!=null) return Result.success(data);
       else return Result.fail();
    }
-   /*@GetMapping("/getgroupapply")//获取邀请验证
-   public Result getGroupapply(@RequestParam("groupapply_groupid") Integer groupapply_groupid,
-                                    HttpServletRequest request,
-                                    @RequestParam("groupapply_hostid")Integer groupapply_hostid,
-                                    @RequestParam("groupapply_senderid") Integer groupapply_senderid){
-      HttpSession session=request.getSession();
-      JSONObject data=inviteService.getgroupapply(groupapply_groupid,session,groupapply_hostid,groupapply_senderid);
-      if(data!=null)return Result.success(data);
-      else return Result.fail();
-   }*/
+//申请群聊接口
+   @PostMapping("/addGroup")
+   public Result addGroup(@RequestParam("group_id") Integer GroupId){
+      Integer gid=getGroupIdFromSession();
+      if(gid==null) return Result.fail("非法请求，请先登录");
+      return inviteService.sendGroupapply(gid,GroupId);
+   }
+   //接收群聊申请(获取用户发送和接受到的群聊申请)
+   @GetMapping("/getGroupapply")
+   public Result getGroupapply(){
+      Integer gid=getGroupIdFromSession();
+      if(gid==null) return Result.fail("非法请求，请先登录");
+      List<ValidationSenderDTO>validationList=inviteService.getGroupapply(gid);
+      List<ValidationReceiverDTO>applyList=inviteService.getMyGroupapply(gid);
+      Map<String,Object>dataMap=new HashMap<>();
+      dataMap.put("validationlist",validationList);
+      dataMap.put("applylist",applyList);
+      return Result.success(dataMap);
+   }
+
+   //处理群聊申请接口
+   @PostMapping("/handleGroupapply")
+   public Result handleGroupapply(@RequestParam("groupapply_id") Integer groupapplyId,
+                                  @RequestParam("agree") Boolean agree){
+      Integer gid=getGroupIdFromSession();
+      if(gid==null) return  Result.fail("非法请求，请先登录");
+      return inviteService.handleGroupapply(gid,groupapplyId,agree);
+   }
+   //获取群聊成员列表
+   @PostMapping("/getGroupMember")
+   public List<UserInfo> getGroupMember(HttpSession session)
+   {
+      Integer gid=getGroupIdFromSession();
+      if(gid!=null)
+      {return correService.getgroup(session);}
+      else
+           return null;
+   }
 }
