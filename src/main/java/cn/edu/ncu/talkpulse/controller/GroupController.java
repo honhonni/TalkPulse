@@ -60,7 +60,7 @@ public class GroupController {
        }
        else return Result.fail();
    }
-   @PostMapping("invite")//邀请进入群聊
+   /*@PostMapping("invite")//邀请进入群聊
    public Result InviteGroup(@RequestParam("groupvalidation_receiverid")Integer groupvalidationReceiverId,
                              @RequestParam("groupvalidation_groupid")Integer groupvalidationGroupId,
                              HttpServletRequest request){
@@ -68,7 +68,7 @@ public class GroupController {
       Boolean ok=inviteService.invite(groupvalidationReceiverId,groupvalidationGroupId,session);
       if(ok) return Result.success();
       else return Result.fail();
-   }
+   }*/
    @PostMapping("updateinvite")//更新群聊信息
    public Result UpdateInvite(
                               @RequestParam("groupvalidation_senderid")Integer groupvalidationSenderId,
@@ -129,7 +129,7 @@ public class GroupController {
       if(data!=null) return Result.success(data);
       else return Result.fail();
    }
-   @GetMapping("/getgroupapply")//获取邀请验证
+   /*@GetMapping("/getgroupapply")//获取邀请验证
    public Result getGroupapply(@RequestParam("groupapply_groupid") Integer groupapply_groupid,
                                     HttpServletRequest request,
                                     @RequestParam("groupapply_hostid")Integer groupapply_hostid,
@@ -138,5 +138,5 @@ public class GroupController {
       JSONObject data=inviteService.getgroupapply(groupapply_groupid,session,groupapply_hostid,groupapply_senderid);
       if(data!=null)return Result.success(data);
       else return Result.fail();
-   }
+   }*/
 }

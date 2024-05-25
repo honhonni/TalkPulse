@@ -2,7 +2,7 @@ package cn.edu.ncu.talkpulse.group.service.impl;
 
 import cn.edu.ncu.talkpulse.group.dao.UpdateGroupInfoDao;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
-import cn.edu.ncu.talkpulse.group.entity.corre;
+import cn.edu.ncu.talkpulse.group.entity.Corre;
 import cn.edu.ncu.talkpulse.group.service.UpdateGroupInfoService;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +29,7 @@ public class UpdateGroupInfoServiceImpl implements UpdateGroupInfoService {
         JSONObject data=new JSONObject();
         if(groupinfo!=null){
             data.put("group",groupinfo);
-            corre correinfo=updateGroupInfoDao.getcorreInfo(correuser_id,group_id);
+            Corre correinfo=updateGroupInfoDao.getcorreInfo(correuser_id,group_id);
             if(correinfo!=null) {
                 data.put("present", true);
             }

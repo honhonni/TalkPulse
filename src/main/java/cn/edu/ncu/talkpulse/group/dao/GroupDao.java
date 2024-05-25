@@ -1,7 +1,7 @@
 package cn.edu.ncu.talkpulse.group.dao;
 
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
-import cn.edu.ncu.talkpulse.group.entity.groupvalidation;
+import cn.edu.ncu.talkpulse.group.entity.Groupvalidation;
 import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
@@ -91,7 +91,7 @@ public interface GroupDao {
             @Result(column = "groupvalidation_readstatus", property = "readStatus"),
             @Result(column = "groupvalidation_time", property = "time")
     })
-    List<groupvalidation> getInvitationsForUser(@Param("userId") int userId);
+    List<Groupvalidation> getInvitationsForUser(@Param("userId") int userId);
     @Update("UPDATE groupvalidation SET groupvalidation_readstatus = #{readStatus} WHERE groupvalidation_id = #{invitationId}")
     int updateInvitationReadStatus(@Param("invitationId") int invitationId, @Param("readStatus") boolean readStatus);//跟新邀请的状态
 

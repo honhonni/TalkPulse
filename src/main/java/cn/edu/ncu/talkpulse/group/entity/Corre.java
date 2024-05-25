@@ -1,11 +1,20 @@
 package cn.edu.ncu.talkpulse.group.entity;
 
-public class corre {
+public class Corre {
    private Integer correuser_id;
    private Integer corregroup_id;
+   private boolean newinform;
 
-    private boolean newinform;
-    public corre(Integer correuser_id,Integer corregroup_id){
+    public Corre() {
+    }
+
+    public Corre(Integer correuser_id, Integer corregroup_id, boolean newinform) {
+        this.correuser_id = correuser_id;
+        this.corregroup_id = corregroup_id;
+        this.newinform = newinform;
+    }
+
+    public Corre(Integer correuser_id, Integer corregroup_id){
         this.correuser_id=correuser_id;
         this.corregroup_id=corregroup_id;
     }
