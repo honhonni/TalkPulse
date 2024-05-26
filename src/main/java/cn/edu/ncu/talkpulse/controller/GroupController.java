@@ -149,10 +149,12 @@ public class GroupController {
    //处理群聊申请接口
    @PostMapping("/handleGroupapply")
    public Result handleGroupapply(@RequestParam("groupapply_id") Integer groupapplyId,
-                                  @RequestParam("agree") Boolean agree){
+                                  HttpServletRequest request,
+                                  @RequestParam("agree") Boolean groupapply_readstatus){
+      HttpSession session=request.getSession();
       Integer gid=getGroupIdFromSession();
       if(gid==null) return  Result.fail("非法请求，请先登录");
-      return inviteService.handleGroupapply(gid,groupapplyId,agree);
+      return inviteService.handleGroupapply(gid,groupapplyId,session,groupapply_readstatus);
    }
    //获取群聊成员列表
    @PostMapping("/getGroupMember")

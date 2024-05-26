@@ -76,17 +76,18 @@ public class InviteServiceImpl implements InviteService {
     //处理好友申请请求
     @Override
     @Transactional
-    public Result handleGroupapply(Integer gid,Integer groupapplyId,Boolean agree){
-        Groupapply groupapply1=inviteDao.getgroupapplyById(groupapplyId);
+    public Result handleGroupapply(Integer gid, Integer senderid, HttpSession session, Boolean status){
+        Integer hostid=(Integer) session.getAttribute("user_id");
+        Groupapply groupapply1=inviteDao.getgroupapplyById(hostid);
         if(groupapply1==null) return Result.fail("群聊申请不存在");
         if(!gid.equals(groupapply1.getGroupapply_groupid())) return Result.fail("非法请求");
         if(groupapply1.isGroupapply_status()!=false)return Result.fail("已经处理过请求");
         groupapply1.isGroupapply_status();
         inviteDao.updategroupapply(groupapply1);
-        if(agree){
-            Integer senderid=groupapply1.getGroupapply_senderid();
-            Integer receiverid=groupapply1.getGroupapply_groupid();
-            int res1=correDao.addcorre(senderid,receiverid);
+        if(status){
+            senderid=groupapply1.getGroupapply_senderid();
+            gid=groupapply1.getGroupapply_groupid();
+            int res1=correDao.addcorre(senderid,gid);
             return Result.success();
         }
         return Result.success();
