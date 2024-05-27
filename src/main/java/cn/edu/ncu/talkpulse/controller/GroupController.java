@@ -4,6 +4,7 @@ import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
 import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
+import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.service.*;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,8 +28,6 @@ public class GroupController {
    private InviteService inviteService;
    @Autowired
    private UpdateInviteService updateInviteService;
-   @Autowired
-   private UserApplyIntoService userApplyIntoService;
    @Autowired
    private UpdateGroupInfoService updateGroupInfoService;
    @Autowired
@@ -79,18 +78,6 @@ public class GroupController {
       if(ok) return Result.success();
       else return Result.fail();
    }
-   @PostMapping("userapplyinto")//用户申请入群
-   public Result UserApplyInto(
-                               HttpServletRequest request,
-                               @RequestParam("groupapply_time")LocalDateTime groupapplyTime,
-                               @RequestParam("groupapply_groupid")Integer groupapplyGroupId,
-                               @RequestParam("groupapply_introduce")String groupapplyIntroduce
-                               ){
-      HttpSession session=request.getSession();
-      Boolean ok=userApplyIntoService.UserApplyInto(session,groupapplyTime,groupapplyGroupId,groupapplyIntroduce);
-      if(ok) return Result.success();
-      else return Result.fail();
-   }
    @PostMapping("updategroupinfo")//更新群聊简介
    public Result UpdateGroupInfo(@RequestParam("group_id")Integer group_id,
                                  @RequestParam("group_introduce")String group_introduce,
@@ -101,11 +88,15 @@ public class GroupController {
       else return Result.fail();
    }
    @GetMapping("hostapply")//群主接收群聊申请
-   public Result HostApply(@RequestParam("groupapply_groupid")Integer groupapply_groupid,
+   public Result HostApply(
                            HttpServletRequest request){
       HttpSession session=request.getSession();
-      Boolean ok=hostapplyService.hostapply(groupapply_groupid,session);
-      if(ok) return Result.success();
+      List<Groupapply> groupapplies=inviteService.getMyGroupapply(session);
+      if(groupapplies!=null){
+         Map<String, Object> dataMap = new HashMap<>();
+         dataMap.put("groupapplies", groupapplies);
+         return Result.success(dataMap);
+      }
       else return Result.fail();
    }
    @PostMapping("hostset")//群主处理群聊申请
@@ -128,22 +119,28 @@ public class GroupController {
    }
 //申请群聊接口
    @PostMapping("/addGroup")
-   public Result addGroup(@RequestParam("group_id") Integer GroupId){
-      Integer gid=getGroupIdFromSession();
-      if(gid==null) return Result.fail("非法请求，请先登录");
-      return inviteService.sendGroupapply(gid,GroupId);
+   public Result addGroup(HttpServletRequest request,
+                           @RequestParam("groupapply_time") LocalDateTime groupapply_time,
+                          @RequestParam("groupapply_groupid") Integer groupapply_groupid,
+                          @RequestParam("groupapply_hostid") Integer groupapply_hostid,
+                          @RequestParam("groupapply_introduce")String groupapply_introduce){
+      HttpSession session=request.getSession();
+      Boolean data=inviteService.sendGroupapply(session,groupapply_time,groupapply_groupid,groupapply_hostid,groupapply_introduce);
+      if(data)return Result.success();
+      else return Result.fail();
    }
-   //接收群聊申请(获取用户发送和接受到的群聊申请)
+   //接收群聊申请(获取用户发送的群聊申请)
    @GetMapping("/getGroupapply")
-   public Result getGroupapply(){
-      Integer gid=getGroupIdFromSession();
-      if(gid==null) return Result.fail("非法请求，请先登录");
-      List<ValidationSenderDTO>validationList=inviteService.getGroupapply(gid);
-      List<ValidationReceiverDTO>applyList=inviteService.getMyGroupapply(gid);
-      Map<String,Object>dataMap=new HashMap<>();
-      dataMap.put("validationlist",validationList);
-      dataMap.put("applylist",applyList);
-      return Result.success(dataMap);
+   public Result getGroupapply(HttpServletRequest request){
+      HttpSession session=request.getSession();
+      JSONObject applyList=inviteService.getGroupapply(session);
+      if(applyList!=null) {
+         Map<String, Object> dataMap = new HashMap<>();
+         dataMap.put("applylist", applyList);
+         return Result.success(dataMap);
+      }else {
+         return Result.fail();
+         }
    }
 
    //处理群聊申请接口

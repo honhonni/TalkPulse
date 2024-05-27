@@ -18,13 +18,9 @@ public class HostapplyServiceTest {
     @Autowired
     private HttpSession session;
     @Test
-    public void TestHostapply(){
-        session.setAttribute("user_id",11);
-        Boolean flag=hostapplyService.hostapply(11,session);
-    }
-    @Test
     public void TestHostset(){
         session.setAttribute("user_id",11);
         Boolean flag=hostapplyService.hostset(true,true,11,session);
+        System.out.println(flag);
     }
 }

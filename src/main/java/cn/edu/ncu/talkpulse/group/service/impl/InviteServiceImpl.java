@@ -1,14 +1,10 @@
 package cn.edu.ncu.talkpulse.group.service.impl;
 
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
-import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
-import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
-import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
 import cn.edu.ncu.talkpulse.group.dao.CorreDao;
 import cn.edu.ncu.talkpulse.group.dao.CreateDao;
 import cn.edu.ncu.talkpulse.group.dao.InviteDao;
-import cn.edu.ncu.talkpulse.group.entity.Corre;
 import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.service.InviteService;
 import com.alibaba.fastjson2.JSONObject;
@@ -21,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service("invite")
 public class InviteServiceImpl implements InviteService {
@@ -37,42 +32,44 @@ public class InviteServiceImpl implements InviteService {
     //发送添加群聊申请
 
     @Override
-    public Result sendGroupapply(Integer gid, Integer groupId) {
-        Corre corre1 = correDao.ingroup(gid, groupId);
-        if (corre1 != null) return Result.fail("非法请求，已在群聊里面！");
-        Groupapply oldgroupapply = inviteDao.getgroupapplyByUserId(gid, groupId);
-        int res;
-        if (oldgroupapply != null) {
-            oldgroupapply.setGroupapply_status(false);//重置状态
-            oldgroupapply.setGroupapply_readstatus(false);
-            oldgroupapply.setGroupapply_time(LocalDateTime.now());
-            res = inviteDao.updategroupapply(oldgroupapply);
-        } else {
-            Groupapply groupapply1 = new Groupapply();
-            groupapply1.setGroupapply_senderid(gid);
-            groupapply1.setGroupapply_groupid(groupId);
-            groupapply1.setGroupapply_status(false);
-            groupapply1.setGroupapply_readstatus(false);
-            groupapply1.setGroupapply_time(LocalDateTime.now());
-            res = inviteDao.addgroupapply(groupapply1);
+    public Boolean sendGroupapply(HttpSession session ,LocalDateTime groupapply_time,Integer groupapply_groupid,Integer groupapply_hostid,String groupapply_introduce) {
+        Integer groupapply_senderid=(Integer) session.getAttribute("user_id");
+        int res=inviteDao.addgroupapply(groupapply_senderid,groupapply_time,groupapply_groupid,groupapply_hostid,groupapply_introduce);
+        if(res==1){
+            return true;
         }
-        return null;
+        else return false;
     }
-    //获取当前用户接受到的好友申请
+    //获取当前用户接受到的群聊申请
     @Override
-    public List<ValidationSenderDTO> getGroupapply(Integer gid){
-        List<Groupapply> groupapplies=inviteDao.getGroupapplyByReceiverId(gid);
-        List<ValidationSenderDTO> result=new ArrayList<>(groupapplies.size());
-        inviteDao.markGroupapplyAsRead(gid);
+    public List<Groupapply> getMyGroupapply(HttpSession session){
+        Integer groupapply_hostid = (Integer) session.getAttribute("userid");
+        List<Groupapply> groupapplies=inviteDao.getGroupapplyByReceiverId(groupapply_hostid);
+        List<Groupapply> result=new ArrayList<>(groupapplies.size());
+        inviteDao.markGroupapplyAsRead(groupapply_hostid);
         return result;
     }
     //获取用户发送的好友请求
     @Override
-    public List<ValidationReceiverDTO>getMyGroupapply(Integer gid){
-        List<Groupapply> groupapplies=inviteDao.getGroupapplyBySenderId(gid);
-        List<ValidationReceiverDTO> result=new ArrayList<>(groupapplies.size());
-        return result;
+    public JSONObject getGroupapply(HttpSession session) {
+        Integer groupapply_senderid = (Integer) session.getAttribute("user_id");
+        List<Groupapply> groupapplies = inviteDao.getGroupapplyBySenderId(groupapply_senderid);
+        JSONObject data = new JSONObject();
+
+        if (groupapplies != null && !groupapplies.isEmpty()) {
+            Groupapply firstGroupapply = groupapplies.get(0);
+            data.put("groupapply_senderid", firstGroupapply.getGroupapply_senderid());
+            data.put("groupapply_time", firstGroupapply.getGroupapply_time());
+           data.put("groupapply_groupid",firstGroupapply.getGroupapply_groupid());
+           data.put("groupapply_hostid",firstGroupapply.getGroupapply_hostid());
+           data.put("groupapply_status",firstGroupapply.isGroupapply_status());
+           data.put("groupapply_readstatus",firstGroupapply.isGroupapply_readstatus());
+           return data;
+       }
+        data.put("error", "没有找到对应的groupapply记录");
+        return data;
     }
+
     //处理好友申请请求
     @Override
     @Transactional
