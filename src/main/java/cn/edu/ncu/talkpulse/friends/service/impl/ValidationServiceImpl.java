@@ -11,6 +11,7 @@ import cn.edu.ncu.talkpulse.friends.dao.FriendshipDao;
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.friends.entity.Validation;
 import cn.edu.ncu.talkpulse.friends.entity.Friend;
+import cn.edu.ncu.talkpulse.friends.service.RecordService;
 import cn.edu.ncu.talkpulse.friends.service.ValidationService;
 import cn.edu.ncu.talkpulse.friends.service.WebSocketServer;
 import jakarta.annotation.Resource;
@@ -35,7 +36,7 @@ public class ValidationServiceImpl implements ValidationService {
     private FriendshipDao friendshipDao;
 
     @Autowired
-    private RecordDao recordDao;
+    private RecordService recordService;
 
     @Resource
     private AccountDao accountDao;
@@ -139,8 +140,8 @@ public class ValidationServiceImpl implements ValidationService {
             int res2 = friendshipDao.addFriend(friend2);
             if(res1==1 && res2==1) {
                 // 添加成功后，双方互发"你好"
-                recordDao.insert("请求添加好友",LocalDateTime.now(),senderid,receiverid);
-                recordDao.insert("我已同意你的好友申请",LocalDateTime.now(),receiverid,senderid);
+                recordService.sendMessage(senderid,receiverid,"请求添加好友",0);
+                recordService.sendMessage(receiverid,senderid,"我已同意你的好友申请",0);
                 return Result.success();
             }
             else return Result.fail();
