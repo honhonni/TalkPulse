@@ -123,16 +123,19 @@ public class GroupController {
    public Result getGroupapply(HttpServletRequest request){
       Integer id=(Integer) request.getSession().getAttribute("user_id");
       List<GroupApplyWithGroupInfo> applyList=inviteService.getGroupAppliesBySenderId(id);
+      List<GroupApplyWithGroupInfo>apply=inviteService.getMyGroupapply(id);
       if(applyList!=null) {
          Map<String, Object> dataMap = new HashMap<>();
          dataMap.put("applylist", applyList);
          return Result.success(dataMap);
-      }else {
-         List<GroupApplyWithGroupInfo>apply=inviteService.getMyGroupapply(id);
+      }else if(apply!=null){
          Map<String,Object> dateMap=new HashMap<>();
          dateMap.put("apply",apply);
          return Result.success(dateMap);
          }
+      else {
+         return Result.fail();
+      }
    }
 
    //处理群聊申请接口
