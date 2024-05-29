@@ -19,16 +19,29 @@ public class Record {
     // 接受者id
     private Integer record_recipientid;
 
-    // 是否已读
-    private Integer read_status;
+    // 是否已读（0未读、1已读）
+    private Integer record_readstatus;
 
-    public Record(Integer record_d, String record_content, LocalDateTime record_time, Integer record_senderid, Integer record_recipientid, Integer read_status) {
-        this.record_id = record_d;
+    // 消息类型（0文本、1图片、2语音）
+    private Integer record_type;
+
+    public Record(String record_content, LocalDateTime record_time, Integer record_senderid, Integer record_recipientid, Integer read_status,Integer record_type) {
         this.record_content = record_content;
         this.record_time = record_time;
         this.record_senderid = record_senderid;
         this.record_recipientid = record_recipientid;
-        this.read_status = read_status;
+        this.record_readstatus = read_status;
+        this.record_type = record_type;
+    }
+
+    public Record(Integer record_id, String record_content, LocalDateTime record_time, Integer record_senderid, Integer record_recipientid, Integer read_status, Integer record_type) {
+        this.record_id = record_id;
+        this.record_content = record_content;
+        this.record_time = record_time;
+        this.record_senderid = record_senderid;
+        this.record_recipientid = record_recipientid;
+        this.record_readstatus = read_status;
+        this.record_type = record_type;
     }
 
     public Record() {
@@ -37,13 +50,22 @@ public class Record {
     @Override
     public String toString() {
         return "Record{" +
-                "record_d=" + record_id +
+                "record_id=" + record_id +
                 ", record_content='" + record_content + '\'' +
                 ", record_time=" + record_time +
                 ", record_senderid=" + record_senderid +
                 ", record_recipientid=" + record_recipientid +
-                ", read_status=" + read_status +
+                ", read_status=" + record_readstatus +
+                ", record_type=" + record_type +
                 '}';
+    }
+
+    public Integer getRecord_type() {
+        return record_type;
+    }
+
+    public void setRecord_type(Integer record_type) {
+        this.record_type = record_type;
     }
 
     public Integer getRecord_id() {
@@ -86,11 +108,11 @@ public class Record {
         this.record_recipientid = record_recipientid;
     }
 
-    public Integer getRead_status() {
-        return read_status;
+    public Integer getRecord_readstatus() {
+        return record_readstatus;
     }
 
-    public void setRead_status(Integer read_status) {
-        this.read_status = read_status;
+    public void setRecord_readstatus(Integer record_readstatus) {
+        this.record_readstatus = record_readstatus;
     }
 }

@@ -42,16 +42,23 @@ public interface FriendDao {
 
 
     // 获取用户创建的群组和用户所在的群组（包括加入的群组）
-    @Select("SELECT g.group_id, g.group_name, g.group_introduce, g.group_photo " +
-                "FROM groupinfo g " +
-                "WHERE g.group_hostid = #{userId} " +
-                "UNION " +
-                "SELECT gi.group_id, gi.group_name, gi.group_introduce, gi.group_photo " +
-                "FROM corre c " +
-                "JOIN groupinfo gi ON c.corregroup_id = gi.group_id " +
-                "WHERE c.correuser_id = #{userId}")
-        List<Groupinfo> getAllUserGroups(@Param("userId") Integer userId);
+//    @Select("SELECT g.group_id, g.group_name, g.group_introduce, g.group_photo " +
+//                "FROM groupinfo g " +
+//                "WHERE g.group_hostid = #{userId} " +
+//                "UNION " +
+//                "SELECT gi.group_id, gi.group_name, gi.group_introduce, gi.group_photo " +
+//                "FROM corre c " +
+//                "JOIN groupinfo gi ON c.corregroup_id = gi.group_id " +
+//                "WHERE c.correuser_id = #{userId}")
+//        List<Groupinfo> getAllUserGroups(@Param("userId") Integer userId);
+//
 
+    @Select(
+            "SELECT gi.group_id, gi.group_name, gi.group_introduce, gi.group_photo " +
+            "FROM corre c " +
+            "JOIN groupinfo gi ON c.corregroup_id = gi.group_id " +
+            "WHERE c.correuser_id = #{userId}")
+    List<Groupinfo> getAllUserGroups(@Param("userId") Integer userId);
 
 
     // 获取好友分组信息

@@ -3,7 +3,7 @@ package cn.edu.ncu.talkpulse.group.entity;
 
 import java.time.LocalDateTime;
 
-public class groupvalidation {
+public class Groupvalidation {
 	// id
 	private Integer groupvalidation_id;
 

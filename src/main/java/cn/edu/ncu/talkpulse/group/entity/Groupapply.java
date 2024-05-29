@@ -2,7 +2,7 @@ package cn.edu.ncu.talkpulse.group.entity;
 
 import java.time.LocalDateTime;
 
-public class groupapply {
+public class Groupapply {
     private int groupapply_id;
     private int groupapply_senderid;
     private LocalDateTime groupapply_time;

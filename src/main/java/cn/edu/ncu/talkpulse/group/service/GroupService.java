@@ -1,7 +1,7 @@
 package cn.edu.ncu.talkpulse.group.service;
 
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
-import cn.edu.ncu.talkpulse.group.entity.groupvalidation;
+import cn.edu.ncu.talkpulse.group.entity.Groupvalidation;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +21,7 @@ public interface GroupService {
     int saveInvitationValidation(int senderId,int receiverId,int groupId,boolean status,boolean readStatus,LocalDateTime time);
     boolean checkInvitationStatus(int senderId,int receiverId,int groupId);
     int updateInvitationStatus(int senderId,int receiverId,int groupId,boolean newStatus,boolean newReadStatus);
-    List<groupvalidation> getInvitationsForUser(int userId);
+    List<Groupvalidation> getInvitationsForUser(int userId);
     int updateInvitationReadStatus(int invitationId,boolean readStatus);
     int acceptInvitation(int invitationId,int userId,boolean status,boolean readStatus,LocalDateTime time);
     int rejectInvitation(int invitationId,int userId,boolean status,boolean readStatus,LocalDateTime time);

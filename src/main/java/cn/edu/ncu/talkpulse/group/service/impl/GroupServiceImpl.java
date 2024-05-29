@@ -3,7 +3,7 @@ package cn.edu.ncu.talkpulse.group.service.impl;
 
 import cn.edu.ncu.talkpulse.group.dao.GroupDao;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
-import cn.edu.ncu.talkpulse.group.entity.groupvalidation;
+import cn.edu.ncu.talkpulse.group.entity.Groupvalidation;
 import cn.edu.ncu.talkpulse.group.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,7 +88,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<groupvalidation> getInvitationsForUser(int userId) {
+    public List<Groupvalidation> getInvitationsForUser(int userId) {
         return groupDao.getInvitationsForUser(userId);
     }
 

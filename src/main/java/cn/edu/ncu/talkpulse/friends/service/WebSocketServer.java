@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -92,5 +93,28 @@ public class WebSocketServer {
         }else {
             log.info("WebSocket：用户{} 未登录",uid);
         }
+    }
+
+    /**
+     * 向用户组发消息
+     * @param ids
+     * @param message
+     */
+    public void sendToGroup(List<Integer> ids,String message){
+        log.info("---------------------------------------");
+        ids.forEach(uid->{
+            Session session = sessionMap.get(uid);
+            if(session!=null){
+                try {
+                    session.getBasicRemote().sendText(message);
+                    log.info("WebSocket：向用户{} 发送群聊消息通知：{}",uid,message);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }else {
+                log.info("WebSocket：用户{} 未登录",uid);
+            }
+        });
+        log.info("---------------------------------------");
     }
 }

@@ -58,7 +58,14 @@ $(function (){
             var iframe = $('#inlineFrame').contents();
             if(iframe[0].title === '好友'){
                 // console.log('当前在friends页面下')
-                $('#inlineFrame')[0].contentWindow.initFriends()
+                var verify = iframe.find('#verify-count')
+                var verify_count = Number(verify.attr('verify_count')) + 1
+                verify.attr('verify_count',verify_count)
+                if(verify_count > 99){
+                    verify.html('99+').show()
+                }else if( verify_count > 0){
+                    verify.html(verify_count).show()
+                }
             }
 
         }else if( e.data === '3'){
