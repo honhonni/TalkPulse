@@ -5,6 +5,7 @@ import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
 import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
 import cn.edu.ncu.talkpulse.dto.WebSocketDTO;
+import cn.edu.ncu.talkpulse.friends.dao.RecordDao;
 import cn.edu.ncu.talkpulse.friends.dao.ValidationDao;
 import cn.edu.ncu.talkpulse.friends.dao.FriendshipDao;
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
@@ -32,6 +33,9 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Autowired
     private FriendshipDao friendshipDao;
+
+    @Autowired
+    private RecordDao recordDao;
 
     @Resource
     private AccountDao accountDao;
@@ -133,7 +137,12 @@ public class ValidationServiceImpl implements ValidationService {
             // 3、被申请者也要将申请者添加进入默认分组
             Friend friend2 = new Friend(receiverid,senderid,receiverFriendShipId);
             int res2 = friendshipDao.addFriend(friend2);
-            if(res1==1 && res2==1) return Result.success();
+            if(res1==1 && res2==1) {
+                // 添加成功后，双方互发"你好"
+                recordDao.insert("请求添加好友",LocalDateTime.now(),senderid,receiverid);
+                recordDao.insert("我已同意你的好友申请",LocalDateTime.now(),receiverid,senderid);
+                return Result.success();
+            }
             else return Result.fail();
         }
         return Result.success();
