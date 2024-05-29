@@ -22,7 +22,7 @@ public class UpdateInfoServiceTest {
 
     @Test
     public void testUpdatetonew(){
-        Boolean flag = updateInfoService.updatetonew(1000, "yuyu", "男",11,"你好！交朋友吗？");
+        Boolean flag = updateInfoService.updatetonew(123456, "yuyu", "男",11,"你好！交朋友吗？");
         System.out.println(flag);
     }
 
