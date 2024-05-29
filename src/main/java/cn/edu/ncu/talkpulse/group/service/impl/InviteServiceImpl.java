@@ -69,10 +69,7 @@ public class InviteServiceImpl implements InviteService {
         else return false;
     }
 
-    //获取用户发送的好友请求
-
-
-    //处理好友申请请求
+    //处理群聊申请请求
     @Override
     @Transactional
     public Result handleGroupapply(Integer gid, Integer senderid, HttpSession session, Boolean status){

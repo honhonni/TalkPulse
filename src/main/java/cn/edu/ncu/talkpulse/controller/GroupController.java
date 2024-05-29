@@ -56,12 +56,10 @@ public class GroupController {
        else return Result.fail();
    }
    @PostMapping("exit")//退出群聊
-    public Result ExitGroup(@RequestParam("corregroup_id")Integer corregroup_id , HttpServletRequest request){
+    public Result ExitGroup(@RequestParam("group_id")Integer group_id , HttpServletRequest request){
        HttpSession session=request.getSession();
-       Boolean ok= exitService.exitGroup(corregroup_id,session);
+       Boolean ok= exitService.exitGroup(group_id,session);
        if(ok) {
-          System.out.println("200");
-
           return Result.success();
        }
        else return Result.fail();
