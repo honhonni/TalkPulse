@@ -1,7 +1,10 @@
 package cn.edu.ncu.talkpulse;
 
+import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
+import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
 import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.service.InviteService;
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
@@ -22,16 +25,24 @@ public class InviteServiceTest{
     private InviteService inviteService;
     @Autowired
     private HttpSession session;
+
+    //发送添加群聊申请
     @Test
     public void TestAddGroup(){
         session.setAttribute("user_id",11);
         Boolean flag=inviteService.sendGroupapply(session, LocalDateTime.now(),1,70,"hello");
         System.out.println(flag);
     }
+    //查看发送的群聊信息
     @Test
-    public void TestgetGroupapply(){
-        session.setAttribute("user_id",14);
-        JSONObject flag= inviteService.getGroupapply(session);
+    public void getGroupAppliesBySenderId(){
+        List<GroupApplyWithGroupInfo> flag= inviteService.getGroupAppliesBySenderId(14);
+        System.out.println(flag);
+    }
+    //查看收到的群聊信息
+    @Test
+    public void getGroupAppliesByReceiver(){
+        List<GroupApplyWithGroupInfo> flag=inviteService.getMyGroupapply(123456);
         System.out.println(flag);
     }
 }

@@ -4,6 +4,7 @@ import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
 import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
+import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
 import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.service.*;
 import com.alibaba.fastjson2.JSONObject;
@@ -87,18 +88,6 @@ public class GroupController {
       if(ok) return Result.success();
       else return Result.fail();
    }
-   @GetMapping("hostapply")//群主接收群聊申请
-   public Result HostApply(
-                           HttpServletRequest request){
-      HttpSession session=request.getSession();
-      List<Groupapply> groupapplies=inviteService.getMyGroupapply(session);
-      if(groupapplies!=null){
-         Map<String, Object> dataMap = new HashMap<>();
-         dataMap.put("groupapplies", groupapplies);
-         return Result.success(dataMap);
-      }
-      else return Result.fail();
-   }
    @PostMapping("hostset")//群主处理群聊申请
    public Result HostSet(@RequestParam("groupapply_status")Boolean groupapply_status,
                          @RequestParam("groupapply_readstatus")Boolean groupapply_readstatus,
@@ -132,14 +121,17 @@ public class GroupController {
    //接收群聊申请(获取用户发送的群聊申请)
    @GetMapping("/getGroupapply")
    public Result getGroupapply(HttpServletRequest request){
-      HttpSession session=request.getSession();
-      JSONObject applyList=inviteService.getGroupapply(session);
+      Integer id=(Integer) request.getSession().getAttribute("user_id");
+      List<GroupApplyWithGroupInfo> applyList=inviteService.getGroupAppliesBySenderId(id);
       if(applyList!=null) {
          Map<String, Object> dataMap = new HashMap<>();
          dataMap.put("applylist", applyList);
          return Result.success(dataMap);
       }else {
-         return Result.fail();
+         List<GroupApplyWithGroupInfo>apply=inviteService.getMyGroupapply(id);
+         Map<String,Object> dateMap=new HashMap<>();
+         dateMap.put("apply",apply);
+         return Result.success(dateMap);
          }
    }
 
