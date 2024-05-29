@@ -56,7 +56,26 @@
                     </div>
                 </div>
                 <ul class="groups-validation-list list-group">
+                    <li class="left list-group-item">
+                        <div class="groups-validation-group">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <h2>群聊验证</h2>
+                            <span id="verify-count"></span>
+                        </div>
+                        <div class="groups-verify-list list-group">
 
+                        </div>
+                    </li>
+                    <li class="left list-group-item">
+                        <div class="groups-apply-group">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <h2>群聊申请</h2>
+                            <!--            <span id="apply-count" apply-count="0">0</span>-->
+                        </div>
+                        <div class="groups-apply-list list-group">
+
+                        </div>
+                    </li>
                 </ul>
 
             </div>
@@ -224,70 +243,55 @@
     </div>
 </script>
 <!--群聊验证-->
-<script type="text/html" id="tpl-groups-validation-list">
-    <li class="left list-group-item">
-        <div class="groups-validation-group">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <h2>群聊验证</h2>
-            <span id="verify-count"></span>
-        </div>
-        <div class="groups-verify-list list-group">
-            {{each data.validationlist}}
-            <button type="button" class="list-group-item" readstatus="{{$value.validation_readstatus}}">
-                <img src="{{$value.validation_sender_photo}}" class="groups-validation-photo">
-                <div class="box">
-                    <div class="row1">
-                        <span>{{$value.validation_senderid}}</span>
-                        <div class="checkbox" aid="{{$value.validation_id}}">
-                            {{if $value.validation_status == 0}}
-                            <span class="agree">同意</span>
-                            <span class="reject">拒绝</span>
-                            {{else if $value.validation_status == 1}}
-                            <span class="agreed">已同意</span>
-                            {{else if $value.validation_status == -1}}
-                            <span class="rejected">已拒绝</span>
-                            {{/if}}
-                        </div>
-                    </div>
-                    <div class="row2">
-                        <span>{{$value.validation_sender_name}}</span>
-                        <span>{{$value.validation_time}}</span>
-                    </div>
+<script type="text/html" id="tpl-groups-verify-list">
+    {{each validationlist}}
+    <button type="button" class="list-group-item" readstatus="{{$value.validation_readstatus}}">
+        <img src="{{$value.validation_sender_photo}}" class="groups-validation-photo">
+        <div class="box">
+            <div class="row1">
+                <span>{{$value.validation_senderid}}</span>
+                <div class="checkbox" aid="{{$value.validation_id}}">
+                    {{if $value.validation_status == 0}}
+                    <span class="agree">同意</span>
+                    <span class="reject">拒绝</span>
+                    {{else if $value.validation_status == 1}}
+                    <span class="agreed">已同意</span>
+                    {{else if $value.validation_status == -1}}
+                    <span class="rejected">已拒绝</span>
+                    {{/if}}
                 </div>
-            </button>
-            {{/each}}
+            </div>
+            <div class="row2">
+                <span>{{$value.validation_sender_name}}</span>
+                <span>{{$value.validation_time}}</span>
+            </div>
         </div>
-    </li>
-    <li class="left list-group-item">
-        <div class="groups-apply-group">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <h2>群聊申请</h2>
-            <!--            <span id="apply-count" apply-count="0">0</span>-->
+    </button>
+    {{/each}}
+</script>
+<!--群聊申请-->
+<script type="text/html" id="tpl-groups-apply-list">
+    {{each applylist}}
+    <button type="button" class="list-group-item" readstatus="{{$value.validation_readstatus}}">
+        <img src="{{$value.validation_receiver_photo}}" class="groups-validation-photo">
+        <div class="box">
+            <div class="row1">
+                <span>{{$value.validation_receiverid}}</span>
+                {{if $value.validation_status == 0}}
+                <span>等待对方验证……</span>
+                {{else if $value.validation_status == 1}}
+                <span>对方已同意</span>
+                {{else if $value.validation_status == -1}}
+                <span>对方已拒绝</span>
+                {{/if}}
+            </div>
+            <div class="row2">
+                <span>{{$value.validation_receiver_name}}</span>
+                <span>{{$value.validation_time}}</span>
+            </div>
         </div>
-        <div class="groups-apply-list list-group">
-            {{each data.applylist}}
-            <button type="button" class="list-group-item" readstatus="{{$value.validation_readstatus}}">
-                <img src="{{$value.validation_receiver_photo}}" class="groups-validation-photo">
-                <div class="box">
-                    <div class="row1">
-                        <span>{{$value.validation_receiverid}}</span>
-                        {{if $value.validation_status == 0}}
-                        <span>等待对方验证……</span>
-                        {{else if $value.validation_status == 1}}
-                        <span>对方已同意</span>
-                        {{else if $value.validation_status == -1}}
-                        <span>对方已拒绝</span>
-                        {{/if}}
-                    </div>
-                    <div class="row2">
-                        <span>{{$value.validation_receiver_name}}</span>
-                        <span>{{$value.validation_time}}</span>
-                    </div>
-                </div>
-            </button>
-            {{/each}}
-        </div>
-    </li>
+    </button>
+    {{/each}}
 </script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
