@@ -1,7 +1,7 @@
 package cn.edu.ncu.talkpulse.group.dao;
 
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
-import cn.edu.ncu.talkpulse.group.entity.groupvalidation;
+import cn.edu.ncu.talkpulse.group.entity.Groupvalidation;
 import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;
@@ -11,20 +11,9 @@ import java.util.Map;
 @Mapper
 public interface GroupDao {
 
-
+    //获取群聊信息
     @Select("select group_id,group_name,group_introduce,group_hostid from Groupinfo where group_id=#{id}")
     public List<Groupinfo> selectAll(int group_id);
-
-    @Insert("INSERT INTO groupapply (groupapply_id, groupapply_sendardid, groupapply_time, groupapply_groupid, groupapply_hostid, groupapply_introduce, groupapply_status, groupapply_readstatus)" +
-            "VALUES (#{senderid}, #{hostid}, #{time}, #{groupid}, #{hostid}, #{introduce}, #{status}, #{readstatus})")
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "groupapply_id") // 假设主键是groupapply_id
-    int applyForGroup(@Param("senderid") int senderid,
-                      @Param("hostid") int hostid,
-                      @Param("groupid") int groupid,
-                      @Param("introduce") String introduce,
-                      @Param("status") boolean status,
-                      @Param("readstatus") boolean readstatus,
-                      @Param("time") LocalDateTime time);//（用户）申请入群方法
 
     @Insert("INSERT INTO groupvalidation (groupvalidation_senderid, groupvalidation_receiverid, groupvalidation_groupid, groupvalidation_status, groupvalidation_readstatus, groupvalidation_time) " +
             "VALUES (#{senderid}, #{receiverid}, #{groupid}, #{status}, #{readstatus}, #{time})")
@@ -91,7 +80,7 @@ public interface GroupDao {
             @Result(column = "groupvalidation_readstatus", property = "readStatus"),
             @Result(column = "groupvalidation_time", property = "time")
     })
-    List<groupvalidation> getInvitationsForUser(@Param("userId") int userId);
+    List<Groupvalidation> getInvitationsForUser(@Param("userId") int userId);
     @Update("UPDATE groupvalidation SET groupvalidation_readstatus = #{readStatus} WHERE groupvalidation_id = #{invitationId}")
     int updateInvitationReadStatus(@Param("invitationId") int invitationId, @Param("readStatus") boolean readStatus);//跟新邀请的状态
 

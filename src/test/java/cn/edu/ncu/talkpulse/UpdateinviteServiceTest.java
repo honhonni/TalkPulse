@@ -16,13 +16,13 @@ import static java.time.LocalDateTime.now;
 @AutoConfigureMockMvc
 public class UpdateinviteServiceTest {
     @Autowired
-    private UpdateInviteService updateinviteServiceTest;
+    private UpdateInviteService updateinviteService;
     @Autowired
     private HttpSession session;
     @Test
     public void testUpdateInvite(){
         session.setAttribute("user_id",11);
-        Boolean flag =updateinviteServiceTest.updateinvite(11,session,1,"0","0",now());
+        Boolean flag =updateinviteService.updateinvite(11,session,1,"0","0",now());
         System.out.println(flag);
     }
 }

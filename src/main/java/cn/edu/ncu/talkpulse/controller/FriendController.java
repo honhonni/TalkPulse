@@ -1,11 +1,10 @@
 package cn.edu.ncu.talkpulse.controller;
 
-import cn.edu.ncu.talkpulse.account.service.AccountService;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
 import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
-import cn.edu.ncu.talkpulse.friends.entity.Validation;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
+import cn.edu.ncu.talkpulse.friends.service.RecordService;
 import cn.edu.ncu.talkpulse.friends.service.ValidationService;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -24,8 +23,6 @@ import java.util.Map;
 public class FriendController {
     @Autowired
     private FriendService friendService;
-
-
 
     @Autowired
     private ValidationService validationService;

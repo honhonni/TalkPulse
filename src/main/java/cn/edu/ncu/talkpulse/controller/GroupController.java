@@ -1,16 +1,22 @@
 package cn.edu.ncu.talkpulse.controller;
 
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
-import cn.edu.ncu.talkpulse.group.dao.UpdateGroupInfoDao;
+import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
+import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
+import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
+import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.service.*;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.apache.tomcat.Jar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/group")
@@ -24,12 +30,17 @@ public class GroupController {
    @Autowired
    private UpdateInviteService updateInviteService;
    @Autowired
-   private UserApplyIntoService userApplyIntoService;
-   @Autowired
    private UpdateGroupInfoService updateGroupInfoService;
    @Autowired
    private HostapplyService hostapplyService;
-   @PostMapping("/create")
+   @Autowired
+   private CorreService correService;
+   @Autowired
+   HttpServletRequest request;
+   private Integer getGroupIdFromSession(){
+      return (Integer) request.getSession().getAttribute("user_id");
+   }
+   @PostMapping("/create")//创建群聊
     public Result CreateGroup(@RequestParam("group_id")Integer groupId,
                               @RequestParam("group_name")String groupName,
                               @RequestParam("group_introduce")String groupIntroduce,
@@ -43,28 +54,17 @@ public class GroupController {
           return Result.success();
        }
        else return Result.fail();
-   }//创建群聊
-   @PostMapping("exit")
-    public Result ExitGroup(@RequestParam("corregroup_id")Integer corregroup_id , HttpServletRequest request){
+   }
+   @PostMapping("exit")//退出群聊
+    public Result ExitGroup(@RequestParam("group_id")Integer group_id , HttpServletRequest request){
        HttpSession session=request.getSession();
-       Boolean ok= exitService.exitGroup(corregroup_id,session);
+       Boolean ok= exitService.exitGroup(group_id,session);
        if(ok) {
-          System.out.println("200");
-
           return Result.success();
        }
        else return Result.fail();
-   }//退出群聊
-   @PostMapping("invite")
-   public Result InviteGroup(@RequestParam("groupvalidation_receiverid")Integer groupvalidationReceiverId,
-                             @RequestParam("groupvalidation_groupid")Integer groupvalidationGroupId,
-                             HttpServletRequest request){
-      HttpSession session=request.getSession();
-      Boolean ok=inviteService.invite(groupvalidationReceiverId,groupvalidationGroupId,session);
-      if(ok) return Result.success();
-      else return Result.fail();
-   }//邀请进入群聊
-   @PostMapping("updateinvite")
+   }
+   @PostMapping("updateinvite")//更新群聊信息
    public Result UpdateInvite(
                               @RequestParam("groupvalidation_senderid")Integer groupvalidationSenderId,
                               HttpServletRequest request,
@@ -76,20 +76,8 @@ public class GroupController {
       Boolean ok=updateInviteService.updateinvite(groupvalidationSenderId,session,groupvalidationGroupId,groupvalidationStatus,groupvalidationReadStatus,groupvalidationTime);
       if(ok) return Result.success();
       else return Result.fail();
-   }//更新群聊信息
-   @PostMapping("userapplyinto")
-   public Result UserApplyInto(
-                               HttpServletRequest request,
-                               @RequestParam("groupapply_time")LocalDateTime groupapplyTime,
-                               @RequestParam("groupapply_groupid")Integer groupapplyGroupId,
-                               @RequestParam("groupapply_introduce")String groupapplyIntroduce
-                               ){
-      HttpSession session=request.getSession();
-      Boolean ok=userApplyIntoService.UserApplyInto(session,groupapplyTime,groupapplyGroupId,groupapplyIntroduce);
-      if(ok) return Result.success();
-      else return Result.fail();
-   }//用户申请入群
-   @PostMapping("updategroupinfo")
+   }
+   @PostMapping("updategroupinfo")//更新群聊简介
    public Result UpdateGroupInfo(@RequestParam("group_id")Integer group_id,
                                  @RequestParam("group_introduce")String group_introduce,
                                  HttpServletRequest request){
@@ -97,16 +85,8 @@ public class GroupController {
       Boolean ok=updateGroupInfoService.updateGroupIntroduce(group_introduce,group_id,session);
       if(ok) return Result.success();
       else return Result.fail();
-   }//更新群聊简介
-   @GetMapping("hostapply")
-   public Result HostApply(@RequestParam("groupapply_groupid")Integer groupapply_groupid,
-                           HttpServletRequest request){
-      HttpSession session=request.getSession();
-      Boolean ok=hostapplyService.hostapply(groupapply_groupid,session);
-      if(ok) return Result.success();
-      else return Result.fail();//群主接收群聊申请
    }
-   @PostMapping("hostset")
+   @PostMapping("hostset")//群主处理群聊申请
    public Result HostSet(@RequestParam("groupapply_status")Boolean groupapply_status,
                          @RequestParam("groupapply_readstatus")Boolean groupapply_readstatus,
                          @RequestParam("groupapply_groupid")Integer groupapply_groupid,
@@ -114,14 +94,66 @@ public class GroupController {
       HttpSession session=request.getSession();
       Boolean ok=hostapplyService.hostset(groupapply_status,groupapply_readstatus,groupapply_groupid,session);
       if(ok) return Result.success();
-      else return Result.fail();//群主处理群聊申请
+      else return Result.fail();
    }
    @GetMapping("/getGroupInfo")//获取群聊简介接口
-   public Result result(@RequestParam("group_Id") Integer group_id,
+   public Result getGroupinfo(@RequestParam("group_Id") Integer group_id,
                         HttpServletRequest request){
       HttpSession session=request.getSession();
       JSONObject data=updateGroupInfoService.getGroupInfo(group_id,session);
       if(data!=null) return Result.success(data);
       else return Result.fail();
+   }
+//申请群聊接口
+   @PostMapping("/addGroup")
+   public Result addGroup(HttpServletRequest request,
+                           @RequestParam("groupapply_time") LocalDateTime groupapply_time,
+                          @RequestParam("groupapply_groupid") Integer groupapply_groupid,
+                          @RequestParam("groupapply_hostid") Integer groupapply_hostid,
+                          @RequestParam("groupapply_introduce")String groupapply_introduce){
+      HttpSession session=request.getSession();
+      Boolean data=inviteService.sendGroupapply(session,groupapply_time,groupapply_groupid,groupapply_hostid,groupapply_introduce);
+      if(data)return Result.success();
+      else return Result.fail();
+   }
+   //接收群聊申请(获取用户发送的群聊申请)
+   @GetMapping("/getGroupapply")
+   public Result getGroupapply(HttpServletRequest request){
+      Integer id=(Integer) request.getSession().getAttribute("user_id");
+      List<GroupApplyWithGroupInfo> applyList=inviteService.getGroupAppliesBySenderId(id);
+      List<GroupApplyWithGroupInfo>apply=inviteService.getMyGroupapply(id);
+      if(applyList!=null) {
+         Map<String, Object> dataMap = new HashMap<>();
+         dataMap.put("applylist", applyList);
+         return Result.success(dataMap);
+      }else if(apply!=null){
+         Map<String,Object> dateMap=new HashMap<>();
+         dateMap.put("apply",apply);
+         return Result.success(dateMap);
+         }
+      else {
+         return Result.fail();
+      }
+   }
+
+   //处理群聊申请接口
+   @PostMapping("/handleGroupapply")
+   public Result handleGroupapply(@RequestParam("groupapply_id") Integer groupapplyId,
+                                  HttpServletRequest request,
+                                  @RequestParam("agree") Boolean groupapply_readstatus){
+      HttpSession session=request.getSession();
+      Integer gid=getGroupIdFromSession();
+      if(gid==null) return  Result.fail("非法请求，请先登录");
+      return inviteService.handleGroupapply(gid,groupapplyId,session,groupapply_readstatus);
+   }
+   //获取群聊成员列表
+   @PostMapping("/getGroupMember")
+   public List<UserInfo> getGroupMember(HttpSession session)
+   {
+      Integer gid=getGroupIdFromSession();
+      if(gid!=null)
+      {return correService.getgroup(session);}
+      else
+           return null;
    }
 }

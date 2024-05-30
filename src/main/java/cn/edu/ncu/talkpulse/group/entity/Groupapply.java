@@ -2,15 +2,15 @@ package cn.edu.ncu.talkpulse.group.entity;
 
 import java.time.LocalDateTime;
 
-public class groupapply {
+public class Groupapply {
     private int groupapply_id;
     private int groupapply_senderid;
     private LocalDateTime groupapply_time;
     private int groupapply_groupid;
     private int groupapply_hostid;
     private String groupapply_introduce;
-    private boolean groupapply_status;
-    private boolean groupapply_readstatus;
+    private byte groupapply_status;
+    private byte groupapply_readstatus;
 
     public int getGroupapply_id() {
         return groupapply_id;
@@ -60,19 +60,19 @@ public class groupapply {
         this.groupapply_introduce = groupapply_introduce;
     }
 
-    public boolean isGroupapply_status() {
+    public int getGroupapply_status() {
         return groupapply_status;
     }
 
-    public void setGroupapply_status(boolean groupapply_status) {
+    public void setGroupapply_status(byte groupapply_status) {
         this.groupapply_status = groupapply_status;
     }
 
-    public boolean isGroupapply_readstatus() {
+    public int getGroupapply_readstatus() {
         return groupapply_readstatus;
     }
 
-    public void setGroupapply_readstatus(boolean groupapply_readstatus) {
+    public void setGroupapply_readstatus(byte groupapply_readstatus) {
         this.groupapply_readstatus = groupapply_readstatus;
     }
 }

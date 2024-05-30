@@ -13,6 +13,7 @@ public class Groupinfo {
 
 	// 群主id
 	private Integer group_hostid;
+
 	private String group_photo;
 
 	public Groupinfo(Integer group_id, String group_name, String group_introduce, Integer group_hostid) {

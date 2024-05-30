@@ -1,6 +1,8 @@
 package cn.edu.ncu.talkpulse.dto;
 
 import cn.edu.ncu.talkpulse.friends.entity.Validation;
+import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
+import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 
 import java.time.LocalDateTime;
 
@@ -38,6 +40,18 @@ public class ValidationReceiverDTO extends Validation {
                 validation.getValidation_time());
 
         // 设置当前类特有的属性
+        this.validation_receiver_photo = validation_receiver_photo;
+        this.validation_receiver_name = validation_receiver_name;
+    }
+
+    public ValidationReceiverDTO(Groupapply validation, String validation_receiver_photo, String validation_receiver_name) {
+        super(validation.getGroupapply_groupid(),
+                validation.getGroupapply_senderid(),
+                validation.getGroupapply_groupid(),
+                validation.getGroupapply_status(),
+                validation.getGroupapply_readstatus(),
+                validation.getGroupapply_time()
+        );
         this.validation_receiver_photo = validation_receiver_photo;
         this.validation_receiver_name = validation_receiver_name;
     }

@@ -12,15 +12,6 @@ public class HostapplyServiceImpl implements HostapplyService {
     @Autowired
     private HostapplyDao hostapplyDao;
     @Override
-    public Boolean hostapply( Integer groupapply_groupid, HttpSession session){
-        Integer groupapply_hostid=(Integer) session.getAttribute("user_id");
-        int res=hostapplyDao.hostapply(groupapply_groupid,groupapply_hostid);
-        if(res==1){
-            return true;
-        }
-        else return false;
-    }
-    @Override
     public Boolean hostset(Boolean groupapply_status,Boolean groupapply_readstatus,Integer groupapply_groupid,HttpSession session){
         Integer groupapply_hostid=(Integer) session.getAttribute("user_id");
         int res=hostapplyDao.hostset(groupapply_status,groupapply_readstatus,groupapply_groupid,groupapply_hostid);
