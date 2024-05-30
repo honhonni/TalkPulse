@@ -5,7 +5,7 @@ import cn.edu.ncu.talkpulse.friends.entity.Friend;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.friends.entity.Record;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
-import cn.edu.ncu.talkpulse.group.entity.grouprecord;
+import cn.edu.ncu.talkpulse.group.entity.Grouprecord;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -95,5 +95,5 @@ public interface FriendDao {
     //根据传入gid返回自己与该gid的群聊消息
 
     @Select("SELECT * FROM grouprecord WHERE grouprecord_groupid = #{groupId} AND EXISTS ( SELECT 1 FROM corre WHERE correuser_id = #{userId} AND corregroup_id = #{groupId})")
-    List<grouprecord> getGroupMessages(@Param("groupId") Integer groupId, @Param("userId") Integer userId);
+    List<Grouprecord> getGroupMessages(@Param("groupId") Integer groupId, @Param("userId") Integer userId);
 }

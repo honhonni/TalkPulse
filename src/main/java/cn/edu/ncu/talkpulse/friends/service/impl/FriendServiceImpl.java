@@ -13,7 +13,7 @@ import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.group.dao.GroupDao;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
-import cn.edu.ncu.talkpulse.group.entity.grouprecord;
+import cn.edu.ncu.talkpulse.group.entity.Grouprecord;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
@@ -125,7 +125,7 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Result getGroupMessages(Integer groupId, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("user_id");
-        List<grouprecord> grouprecords = friendDao.getGroupMessages( groupId,userId);
+        List<Grouprecord> grouprecords = friendDao.getGroupMessages( groupId,userId);
         if (userId == null) {
             return Result.fail("未登录，无法获取用户ID");
         }
