@@ -18,12 +18,12 @@ public class ExitServiceImpl implements ExitService {
         Groupinfo group_hostid = ExitDao.judgeHost(group_id);
         Integer user_id = (Integer) session.getAttribute("user_id");
         if (group_hostid == ExitDao.judgeHost(user_id)) {
-            int res = exitDao.deleteGroup(user_id,group_id);
+            int res = exitDao.deleteGroup(user_id,group_id);//删除群聊
             if (res == 1) {
                 return true;
             } else return false;
         } else {
-            int res = exitDao.exitGroup(user_id, group_id);
+            int res = exitDao.exitGroup(user_id, group_id);//退出群聊
             if (res == 1) {
                 return true;
             } else return false;

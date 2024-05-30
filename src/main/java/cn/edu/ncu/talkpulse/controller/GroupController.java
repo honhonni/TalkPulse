@@ -55,7 +55,7 @@ public class GroupController {
        }
        else return Result.fail();
    }
-   @PostMapping("exit")//退出群聊
+   @PostMapping("exit")//退出群聊（如果是群主，则解散群聊
     public Result ExitGroup(@RequestParam("group_id")Integer group_id , HttpServletRequest request){
        HttpSession session=request.getSession();
        Boolean ok= exitService.exitGroup(group_id,session);
