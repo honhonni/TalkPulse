@@ -86,9 +86,9 @@ public class MyConfig implements WebMvcConfigurer {
         converters.add(0, converter);
     }
 
-    // websocket配置，注册WebSocket的Bean
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
+//    // websocket配置，注册WebSocket的Bean
+//    @Bean
+//    public ServerEndpointExporter serverEndpointExporter() {
+//        return new ServerEndpointExporter();
+//    }
 }

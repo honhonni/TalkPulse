@@ -22,8 +22,17 @@ public class Record {
     // 是否已读
     private Integer read_status;
 
-    public Record(Integer record_d, String record_content, LocalDateTime record_time, Integer record_senderid, Integer record_recipientid, Integer read_status) {
-        this.record_id = record_d;
+    private String record_type;
+    public String getRecordType() {
+        return record_type;
+    }
+
+    public void setRecordType(String recordType) {
+        this.record_type = recordType;
+    }
+
+    public Record(Integer record_id, String record_content, LocalDateTime record_time, Integer record_senderid, Integer record_recipientid, Integer read_status) {
+        this.record_id = record_id;
         this.record_content = record_content;
         this.record_time = record_time;
         this.record_senderid = record_senderid;
@@ -31,13 +40,14 @@ public class Record {
         this.read_status = read_status;
     }
 
+
     public Record() {
     }
 
     @Override
     public String toString() {
         return "Record{" +
-                "record_d=" + record_id +
+                "record_id=" + record_id +
                 ", record_content='" + record_content + '\'' +
                 ", record_time=" + record_time +
                 ", record_senderid=" + record_senderid +
@@ -45,6 +55,8 @@ public class Record {
                 ", read_status=" + read_status +
                 '}';
     }
+
+
 
     public Integer getRecord_id() {
         return record_id;

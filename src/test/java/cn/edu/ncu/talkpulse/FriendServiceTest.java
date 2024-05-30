@@ -68,4 +68,44 @@ public class FriendServiceTest {
 
     }
 
+
+//    @Test
+//    public void testGetRecords(){
+//
+//        session.setAttribute("你好",666666);
+//
+//        JSONArray data  = JSONArray.of(friendService.searchRecordsByKeyword("你好",session));
+//        System.out.println(data);
+//
+//
+//    }
+    //测试根据传入uid返回用户与该uid的聊天记录
+    @Test
+    public void testGetPrivateMessages(){
+
+        session.setAttribute("user_id",666666);
+
+//        Integer otherUserId =
+        Result data  = friendService.getPrivateMessages(888888 ,session);
+
+        System.out.println(data);
+
+
+    }
+
+    //测试根据传入gid返回用户与该群的聊天记录
+    @Test
+    public void testGetGroupMessages(){
+
+        session.setAttribute("user_id",666666);
+
+//        Integer otherUserId =
+        Result data  = friendService.getGroupMessages(88888888 ,session);
+
+        System.out.println(data);
+
+
+    }
+
+
 }
