@@ -34,16 +34,27 @@ public class ChatWindowsServiceImpl implements ChatWindowsService {
         // 遍历记录列表
         for (Record record : userlist) {
             String key =  record.getRecord_senderid() + "-" + record.getRecord_recipientid();
+            String key2 = record.getRecord_recipientid() + "-" + record.getRecord_senderid();
             // 如果 Map 中已经包含了相同发送者和接收者的记录，比较时间，保留最新的一条记录
-            if (recordMap.containsKey(key)) {
+            if (recordMap.containsKey(key) || recordMap.containsKey(key2)) {
+                if (recordMap.containsKey(key)){
                 Record existingRecord = recordMap.get(key);
                 if (record.getRecord_time().compareTo(existingRecord.getRecord_time()) > 0) {
                     // 如果当前记录的时间比已存在记录的时间晚，则替换已存在记录
                     recordMap.put(key, record);
                 }
+                }
+                else if (recordMap.containsKey(key2)){
+                    Record existingRecord = recordMap.get(key2);
+                    if (record.getRecord_time().compareTo(existingRecord.getRecord_time()) > 0) {
+                        // 如果当前记录的时间比已存在记录的时间晚，则替换已存在记录
+                        recordMap.put(key2, record);
+                    }
+                }
             } else {
                 // 如果 Map 中没有相同发送者和接收者的记录，则添加到 Map 中
                 recordMap.put(key, record);
+                //recordMap.put(key2, record);
             }
         }
 
@@ -51,9 +62,9 @@ public class ChatWindowsServiceImpl implements ChatWindowsService {
         List<Record> filteredUserRecords = new ArrayList<>(recordMap.values());
         Collections.sort(filteredUserRecords, Comparator.comparing(Record::getRecord_time).reversed());
         // 打印筛选后的记录
-        /*for (Record record : filteredUserRecords) {
-            System.out.println(record);
-        }*/
+        //for (Record record : filteredUserRecords) {
+          //  System.out.println(record);
+        //}
 
         //群聊过滤
         List <Grouprecord> grouplist = chatWindowsDao.ChatGroupWindows(uid);
