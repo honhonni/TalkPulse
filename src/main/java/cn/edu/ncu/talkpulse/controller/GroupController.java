@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -138,13 +139,11 @@ public class GroupController {
 
    //处理群聊申请接口
    @PostMapping("/handleGroupapply")
-   public Result handleGroupapply(@RequestParam("groupapply_id") Integer groupapplyId,
+   public Result handleGroupapply(
                                   HttpServletRequest request,
-                                  @RequestParam("agree") Boolean groupapply_readstatus){
+                                  @RequestParam("groupapply_status") Byte groupapply_status){
       HttpSession session=request.getSession();
-      Integer gid=getGroupIdFromSession();
-      if(gid==null) return  Result.fail("非法请求，请先登录");
-      return inviteService.handleGroupapply(gid,groupapplyId,session,groupapply_readstatus);
+      return inviteService.handleGroupapply(groupapply_status,session);
    }
    //获取群聊成员列表
    @PostMapping("/getGroupMember")

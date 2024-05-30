@@ -11,26 +11,36 @@ import java.util.List;
 @Mapper
 public interface InviteDao {
     //添加群聊申请信息
-    @Insert("INSERT INTO groupapply (groupapply_id, groupapply_sendardid, groupapply_time, groupapply_groupid, groupapply_hostid, groupapply_introduce)" +
-            "VALUES (#{senderid}, #{hostid}, #{time}, #{groupid}, #{hostid}, #{introduce},)")
-    int addgroupapply(@Param("senderid") int senderid,
-                      @Param("hostid") int hostid,
-                      @Param("groupid") int groupid,
-                      @Param("introduce") String introduce,
-                      @Param("time") LocalDateTime time);
+    @Insert("INSERT INTO groupapply ( groupapply_senderid, groupapply_time, groupapply_groupid, groupapply_hostid, groupapply_introduce)" +
+            "VALUES ( #{groupapply_senderid}, #{groupapply_time}, #{groupapply_groupid}, #{groupapply_hostid}, #{groupapply_introduce})")
+    int addgroupapply(@Param("groupapply_senderid") int groupapply_senderid,
+                      @Param("groupapply_time") LocalDateTime groupapply_time,
+                      @Param("groupapply_groupid") int groupapply_groupid,
+                      @Param("groupapply_hostid") int groupapply_hostid,
+                      @Param("groupapply_introduce") String groupapply_introduce
+                      );
     //查询申请消息所在群聊
     @Select("SELECT groupapply_groupid FROM groupapply WHERE groupapply_senderid=#{groupapply_senderid}")
     Integer getid(Integer groupapply_groupid);
     @Select("SELECT * FROM groupinfo WHERE group_id=#{group_id} ")
     Groupinfo getgroupapplyByGroupId(Integer group_id);
 
-    //查询第几条申请消息
-    @Select("select *from groupapply where groupapply_id=#{id}")
-    Groupapply getgroupapplyById(@Param("id") Integer id);
+
+    //查询某个用户的群聊信息
+    @Select("select *from groupapply where groupapply_senderid=#{groupapply_senderid}")
+    Groupapply getgroupapplyBysender(@Param("groupapply_senderid") Integer groupapply_senderid);
+
+    //获取与群主有关的申请信息
+    @Select("select * from groupapply where groupapply_hostid=#{groupapply_hostid}")
+   List<Groupapply> getgroupapplyByhost(Integer groupapply_hostid);
     
     //群主处理入群申请
-    @Update("UPDATE groupapply SET groupapply_status=#{groupapply_status} WHERE groupapply_senderid=#{groupapply_senderid} groupapply_groupid=#{groupapply_groupid} AND groupapply_hostid=#{groupapply_hostid}")
+    @Update("UPDATE groupapply SET groupapply_status=#{groupapply_status} WHERE  groupapply_groupid=#{groupapply_groupid}  ")
     int updategroupapply(Groupapply groupapply1);
+
+    //删除掉已经处理过的申请
+    @Delete("DELETE FROM groupapply WHERE groupapply_status IS NOT NULL ")
+    int exitGroupapply( );
 
     //查询当前用户的需处理的群聊申请
     @Select("SELECT \n" +

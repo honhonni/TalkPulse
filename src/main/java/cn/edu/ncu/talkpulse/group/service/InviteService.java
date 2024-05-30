@@ -6,6 +6,7 @@ import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface InviteService {
     //群主获取群聊申请
     List<GroupApplyWithGroupInfo> getMyGroupapply(Integer groupapply_hostid);
     //处理群聊申请请求
-    Result handleGroupapply(Integer gid, Integer senderid, HttpSession session, Boolean status);
+    Result handleGroupapply(Byte status, HttpSession session);
 }
