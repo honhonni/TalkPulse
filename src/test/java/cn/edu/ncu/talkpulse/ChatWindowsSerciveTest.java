@@ -64,6 +64,7 @@ public class ChatWindowsSerciveTest {
                 jsonArray.add(jsonObject);
             }
             System.out.println(jsonArray.toJSONString()); // 打印 JSON 格式的字符串
+            System.out.println(ans.size());
         } else {
             System.out.println("聊天列表为空");
         }
