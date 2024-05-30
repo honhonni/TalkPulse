@@ -45,6 +45,17 @@ public class FriendController {
         else return Result.fail();
     }
 
+//    //根据关键词查找聊天记录接口
+//    @GetMapping("/searchRecords")
+//    public Result searchRecords(@RequestParam String keyword, HttpServletRequest request) {
+//        HttpSession session = request.getSession();
+////        Integer userId = (Integer) session.getAttribute("userId");
+//        Result data = friendService.searchRecordsByKeyword(keyword, session);
+//
+//        if(data!=null) return Result.success(data);
+//        else return Result.fail();
+//    }
+
     // 添加好友接口
     @PostMapping("/addFriend")
     public Result addFriend(@RequestParam("friend_id") Integer friendId){
@@ -96,8 +107,7 @@ public class FriendController {
 
     //获取好友分组信息接口
     @GetMapping("/getFriendship")
-    public Result getFriendship(
-                         HttpServletRequest request) {
+    public Result getFriendship(HttpServletRequest request) {
         HttpSession session = request.getSession();
         JSONObject data  = friendService.getFriendship(session);
 
@@ -108,7 +118,7 @@ public class FriendController {
     //创建新的好友分组接口
     @PostMapping("/createFriendship")
     public Result createFriendship(@RequestParam("friendship_name") String friendshipName,
-                         HttpServletRequest request) {
+                                   HttpServletRequest request) {
         HttpSession session = request.getSession();
         Result result  = friendService.createFriendship(friendshipName, session);
 
@@ -140,4 +150,20 @@ public class FriendController {
         }
     }
 
+
+    //根据传入uid返回自己与该uid私聊记录
+    @GetMapping("/getPrivateMessages")
+    public Result getPrivateMessages(@RequestParam("user_id") Integer otherUserId,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return friendService.getPrivateMessages(888888,session);
+
+    }
+
+
+    //根据传入gid返回群聊记录
+    @GetMapping("/getGroupMessages")
+    public Result getGroupMessages(@RequestParam("group_id") Integer groupId,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        return  friendService.getGroupMessages(88888888,session);
+    }
 }

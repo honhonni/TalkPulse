@@ -1,3 +1,4 @@
+
 package cn.edu.ncu.talkpulse.friends.entity;
 
 import java.time.LocalDateTime;

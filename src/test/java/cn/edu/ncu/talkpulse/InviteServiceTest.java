@@ -1,5 +1,6 @@
 package cn.edu.ncu.talkpulse;
 
+import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
 import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
 import cn.edu.ncu.talkpulse.group.entity.Groupapply;
@@ -29,7 +30,7 @@ public class InviteServiceTest{
     //发送添加群聊申请
     @Test
     public void TestAddGroup(){
-        session.setAttribute("user_id",11);
+        session.setAttribute("user_id",12);
         Boolean flag=inviteService.sendGroupapply(session, LocalDateTime.now(),1,70,"hello");
         System.out.println(flag);
     }
@@ -42,7 +43,13 @@ public class InviteServiceTest{
     //查看收到的群聊信息
     @Test
     public void getGroupAppliesByReceiver(){
-        List<GroupApplyWithGroupInfo> flag=inviteService.getMyGroupapply(123456);
+        List<GroupApplyWithGroupInfo> flag=inviteService.getMyGroupapply(70);
         System.out.println(flag);
+    }
+    //群主处理群聊信息
+    @Test
+    public void handleGroupapply(){
+        session.setAttribute("user_id",70);
+        Result flag=inviteService.handleGroupapply((byte) 1,session);
     }
 }

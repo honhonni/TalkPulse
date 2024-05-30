@@ -4,6 +4,7 @@ import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
 import cn.edu.ncu.talkpulse.group.dao.*;
+import cn.edu.ncu.talkpulse.group.entity.Corre;
 import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
 import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -62,36 +64,45 @@ public class InviteServiceImpl implements InviteService {
     @Override
     public Boolean sendGroupapply(HttpSession session ,LocalDateTime groupapply_time,Integer groupapply_groupid,Integer groupapply_hostid,String groupapply_introduce) {
         Integer groupapply_senderid=(Integer) session.getAttribute("user_id");
-        int res=inviteDao.addgroupapply(groupapply_senderid,groupapply_groupid,groupapply_hostid,groupapply_introduce,groupapply_time);
+        int res=inviteDao.addgroupapply(groupapply_senderid,groupapply_time,groupapply_groupid,groupapply_hostid,groupapply_introduce);
         if(res==1){
             return true;
         }
         else return false;
     }
 
-    //获取用户发送的好友请求
-
-
-    //处理好友申请请求
+    //处理群聊申请请求
     @Override
     @Transactional
-    public Result handleGroupapply(Integer gid, Integer senderid, HttpSession session, Boolean status){
-        Integer hostid=(Integer) session.getAttribute("user_id");
-        Groupapply groupapply1=inviteDao.getgroupapplyById(hostid);
-        if(groupapply1==null) return Result.fail("群聊申请不存在");
-        if(!gid.equals(groupapply1.getGroupapply_groupid())) return Result.fail("非法请求");
-        if(groupapply1.getGroupapply_status()!=0)return Result.fail("已经处理过请求");
-        groupapply1.getGroupapply_status();
-        inviteDao.updategroupapply(groupapply1);
-        if(status){
-            senderid=groupapply1.getGroupapply_senderid();
-            gid=groupapply1.getGroupapply_groupid();
-            int res1=correDao.addcorre(senderid,gid);
-            return Result.success();
+    public Result handleGroupapply(Byte status, HttpSession session) {
+        Integer hostid = (Integer) session.getAttribute("user_id");
+        List<Groupapply> groupapplies = inviteDao.getgroupapplyByhost(hostid);
+
+        for (Groupapply groupapply : groupapplies) {
+            Integer groupapply_senderid = groupapply.getGroupapply_senderid();
+
+            if (groupapply == null) {
+                return Result.fail("群聊申请不存在");
+            }
+
+            inviteDao.updategroupapply(groupapply);
+
+            if (status == 1) {
+                Integer senderid = groupapply.getGroupapply_senderid();
+                Integer gid = groupapply.getGroupapply_groupid();
+                    Corre corre=correDao.ingroup(gid,senderid);
+                    if(corre==null) {
+                        correDao.addcorre(senderid, gid);
+                    }
+            }
+
         }
+
+        inviteDao.exitGroupapply();
         return Result.success();
     }
 }
+
 
 
 

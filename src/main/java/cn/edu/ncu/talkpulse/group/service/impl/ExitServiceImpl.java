@@ -14,16 +14,16 @@ public class ExitServiceImpl implements ExitService {
     private ExitDao exitDao;
 
     @Override
-    public  Boolean exitGroup(Integer corregroup_id, HttpSession session) {
-        Groupinfo group_hostid = ExitDao.judgeHost(corregroup_id);
-        Integer correuser_id = (Integer) session.getAttribute("user_id");
-        if (group_hostid == ExitDao.judgeHost(correuser_id)) {
-            int res = exitDao.deleteGroupId(corregroup_id);
+    public  Boolean exitGroup(Integer group_id, HttpSession session) {
+        Groupinfo group_hostid = ExitDao.judgeHost(group_id);
+        Integer user_id = (Integer) session.getAttribute("user_id");
+        if (group_hostid == ExitDao.judgeHost(user_id)) {
+            int res = exitDao.deleteGroup(user_id,group_id);//删除群聊
             if (res == 1) {
                 return true;
             } else return false;
         } else {
-            int res = exitDao.exitGroup(correuser_id, corregroup_id);
+            int res = exitDao.exitGroup(user_id, group_id);//退出群聊
             if (res == 1) {
                 return true;
             } else return false;

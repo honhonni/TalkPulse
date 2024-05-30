@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -55,13 +56,11 @@ public class GroupController {
        }
        else return Result.fail();
    }
-   @PostMapping("exit")//退出群聊
-    public Result ExitGroup(@RequestParam("corregroup_id")Integer corregroup_id , HttpServletRequest request){
+   @PostMapping("exit")//退出群聊（如果是群主，则解散群聊
+    public Result ExitGroup(@RequestParam("group_id")Integer group_id , HttpServletRequest request){
        HttpSession session=request.getSession();
-       Boolean ok= exitService.exitGroup(corregroup_id,session);
+       Boolean ok= exitService.exitGroup(group_id,session);
        if(ok) {
-          System.out.println("200");
-
           return Result.success();
        }
        else return Result.fail();
@@ -140,13 +139,11 @@ public class GroupController {
 
    //处理群聊申请接口
    @PostMapping("/handleGroupapply")
-   public Result handleGroupapply(@RequestParam("groupapply_id") Integer groupapplyId,
+   public Result handleGroupapply(
                                   HttpServletRequest request,
-                                  @RequestParam("agree") Boolean groupapply_readstatus){
+                                  @RequestParam("groupapply_status") Byte groupapply_status){
       HttpSession session=request.getSession();
-      Integer gid=getGroupIdFromSession();
-      if(gid==null) return  Result.fail("非法请求，请先登录");
-      return inviteService.handleGroupapply(gid,groupapplyId,session,groupapply_readstatus);
+      return inviteService.handleGroupapply(groupapply_status,session);
    }
    //获取群聊成员列表
    @PostMapping("/getGroupMember")

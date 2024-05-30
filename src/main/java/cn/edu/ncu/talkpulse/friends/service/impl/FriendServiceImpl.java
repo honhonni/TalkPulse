@@ -4,7 +4,7 @@ package cn.edu.ncu.talkpulse.friends.service.impl;
 
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
-
+import cn.edu.ncu.talkpulse.friends.entity.Record;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.friends.dao.FriendDao;
 import cn.edu.ncu.talkpulse.friends.dao.FriendshipDao;
@@ -13,13 +13,17 @@ import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.group.dao.GroupDao;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
+import cn.edu.ncu.talkpulse.group.entity.Grouprecord;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FriendServiceImpl implements FriendService {
@@ -65,6 +69,80 @@ public class FriendServiceImpl implements FriendService {
         }
     }
 
+//
+//    // 根据关键词查找聊天记录及群聊记录
+//    @Override
+//
+//
+//
+//        public Result searchRecordsByKeyword (String keyword, HttpSession session){
+//            Integer userId = (Integer) session.getAttribute("userId");
+//
+//            List<allRecords> mixedRecords = friendDao.searchRecordsByKeywordAndGroup(keyword, userId);
+//            List<Record> personalRecords = new ArrayList<>();
+//            List<grouprecord> groupRecords = new ArrayList<>();
+//
+//            for (allRecords mixedRecord : mixedRecords) {
+//                if ("personal".equals(mixedRecord.getRecordType())) {
+//                    personalRecords.add(new Record(
+//                            mixedRecord.getRecordSenderid(),
+//                            mixedRecord.getRecordContent(),
+//                            mixedRecord.getRecordTime(),
+//                            mixedRecord.getRecordSenderid(),
+//                            mixedRecord.getRecordRecipientid(),
+//                            null  // 需要传递适当的read_status值
+//                    ));
+//                } else if ("group".equals(mixedRecord.getRecordType())) {
+//                    groupRecords.add(new grouprecord(
+//
+//                             // 如果存在群ID和需要处理的其他属性
+//                    ));
+//                }
+//            }
+//
+//            Map<String, Object> dataMap = new HashMap<>();
+//            dataMap.put("personalRecords", personalRecords);
+//            dataMap.put("groupRecords", groupRecords);
+//
+//            return Result.success("查询成功", dataMap);
+//        }
+
+
+    //根据传入uid返回用户与该uid聊天记录
+    @Override
+    public Result getPrivateMessages(Integer otherUserId, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user_id");
+        List<Record> records = friendDao.getPrivateMessages( otherUserId,userId);
+        if (userId == null) {
+            return Result.fail("未登录，无法获取用户ID");
+        }
+
+//        List<Record> records = friendDao.getPrivateMessages(userId, otherUserId);
+        if (records == null || records.isEmpty()) {
+            return Result.fail("没有找到相关的聊天记录");
+        }
+
+        return Result.success("获取聊天记录成功", records);
+    }
+
+    //根据传入gid返回该群聊天记录
+    @Override
+    public Result getGroupMessages(Integer groupId, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("user_id");
+        List<Grouprecord> grouprecords = friendDao.getGroupMessages( groupId,userId);
+        if (userId == null) {
+            return Result.fail("未登录，无法获取用户ID");
+        }
+
+
+        if (grouprecords == null || grouprecords.isEmpty()) {
+            return Result.fail("没有找到相关的聊天记录");
+        }
+
+        return Result.success("获取聊天记录成功", grouprecords);
+    }
+
+
     // 获取用户的好友列表
     @Override
     public JSONArray getAllFriendshipsAndFriends(HttpSession session) {
@@ -93,30 +171,30 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Result getAllUserGroups(HttpSession session) {
 
-            Integer userId = (Integer) session.getAttribute("user_id");
-            List<Groupinfo> allGroups = friendDao.getAllUserGroups(userId);
+        Integer userId = (Integer) session.getAttribute("user_id");
+        List<Groupinfo> allGroups = friendDao.getAllUserGroups(userId);
 
-            JSONObject response = new JSONObject();
-            JSONArray createdGroupsArray = new JSONArray();
-            JSONArray joinedGroupsArray = new JSONArray();
-            for (Groupinfo group : allGroups) {
-                JSONObject groupJson = new JSONObject();
-                groupJson.put("group_id", group.getGroup_id());
-                groupJson.put("group_name", group.getGroup_name());
-                groupJson.put("group_introduce", group.getGroup_introduce());
-                groupJson.put("group_photo", group.getGroup_photo());
+//            JSONObject response = new JSONObject();
+        JSONArray createdGroupsArray = new JSONArray();
+        JSONArray joinedGroupsArray = new JSONArray();
+        for (Groupinfo group : allGroups) {
+            JSONObject groupJson = new JSONObject();
+            groupJson.put("group_id", group.getGroup_id());
+            groupJson.put("group_name", group.getGroup_name());
+            groupJson.put("group_introduce", group.getGroup_introduce());
+            groupJson.put("group_photo", group.getGroup_photo());
 
-                if (group.getGroup_hostid().equals(userId)) {
-                    createdGroupsArray.add(groupJson);
-                } else {
-                    joinedGroupsArray.add(groupJson);
-                }
+            if (group.getGroup_hostid().equals(userId)) {
+                createdGroupsArray.add(groupJson);
+            } else {
+                joinedGroupsArray.add(groupJson);
             }
+        }
 
-            JSONArray dataArray = new JSONArray();
-            dataArray.add(createdGroupsArray);
-            dataArray.add(joinedGroupsArray);
-            return Result.success(dataArray);
+        JSONArray dataArray = new JSONArray();
+        dataArray.add(createdGroupsArray);
+        dataArray.add(joinedGroupsArray);
+        return Result.success(dataArray);
 
     }
     // 获取用户的好友分组信息

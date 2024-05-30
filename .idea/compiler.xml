@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="TalkPulse" target="18" />
+      <module name="TalkPulse" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
