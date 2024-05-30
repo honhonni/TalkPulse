@@ -4,6 +4,7 @@ import cn.edu.ncu.talkpulse.controller.FriendController;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.friends.entity.Friendship;
 import cn.edu.ncu.talkpulse.friends.service.FriendService;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpSession;
@@ -60,12 +61,52 @@ public class FriendServiceTest {
     @Test
     public void testGetUserGroups(){
 
-        session.setAttribute("user_id",666666);
+        session.setAttribute("user_id",123456);
 
         JSONArray data  = JSONArray.of(friendService.getAllUserGroups(session));
         System.out.println(data);
 
 
     }
+
+
+    //    @Test
+//    public void testGetRecords(){
+//
+//        session.setAttribute("你好",666666);
+//
+//        JSONArray data  = JSONArray.of(friendService.searchRecordsByKeyword("你好",session));
+//        System.out.println(data);
+//
+//
+//    }
+    //测试根据传入uid返回用户与该uid的聊天记录
+    @Test
+    public void testGetPrivateMessages(){
+
+        session.setAttribute("user_id",123456);
+
+//        Integer otherUserId =
+        Result data  = friendService.getPrivateMessages(223456 ,session);
+
+        System.out.println(JSON.toJSON(data));
+
+
+    }
+
+    //测试根据传入gid返回用户与该群的聊天记录
+    @Test
+    public void testGetGroupMessages(){
+
+        session.setAttribute("user_id",666666);
+
+//        Integer otherUserId =
+        Result data  = friendService.getGroupMessages(88888888 ,session);
+
+        System.out.println(data);
+
+
+    }
+
 
 }

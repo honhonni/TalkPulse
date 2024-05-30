@@ -28,4 +28,13 @@ public interface FriendService {
     //查找用户信息
     JSONObject search(Integer userId, HttpSession session);
 
+//    //根据关键词查找聊天记录
+//    Result searchRecordsByKeyword(String keyword, HttpSession session);
+
+    //根据传入uid返回自己与该uid的私聊记录
+    Result getPrivateMessages(Integer otherUserId, HttpSession session);
+
+    //根据传入gid返回自己与该群的群聊记录
+    Result getGroupMessages(Integer groupId, HttpSession session);
+
 }
