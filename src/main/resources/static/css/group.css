@@ -71,8 +71,9 @@
 .info-summary h2{
     /*text-align: center;*/
     margin: 30px;
-}.info-summary span:last-child{
-     margin-left: 30px;
+}
+.info-summary span:last-child{
+    margin-left: 30px;
     font-weight: 700;
  }
 

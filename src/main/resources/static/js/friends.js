@@ -324,6 +324,9 @@ $(function (){
 
     })
 
-
+    // 绑定发送消息跳转事件
+    $('.info-box').on('click','#jump',function (){
+        window.parent.jump($(this).attr("mid"))
+    })
 
 })

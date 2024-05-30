@@ -67,6 +67,8 @@ public interface FriendDao {
     List<Friendship> getFriendship(@Param("userId") Integer userId);
 
 
-
+    // 获取a用户给b用户设置的好友分组信息
+    @Select("SELECT s.* FROM friendship s, friend f WHERE f.given_friendshipid = s.friendship_id AND f.firstid = #{myId} AND f.secondid = #{userId}")
+    Friendship getFriendshipById(@Param("myId") Integer myId, @Param("userId") Integer userId);
 
 }

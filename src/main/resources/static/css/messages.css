@@ -20,21 +20,67 @@
     vertical-align: bottom;
 }
 /*发送信息方*/
-.messages-sender-list .list-group-item:first-child,
-.messages-sender-list .list-group-item:last-child,
-.messages-sender-list .list-group-item{
-    border: 0;
-    font-size: 20px;
-    border-radius: 20px;
+/*.messages-sender-list .list-group-item:first-child,*/
+/*.messages-sender-list .list-group-item:last-child,*/
+/*.messages-sender-list .list-group-item{*/
+/*    border: 0;*/
+/*    font-size: 20px;*/
+/*    border-radius: 20px;*/
+/*}*/
+/*.messages-sender-list .list-group-item .frieds-photo{*/
+/*    width: 28px;*/
+/*    height: 28px;*/
+/*    margin-right: 8px;*/
+/*    border-radius: 50%;*/
+/*    vertical-align: bottom;*/
+/*}*/
+
+
+.messages-sender-list>button{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 80px;
+    padding: 6px;
+    margin-top: 10px;
 }
-.messages-sender-list .list-group-item .frieds-photo{
-    width: 28px;
-    height: 28px;
-    margin-right: 8px;
+.messages-sender-list>button .frieds-photo{
+    width: 48px;
+    height: 48px;
+    margin: 16px 0;
     border-radius: 50%;
-    vertical-align: bottom;
+}
+.messages-sender-list>button .box{
+    flex: 1;
+    margin: 12px 10px;
+    font-size: 16px;
+}
+.messages-sender-list>button .box .row1,
+.messages-sender-list>button .box .row2{
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.messages-sender-list>button .box .row1 span:last-child,
+.messages-sender-list>button .box .row2 span:last-child{
+    position: absolute;
+    right: 0;
 }
 
+.messages-sender-list>button .box .row1 span:last-child{
+    /*display: none;*/
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: red;
+    color: #fff;
+    font-size: 10px;
+    text-align: center;
+    line-height: 18px;
+}
 
 
 
@@ -72,7 +118,7 @@
     margin: 20px 0;
     background-color: transparent;
 }
-.messages .messages-list li img {
+.messages .messages-list li .head {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -88,7 +134,13 @@
     font-size: 18px;
     line-height: 1.5;
 }
-.messages .messages-list .left img {
+.messages .messages-list li span img{
+    max-width: 100%;
+}
+.messages .messages-list li span audio{
+    /*width: 120px;*/
+}
+.messages .messages-list .left .head {
     float: left;
 }
 .messages .messages-list .left span {
@@ -96,7 +148,7 @@
     color: #000;
     background-color: rgb(244, 246, 248);
 }
-.messages .messages-list .right img {
+.messages .messages-list .right .head {
     float: right;
 }
 .messages .messages-list .right span {
@@ -129,9 +181,64 @@
     padding: 10px;
     border-top: 1px solid #e5e7eb;
 }
-.input .input-group{
-
+.input-group{
+    position: relative;
 }
+.hide{
+    display: none!important;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: transparent;
+    opacity: 1;
+}
+.input-group img{
+    display: none;
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    max-width: 100%;
+    height: 60px;
+    z-index: 4;
+    border-radius: 10px;
+}
+.input-group .voice{
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 16px;
+    height: 60px;
+    z-index: 4;
+
+    white-space: nowrap
+}
+.input-group .voice .voice-btn{
+    display: inline-block;
+}
+.input-group .voice audio{
+    display: inline-block;
+    width: 240px;
+}
+.input-group .voice span{
+    color: blue;
+}
+.input-group .voice span:first-child{
+    display: block;
+    font-size: 40px;
+}
+.input-group .voice span:nth-child(2){
+    display: block;
+    padding: 5px;
+    margin-left: -11px;
+}
+.input-group-btn{
+    vertical-align: bottom;
+}
+#send{
+    background-color: #c1e2b3;
+}
+
 
 /*info-box信息框*/
 .info-box{
@@ -139,25 +246,27 @@
     height: 100%;
 }
 .info-box .photo{
-    position: relative;
     width: 100%;
     height: 100px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
 }
 
 .info-box .photo img{
-    position: absolute;
-    top: 10px;
-    left: 32px;
     width: 64px;
     height: 64px;
+    margin: 18px;
     border-radius: 50%;
+    vertical-align: bottom;
 }
 .info-box .photo span{
-    position: absolute;
-    top: 24px;
-    left: 128px;
+    /*display: inline-block;*/
+    /*width: 100%;*/
     font-size: 36px;
     font-weight: 700;
+    line-height: 100px;
 }
 .info-box .info-list .list-group-item{
 

@@ -166,7 +166,11 @@
 }
 
 
-
+#jump{
+    width: 100px;
+    height: 36px;
+    background-color: skyblue;
+}
 
 #delete{
     width: 100px;

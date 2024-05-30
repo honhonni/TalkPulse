@@ -1,14 +1,19 @@
 package cn.edu.ncu.talkpulse.controller;
 
+import cn.edu.ncu.talkpulse.account.service.ChatWindowsService;
+import cn.edu.ncu.talkpulse.dto.ChatWindows;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.friends.service.RecordService;
 import cn.edu.ncu.talkpulse.group.service.GroupMessageService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 public class MessageController {
@@ -20,6 +25,9 @@ public class MessageController {
     private GroupMessageService groupMessageService;
 
     @Autowired
+    private ChatWindowsService chatWindowsService;
+
+    @Autowired
     HttpServletRequest request;
 
     private Integer getUserIdFromSession() {
@@ -28,18 +36,18 @@ public class MessageController {
 
     /**
      * 发送私聊文本消息
-     * @param receiverId
+     * @param receiverid
      * @param content
      * @param type
      * @return
      */
     @PostMapping("/friends/sendTextMessage")
-    public Result sendPrivateMessage(@RequestParam("receiverid") Integer receiverId,
+    public Result sendPrivateMessage(@RequestParam("receiverid") Integer receiverid,
                               @RequestParam("content") String content,
                               @RequestParam("type") Integer type){
         Integer uid = getUserIdFromSession();
         if(uid==null) return Result.fail("非法请求，请先登录");
-        return recordService.sendMessage(uid,receiverId,content,type);
+        return recordService.sendMessage(uid,receiverid,content,type);
     }
 
     /**
@@ -112,5 +120,18 @@ public class MessageController {
         Integer uid = getUserIdFromSession();
         if(uid==null) return Result.fail("非法请求，请先登录");
         return groupMessageService.readGroupMessage(uid,groupId);
+    }
+
+
+    /**
+     * 获取俩天对象列表
+     * @return
+     */
+    @GetMapping("/chat")
+    public Result getChat(){
+        Integer uid = getUserIdFromSession();
+        List<ChatWindows> data = chatWindowsService.chatwindowset(uid);
+        if(data==null) return Result.fail("非法请求，请先登录");
+        return Result.success(data);
     }
 }

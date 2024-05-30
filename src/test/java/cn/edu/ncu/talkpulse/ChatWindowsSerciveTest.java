@@ -28,7 +28,7 @@ public class ChatWindowsSerciveTest {
 
     @Test
     public void testwindows(){
-        List <ChatWindows> ans=chatWindowsSercive.chatwindowset(1);
+        List <ChatWindows> ans=chatWindowsSercive.chatwindowset(123456);
      //   for (int i=0;i<ans.size();i++)
        //     System.out.println(ans.get(i).getCompare_time());
         if (ans != null) {

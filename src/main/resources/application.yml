@@ -1,6 +1,6 @@
 
 server:
-  port: 80
+  port: 81
   address: 0.0.0.0
 
 spring:

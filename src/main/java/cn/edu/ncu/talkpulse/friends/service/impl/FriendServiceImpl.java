@@ -47,10 +47,14 @@ public class FriendServiceImpl implements FriendService {
         UserInfo userInfo = accountDao.searchUserById(userId);
         if (userInfo != null) {
             Friend friend = friendDao.isfriend(myId, userId);
+            Friendship friendship = friendDao.getFriendshipById(myId,userId);
             JSONObject data = new JSONObject();
             data.put("data", userInfo);
             if(friend != null){
                 data.put("isfriend", true );
+                if(friendship!=null){
+                    data.put("friendship", friendship );
+                }
                 return data;
             }else{
                 data.put("isfriend", false );
