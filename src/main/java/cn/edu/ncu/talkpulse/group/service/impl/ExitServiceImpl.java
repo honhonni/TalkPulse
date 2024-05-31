@@ -1,12 +1,18 @@
 package cn.edu.ncu.talkpulse.group.service.impl;
 
+import cn.edu.ncu.talkpulse.group.dao.CorreDao;
 import cn.edu.ncu.talkpulse.group.dao.CreateDao;
 import cn.edu.ncu.talkpulse.group.dao.ExitDao;
+import cn.edu.ncu.talkpulse.group.entity.Corre;
+import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import cn.edu.ncu.talkpulse.group.service.ExitService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service("exitGroup")
 public class ExitServiceImpl implements ExitService {
@@ -14,19 +20,21 @@ public class ExitServiceImpl implements ExitService {
     private ExitDao exitDao;
 
     @Override
-    public  Boolean exitGroup(Integer group_id, HttpSession session) {
-        Groupinfo group_hostid = ExitDao.judgeHost(group_id);
+    @Transactional
+    public Boolean exitGroup(Integer group_id, HttpSession session) {
         Integer user_id = (Integer) session.getAttribute("user_id");
-        if (group_hostid == ExitDao.judgeHost(user_id)) {
-            int res = exitDao.deleteGroup(user_id,group_id);//删除群聊
-            if (res == 1) {
-                return true;
-            } else return false;
+        if (user_id == null) {
+            // 用户未登录或其他错误处理
+            throw new IllegalStateException("User is not logged in");
+        }
+
+        List<Groupinfo> groupinfo = exitDao.selecthost(user_id, group_id); // 假设方法名已经改为 selectHost
+        if (groupinfo != null && !groupinfo.isEmpty()) { // 检查列表是否非空
+            // 用户是群主，删除群聊
+            return exitDao.deleteGroup(group_id) == 1;
         } else {
-            int res = exitDao.exitGroup(user_id, group_id);//退出群聊
-            if (res == 1) {
-                return true;
-            } else return false;
+            // 用户不是群主，退出群聊
+            return exitDao.exitGroup(user_id, group_id) == 1;
         }
     }
 }
