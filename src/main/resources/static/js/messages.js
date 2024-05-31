@@ -320,21 +320,21 @@ $(function (){
                 $('.info-box').html(info)
                 localStorage.setItem("current_id",current_id)
                 // 获取成功后，刷新数量，
-                $.ajax({
-                    method: 'post',
-                    url: '/record/read',
-                    data: {uid: current_id},
-                    success: function (res){
-                        if(res.status != 200){
-                            return console.log('设置已读失败')
-                        }
-                        // 设置已读成功
-
-                        msg_count -= Number($(that).find('.box .row1 span').eq(1).attr('count'))
-                        $(that).find('.box .row1 span').eq(1).attr('count','0').html(0).hide()
-                        window.parent.setMessagesCount(msg_count)
-                    }
-                })
+                // $.ajax({
+                //     method: 'post',
+                //     url: '/record/read',
+                //     data: {uid: current_id},
+                //     success: function (res){
+                //         if(res.status != 200){
+                //             return console.log('设置已读失败')
+                //         }
+                //         // 设置已读成功
+                //
+                //         msg_count -= Number($(that).find('.box .row1 span').eq(1).attr('count'))
+                //         $(that).find('.box .row1 span').eq(1).attr('count','0').html(0).hide()
+                //         window.parent.setMessagesCount(msg_count)
+                //     }
+                // })
 
 
                 // 获取聊天记录
