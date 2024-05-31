@@ -147,11 +147,15 @@ public class ChatWindowsServiceImpl implements ChatWindowsService {
                 System.out.println("user_index="+user_index+"    group_index="+group_index+"     user!!!!!");
                 user_index++; // 移动用户记录指针*/
                 UserInfo userinfo=null;
-                if (filteredUserRecords.get(user_index).getRecord_recipientid()==uid)
-                    userinfo =chatWindowsDao.user_select(filteredUserRecords.get(user_index).getRecord_senderid());
-                else
-                    userinfo =chatWindowsDao.user_select(filteredUserRecords.get(user_index).getRecord_recipientid());
-                Integer num=chatWindowsDao.unread_num(filteredUserRecords.get(user_index).getRecord_recipientid(),filteredUserRecords.get(user_index).getRecord_senderid());
+                Integer num;
+                if (filteredUserRecords.get(user_index).getRecord_recipientid()==uid) {
+                    userinfo = chatWindowsDao.user_select(filteredUserRecords.get(user_index).getRecord_senderid());
+                     num=chatWindowsDao.unread_num(filteredUserRecords.get(user_index).getRecord_recipientid(),filteredUserRecords.get(user_index).getRecord_senderid());
+                }
+                else {
+                    userinfo = chatWindowsDao.user_select(filteredUserRecords.get(user_index).getRecord_recipientid());
+                    num=chatWindowsDao.unread_num(filteredUserRecords.get(user_index).getRecord_senderid(),filteredUserRecords.get(user_index).getRecord_recipientid());
+                }
                 //Corre corres=chatWindowsDao.corre_select(uid,filteredGroupRecords.get(group_index).getGrouprecord_groupid());
                 ChatWindows chatWindow=new ChatWindows("friends",userinfo.getUser_id(),userinfo.getUser_photo(),userinfo.getUser_name(),filteredUserRecords.get(user_index).getRecord_time(),filteredUserRecords.get(user_index).getRecord_content(),filteredUserRecords.get(user_index).getRecord_type(),num);
                 chatWindow.setCompare_time(filteredUserRecords.get(user_index).getRecord_time());
