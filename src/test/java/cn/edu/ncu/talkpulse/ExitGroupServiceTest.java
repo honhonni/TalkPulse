@@ -23,8 +23,8 @@ public class ExitGroupServiceTest {
 
     @Test
     public void testExit() {
-        session.setAttribute("user_id",12);
-        Boolean flag = exitService.exitGroup(1, session);
+        session.setAttribute("user_id",11);
+        Boolean flag = exitService.exitGroup(99999999, session);
         System.out.println(flag);
     }
 }

@@ -31,7 +31,7 @@ public class InviteServiceTest{
     @Test
     public void TestAddGroup(){
         session.setAttribute("user_id",12);
-        Boolean flag=inviteService.sendGroupapply(session, LocalDateTime.now(),1,70,"hello");
+        Boolean flag=inviteService.sendGroupapply(session, LocalDateTime.now(),99999999,11,"欢迎");
         System.out.println(flag);
     }
     //查看发送的群聊信息
@@ -49,7 +49,7 @@ public class InviteServiceTest{
     //群主处理群聊信息
     @Test
     public void handleGroupapply(){
-        session.setAttribute("user_id",70);
+        session.setAttribute("user_id",11);
         Result flag=inviteService.handleGroupapply((byte) 1,session);
     }
 }

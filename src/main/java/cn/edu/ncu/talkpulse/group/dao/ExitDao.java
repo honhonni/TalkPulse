@@ -12,8 +12,8 @@ import java.util.List;
 public interface ExitDao {
     @Delete("DELETE FROM corre WHERE correuser_id = #{correuser_id} AND corregroup_id = #{corregroup_id}")
     int exitGroup(Integer correuser_id, Integer corregroup_id);//成员退出群聊
-    @Delete("DELETE FROM Groupinfo WHERE group_hostid=#{group_hostid}，group_id=#{group_id}")
-    int deleteGroup(Integer group_hostid,Integer group_id);//删除群聊
+    @Delete("DELETE FROM groupinfo WHERE group_id=#{group_id}")
+    int deleteGroup(Integer group_id);//删除群聊
     @Delete("DELETE FROM corre WHERE corregroup_id=#{corregroup_id}")
     int deleteGroupId(Integer corregroup_id);
 
@@ -33,8 +33,9 @@ public interface ExitDao {
 //    @Select("SELECT group_hostid form Groupinfo where group_id=#{group_id}")
 //    static Integer judgeHost(Integer group_id);
     //根据群聊的群主查询群聊列表
-    @Select("SELECT * FROM Groupinfo WHERE group_hostid=#{group_hostid}")
-    Groupinfo selecthost(Integer group_hostid);
-    @Select("SELECT corregroup_id FROM corre WHERE correuser_id=#{group_userid}")
+    @Select("SELECT * FROM Groupinfo WHERE group_hostid=#{group_hostid} AND group_id=#{group_id}")
+   List <Groupinfo> selecthost(Integer group_hostid,Integer group_id);
+    //根据用户返回群聊表
+    @Select("SELECT * FROM corre WHERE correuser_id=#{group_userid}")
     List<Corre> selectid(Integer group_userid);
 }

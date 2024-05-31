@@ -15,8 +15,9 @@ public interface CorreDao {
     Corre ingroup(Integer correuser_id, Integer corregroup_id);
 
     //获取群聊成员
-    @Select("SELECT * FROM corre\n" +
-            "JOIN userinfo\n" +
+    @Select("SELECT * \n" +
+            "FROM corre\n" +
+            "JOIN userinfo ON corre.correuser_id = userinfo.user_id\n" +
             "WHERE corre.corregroup_id =#{corregroup_id}")
     List<UserInfo> getgroup(Integer corregroup_id);
 

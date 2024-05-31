@@ -21,28 +21,20 @@ public class ExitServiceImpl implements ExitService {
 
     @Override
     @Transactional
-    public  Boolean exitGroup(Integer group_id, HttpSession session) {
+    public Boolean exitGroup(Integer group_id, HttpSession session) {
         Integer user_id = (Integer) session.getAttribute("user_id");
-        List<Corre> corres = exitDao.selectid(user_id);
-        for (Corre corre : corres) {
-            group_id = corre.getCorregroup_id();
-            Groupinfo groupinfo=exitDao.selecthost(user_id);
-            if (groupinfo!=null) {//用户并不是群主
-                int res = exitDao.deleteGroup(user_id, group_id);//删除群聊
-                if (res == 1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                int res = exitDao.exitGroup(user_id, group_id);//退出群聊
-                if (res == 1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
+        if (user_id == null) {
+            // 用户未登录或其他错误处理
+            throw new IllegalStateException("User is not logged in");
         }
-        return true;
+
+        List<Groupinfo> groupinfo = exitDao.selecthost(user_id, group_id); // 假设方法名已经改为 selectHost
+        if (groupinfo != null && !groupinfo.isEmpty()) { // 检查列表是否非空
+            // 用户是群主，删除群聊
+            return exitDao.deleteGroup(group_id) == 1;
+        } else {
+            // 用户不是群主，退出群聊
+            return exitDao.exitGroup(user_id, group_id) == 1;
+        }
     }
 }
