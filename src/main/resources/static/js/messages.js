@@ -24,17 +24,22 @@ $(function (){
             url: '/chat',
             success: function (res){
                 console.log('消息列表')
-                console.log(res.data)
+                console.log(res)
                 if(res.status != 200){
                     console.log('获取消息列表失败')
                 }
+                console.log('消息列表')
+                console.log(res.data)
                 var htmlStr = template('tpl-messages-sender-list', res)
                 $('.messages-sender-list').html(htmlStr)
 
                 // 设置导航栏消息计数
+                msg_count = 0
                 $.each(res.data, function (index, value){
                     msg_count += value.no_read
+                    console.log(value.no_read)
                 })
+                console.log(msg_count)
                 window.parent.setMessagesCount(msg_count)
 
 
