@@ -155,7 +155,7 @@ public class FriendController {
     @GetMapping("/getPrivateMessages")
     public Result getPrivateMessages(@RequestParam("user_id") Integer otherUserId,HttpServletRequest request) {
         HttpSession session = request.getSession();
-        return friendService.getPrivateMessages(888888,session);
+        return friendService.getPrivateMessages(otherUserId,session);
 
     }
 
@@ -164,6 +164,6 @@ public class FriendController {
     @GetMapping("/getGroupMessages")
     public Result getGroupMessages(@RequestParam("group_id") Integer groupId,HttpServletRequest request) {
         HttpSession session = request.getSession();
-        return  friendService.getGroupMessages(88888888,session);
+        return  friendService.getGroupMessages(groupId,session);
     }
 }

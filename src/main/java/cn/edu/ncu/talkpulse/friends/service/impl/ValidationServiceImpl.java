@@ -142,6 +142,9 @@ public class ValidationServiceImpl implements ValidationService {
                 // 添加成功后，双方互发"你好"
                 recordService.sendMessage(senderid,receiverid,"请求添加好友",0);
                 recordService.sendMessage(receiverid,senderid,"我已同意你的好友申请",0);
+                // 通知
+                webSocketServer.sendToUser(senderid, WebSocketDTO.NEW_MSG);
+                webSocketServer.sendToUser(receiverid, WebSocketDTO.NEW_MSG);
                 return Result.success();
             }
             else return Result.fail();
