@@ -28,6 +28,6 @@ public interface ChatWindowsDao {
     public Corre corre_select(Integer uid, Integer gid);
     @Select("SELECT COUNT(*) AS unread_count\n" +
             "FROM record\n" +
-            "WHERE (record_recipientid = #{recipientid} AND record_senderid = #{senderid} AND record_readstatus = 0) OR (record_recipientid = #{senderid} AND record_senderid = #{recipientid} AND record_readstatus = 0)")
+            "WHERE (record_recipientid = #{recipientid} AND record_senderid = #{senderid} AND record_readstatus = 0) ")
     public Integer unread_num(Integer recipientid,Integer senderid);
 }

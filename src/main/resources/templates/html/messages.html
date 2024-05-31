@@ -81,7 +81,11 @@
         <div class="box">
             <div class="row1">
                 <span>{{$value.user_name}}</span>
-                <span>{{$value.no_read}}</span>
+                {{ if $value.no_read != 0 }}
+                <span count="{{$value.no_read}}">{{$value.no_read > 99? '99+':$value.no_read }}</span>
+                {{ else }}
+                <span count="{{$value.no_read}}" style="display: none;">0</span>
+                {{ /if }}
             </div>
             <div class="row2">
                 {{ if $value.record_type == 0 }}
@@ -101,17 +105,17 @@
 <!--消息页面-->
 <script type="text/html" id="tpl-messages-list">
     {{each data}}
-    {{if $value.sendByme}}
+    {{if friend_id == $value.record_recipientid}}
     <li class="right list-group-item">
-        <img src="{{$value.img}}" class="head"/>
+        <img src="{{friend_photo}}" class="head"/>
         <span>
-            <audio src="/voice/friends/v_13.webm" controls></audio>
+            {{$value.record_content}}
         </span>
     </li>
     {{else}}
     <li class="left list-group-item">
-        <img src="{{$value.img}}" class="head" />
-        <span>{{$value.message}}</span>
+        <img src="{{my_photo}}" class="head" />
+        <span>{{$value.record_content}}</span>
     </li>
     {{/if}}
     {{/each}}

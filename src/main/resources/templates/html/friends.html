@@ -160,7 +160,7 @@
         <img src="{{data.user_photo}}" class="search-frieds-photo">
         <div class="box">
             <div class="row1">
-                <span>{{data.user_id}}</span>
+                <span>{{data.user_name}}</span>
                 {{if isfriend == false}}
                 <div class="checkbox">
                     <span id="add">添加好友</span>
@@ -168,7 +168,7 @@
                 {{/if}}
             </div>
             <div class="row2">
-                <span>{{data.user_name}}</span>
+                <span>{{data.user_id}}</span>
                 {{if isfriend == 'received'}}
                 <span>对方给您发来了好友申请</span>
                 {{else if isfriend == 'sended'}}
@@ -189,7 +189,7 @@
         <img src="{{$value.validation_sender_photo}}" class="frieds-validation-photo">
         <div class="box">
             <div class="row1">
-                <span>{{$value.validation_senderid}}</span>
+                <span>{{$value.validation_sender_name}}</span>
                 <div class="checkbox" aid="{{$value.validation_id}}">
                     {{if $value.validation_status == 0}}
                     <span class="agree">同意</span>
@@ -202,7 +202,7 @@
                 </div>
             </div>
             <div class="row2">
-                <span>{{$value.validation_sender_name}}</span>
+                <span>{{$value.validation_senderid}}</span>
                 <span>{{$value.validation_time}}</span>
             </div>
         </div>

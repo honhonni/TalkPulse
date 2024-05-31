@@ -5,6 +5,9 @@ $(function (){
     // 初始化websocket
     initWebsocket()
 
+    // 初始化数字
+    initCount()
+
     // 导航栏切换
     $('ul.navbar-left').on("click","li",function(){	// 切换选项
         $(this).addClass('active').siblings().removeClass('active')
@@ -39,6 +42,7 @@ $(function (){
         };
         // 从服务器接受到信息时的回调函数
         ws.onmessage = function (e) {
+            console.log(e.data)
             if(e.data === '1'){
                 // 有消息
                 var ele = $('.count').eq(0)
@@ -115,6 +119,53 @@ $(function (){
     }
 
 
+    // 初始化数字
+    function initCount(){
+        // 获取好友验证列表
+        $.ajax({
+            method: 'get',
+            url: '/friends/getValidation',
+            success: function (res){
+                // 获取验证列表
+                if(res.status !== 200){
+                    return console.log('获取验证列表失败！')
+                }
+                let validation = res.data
+                // 绑定数字
+                let verify_count = 0
+                // 记录有多少条未处理事件
+                for(var i in validation.validationlist){
+                    if(validation.validationlist[i].validation_status === 0){
+                        verify_count++
+                    }
+                }
+                setFriendsCount(verify_count)
+            }
+        })
+        // 获取群聊验证列表
+        $.ajax({
+            method: 'get',
+            url: '/friends/getValidation',
+            success: function (res){
+                // 获取验证列表
+                if(res.status !== 200){
+                    return console.log('获取验证列表失败！')
+                }
+                let validation = res.data
+
+                // 绑定数字
+                let verify_count = 0
+                // 记录有多少条未处理事件
+                for(var i in validation.validationlist){
+                    if(validation.validationlist[i].validation_status === 0){
+                        verify_count++
+                    }
+                }
+                setGroupsCount(verify_count)
+            }
+        })
+    }
+
     // 获取个人信息
     function getUserInfo(){
         $.ajax({
@@ -171,6 +222,7 @@ $(function (){
         }else{
             ele.html(0).hide()
         }
+
     }
     // 设置群聊图标
     window.setGroupsCount = function (count){

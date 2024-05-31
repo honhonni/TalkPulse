@@ -1,5 +1,6 @@
 
 $(function (){
+    let msg_count = 0
     // 初始化消息列表
     init(-1)
 
@@ -22,6 +23,7 @@ $(function (){
             method: 'get',
             url: '/chat',
             success: function (res){
+                console.log('消息列表')
                 console.log(res.data)
                 if(res.status != 200){
                     console.log('获取消息列表失败')
@@ -29,16 +31,21 @@ $(function (){
                 var htmlStr = template('tpl-messages-sender-list', res)
                 $('.messages-sender-list').html(htmlStr)
 
+                // 设置导航栏消息计数
+                $.each(res.data, function (index, value){
+                    msg_count += value.no_read
+                })
+                window.parent.setMessagesCount(msg_count)
+
+
+                // 初始打开一个窗口
                 if(id == -1 ){
                     $('.messages-sender-list').find('button').eq(0).click()
                 }
                 // 跳转到指定 id 的聊天界面
                 else{
                     $('.messages-sender-list').find('button').each(function (){
-                        console.log($(this).attr('mid'),id,$(this).attr('mid') == id)
                         if($(this).attr('mid') == id){
-
-                            console.log('click',id)
                             $(this).click()
                         }
                     })
@@ -115,7 +122,7 @@ $(function (){
                 }
                 console.log(res)
                 var reads = new FileReader();
-                var f = formData.content
+                var f = formData.get('content')
                 reads.readAsDataURL(f);
                 reads.onload = function (e) {
                     $('#send-text').click()
@@ -294,14 +301,12 @@ $(function (){
 
 
 
-    var msgStr = template('tpl-messages-list', msg)
-    $('.messages-list').html(msgStr)
-    resetui()
-    moveToButtom()
 
     // 绑定消息列表点击事件
     $('.messages-sender-list').on('click','button',function (){
         let current_id = $(this).attr('mid')
+
+        let that = this
         $.ajax({
             method: 'get',
             url: '/friends/search',
@@ -315,9 +320,49 @@ $(function (){
                 $('.info-box').html(info)
                 localStorage.setItem("current_id",current_id)
                 // 获取成功后，刷新数量，
+                // $.ajax({
+                //     method: 'post',
+                //     url: '/record/read',
+                //     data: {uid: current_id},
+                //     success: function (res){
+                //         if(res.status != 200){
+                //             return console.log('设置已读失败')
+                //         }
+                //         // 设置已读成功
+                //
+                //         msg_count -= Number($(that).find('.box .row1 span').eq(1).attr('count'))
+                //         $(that).find('.box .row1 span').eq(1).attr('count','0').html(0).hide()
+                //         window.parent.setMessagesCount(msg_count)
+                //     }
+                // })
 
+
+                // 获取聊天记录
+                $.ajax({
+                    methods: 'get',
+                    url: '/friends/getPrivateMessages',
+                    data: {user_id: current_id},
+                    success: function (msg){
+                        if(res.status != 200){
+                            return console.log('获取聊天记录失败')
+                        }
+                        console.log(msg)
+                        msg.friend_id = current_id
+                        msg.friend_photo = res.data.data.user_photo
+
+                        console.log(res.data.data.user_photo)
+                        msg.my_photo = localStorage.getItem('user_photo')
+
+                        console.log(msg)
+                        var msgStr = template('tpl-messages-list', msg)
+                        $('.messages-list').html(msgStr)
+                        resetui()
+                        moveToButtom()
+                    }
+                })
             }
         })
+
     })
 
 

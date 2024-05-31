@@ -94,7 +94,7 @@ public interface FriendDao {
     Friendship getFriendshipById(@Param("myId") Integer myId, @Param("userId") Integer userId);
 
     
-    @Select( "SELECT * FROM record WHERE (record_senderid = #{userId} AND record_recipientid = #{otherUserId}) OR (record_senderid = #{otherUserId} AND record_recipientid = #{userId})")
+    @Select( "SELECT * FROM record WHERE (record_senderid = #{userId} AND record_recipientid = #{otherUserId}) OR (record_senderid = #{otherUserId} AND record_recipientid = #{userId}) ORDER BY record_time ASC")
     List<Record> getPrivateMessages( @Param("otherUserId") Integer otherUserId,@Param("userId") Integer userId);
 
     //根据传入gid返回自己与该gid的群聊消息
