@@ -1,12 +1,8 @@
 package cn.edu.ncu.talkpulse;
 
 import cn.edu.ncu.talkpulse.dto.Result;
-import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
 import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
-import cn.edu.ncu.talkpulse.group.entity.Groupapply;
-import cn.edu.ncu.talkpulse.group.service.InviteService;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
+import cn.edu.ncu.talkpulse.group.service.ApplyService;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +17,9 @@ import java.util.List;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-public class InviteServiceTest{
+public class ApplyServiceTest {
     @Autowired
-    private InviteService inviteService;
+    private ApplyService applyService;
     @Autowired
     private HttpSession session;
 
@@ -31,25 +27,25 @@ public class InviteServiceTest{
     @Test
     public void TestAddGroup(){
         session.setAttribute("user_id",12);
-        Boolean flag=inviteService.sendGroupapply(session, LocalDateTime.now(),99999999,11,"欢迎");
+        Boolean flag= applyService.sendGroupapply(session, LocalDateTime.now(),99999999,11,"欢迎");
         System.out.println(flag);
     }
     //查看发送的群聊信息
     @Test
     public void getGroupAppliesBySenderId(){
-        List<GroupApplyWithGroupInfo> flag= inviteService.getGroupAppliesBySenderId(14);
+        List<GroupApplyWithGroupInfo> flag= applyService.getGroupAppliesBySenderId(14);
         System.out.println(flag);
     }
     //查看收到的群聊信息
     @Test
     public void getGroupAppliesByReceiver(){
-        List<GroupApplyWithGroupInfo> flag=inviteService.getMyGroupapply(70);
+        List<GroupApplyWithGroupInfo> flag= applyService.getMyGroupapply(70);
         System.out.println(flag);
     }
     //群主处理群聊信息
     @Test
     public void handleGroupapply(){
         session.setAttribute("user_id",11);
-        Result flag=inviteService.handleGroupapply((byte) 1,session);
+        Result flag= applyService.handleGroupapply((byte) 1,session);
     }
 }

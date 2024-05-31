@@ -2,10 +2,7 @@ package cn.edu.ncu.talkpulse.controller;
 
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
-import cn.edu.ncu.talkpulse.dto.ValidationReceiverDTO;
-import cn.edu.ncu.talkpulse.dto.ValidationSenderDTO;
 import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
-import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.service.*;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,9 +24,9 @@ public class GroupController {
    @Autowired
    private ExitService exitService;
    @Autowired
-   private InviteService inviteService;
+   private ApplyService applyService;
    @Autowired
-   private UpdateInviteService updateInviteService;
+   private GroupValidationService groupValidationService;
    @Autowired
    private UpdateGroupInfoService updateGroupInfoService;
    @Autowired
@@ -85,7 +82,7 @@ public class GroupController {
                               @RequestParam("groupvalidation_readstatus")String groupvalidationReadStatus
                               ){
       HttpSession session=request.getSession();
-      Boolean ok=updateInviteService.updateinvite(groupvalidationSenderId,session,groupvalidationGroupId,groupvalidationStatus,groupvalidationReadStatus,LocalDateTime.now());
+      Boolean ok= groupValidationService.updateinvite(groupvalidationSenderId,session,groupvalidationGroupId,groupvalidationStatus,groupvalidationReadStatus,LocalDateTime.now());
       if(ok) return Result.success();
       else return Result.fail();
    }
@@ -123,7 +120,7 @@ public class GroupController {
                           @RequestParam("groupapply_hostid") Integer groupapply_hostid,
                           @RequestParam("groupapply_introduce")String groupapply_introduce){
       HttpSession session=request.getSession();
-      Boolean data=inviteService.sendGroupapply(session,LocalDateTime.now(),groupapply_groupid,groupapply_hostid,groupapply_introduce);
+      Boolean data= applyService.sendGroupapply(session,LocalDateTime.now(),groupapply_groupid,groupapply_hostid,groupapply_introduce);
       if(data)return Result.success();
       else return Result.fail();
    }
@@ -131,8 +128,8 @@ public class GroupController {
    @GetMapping("/getGroupapply")
    public Result getGroupapply(HttpServletRequest request){
       Integer id=(Integer) request.getSession().getAttribute("user_id");
-      List<GroupApplyWithGroupInfo> applyList=inviteService.getGroupAppliesBySenderId(id);
-      List<GroupApplyWithGroupInfo>apply=inviteService.getMyGroupapply(id);
+      List<GroupApplyWithGroupInfo> applyList= applyService.getGroupAppliesBySenderId(id);
+      List<GroupApplyWithGroupInfo>apply= applyService.getMyGroupapply(id);
       if(applyList!=null) {
          Map<String, Object> dataMap = new HashMap<>();
          dataMap.put("applylist", applyList);
@@ -146,6 +143,30 @@ public class GroupController {
          return Result.fail();
       }
    }
+   //群聊成员邀请好友进入群聊
+   @PostMapping("addGroupvalidation")
+   public Result addGroupvalidation(HttpServletRequest request,
+                                    @RequestParam("groupvalidation_receiverid")Integer groupvalidation_receiverid,
+                                    @RequestParam("groupvalidation_groupid")Integer groupvalidation_groupid){
+      HttpSession session=request.getSession();
+      Boolean date= groupValidationService.groupaddvalidation(session,groupvalidation_receiverid,groupvalidation_groupid,LocalDateTime.now());
+      if(date){
+         return Result.success();
+      }else return Result.fail();
+   }
+   //被邀请成员处理信息
+   @PostMapping("handlegroupvalidation")
+   public Result handlegroupvalidation(@RequestParam("groupvalidation_state")Byte groupvalidation_state,
+                                       @RequestParam("groupvalidation_id")Integer groupvalidation_id,
+                                       HttpServletRequest request){
+      Integer id=(Integer) request.getSession().getAttribute("user_id");
+      Boolean data=groupValidationService.handlegroupvalidation(groupvalidation_state,groupvalidation_id);
+      if(data)
+      {
+         return Result.success();
+      }
+      else return Result.fail();
+   }
 
    //处理群聊申请接口
    @PostMapping("/handleGroupapply")
@@ -153,7 +174,7 @@ public class GroupController {
                                   HttpServletRequest request,
                                   @RequestParam("groupapply_status") Byte groupapply_status){
       HttpSession session=request.getSession();
-      return inviteService.handleGroupapply(groupapply_status,session);
+      return applyService.handleGroupapply(groupapply_status,session);
    }
    //获取群聊成员列表
    @PostMapping("/getGroupMember")

@@ -17,10 +17,10 @@ public class Groupvalidation {
 	private Integer groupvalidation_groupid;
 
 	// 验证状态
-	private boolean groupvalidation_status;
+	private Byte groupvalidation_status;
 
 	// 是否已读
-	private boolean groupvalidation_readstatus;
+	private Byte groupvalidation_readstatus;
 
 	private LocalDateTime groupvalidation_time;
 
@@ -56,19 +56,19 @@ public class Groupvalidation {
 		this.groupvalidation_groupid = groupvalidation_groupid;
 	}
 
-	public boolean isGroupvalidation_status() {
+	public Byte isGroupvalidation_status() {
 		return groupvalidation_status;
 	}
 
-	public void setGroupvalidation_status(boolean groupvalidation_status) {
+	public void setGroupvalidation_status(Byte groupvalidation_status) {
 		this.groupvalidation_status = groupvalidation_status;
 	}
 
-	public boolean isGroupvalidation_readstatus() {
+	public Byte isGroupvalidation_readstatus() {
 		return groupvalidation_readstatus;
 	}
 
-	public void setGroupvalidation_readstatus(boolean groupvalidation_readstatus) {
+	public void setGroupvalidation_readstatus(Byte groupvalidation_readstatus) {
 		this.groupvalidation_readstatus = groupvalidation_readstatus;
 	}
 

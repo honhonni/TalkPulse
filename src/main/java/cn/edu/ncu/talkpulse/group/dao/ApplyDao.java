@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
-public interface InviteDao {
+public interface ApplyDao {
     //添加群聊申请信息
     @Insert("INSERT INTO groupapply ( groupapply_senderid, groupapply_time, groupapply_groupid, groupapply_hostid, groupapply_introduce)" +
             "VALUES ( #{groupapply_senderid}, #{groupapply_time}, #{groupapply_groupid}, #{groupapply_hostid}, #{groupapply_introduce})")
@@ -22,8 +22,10 @@ public interface InviteDao {
     //查询申请消息所在群聊
     @Select("SELECT groupapply_groupid FROM groupapply WHERE groupapply_senderid=#{groupapply_senderid}")
     Integer getid(Integer groupapply_groupid);
+    //根据群聊账号查询群聊信息
     @Select("SELECT * FROM groupinfo WHERE group_id=#{group_id} ")
     Groupinfo getgroupapplyByGroupId(Integer group_id);
+
 
 
     //查询某个用户的群聊信息

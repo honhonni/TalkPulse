@@ -14,8 +14,6 @@ public interface ExitDao {
     int exitGroup(Integer correuser_id, Integer corregroup_id);//成员退出群聊
     @Delete("DELETE FROM groupinfo WHERE group_id=#{group_id}")
     int deleteGroup(Integer group_id);//删除群聊
-    @Delete("DELETE FROM corre WHERE corregroup_id=#{corregroup_id}")
-    int deleteGroupId(Integer corregroup_id);
 
     //群主踢出群成员
     @Delete("DELETE FROM corre\n" +
@@ -29,13 +27,8 @@ public interface ExitDao {
             ")")
     int kickmember(Integer correuser_id,Integer corregroup_id,Integer group_hostid);
 
-    //找出群聊的群主
-//    @Select("SELECT group_hostid form Groupinfo where group_id=#{group_id}")
-//    static Integer judgeHost(Integer group_id);
+
     //根据群聊的群主查询群聊列表
     @Select("SELECT * FROM Groupinfo WHERE group_hostid=#{group_hostid} AND group_id=#{group_id}")
    List <Groupinfo> selecthost(Integer group_hostid,Integer group_id);
-    //根据用户返回群聊表
-    @Select("SELECT * FROM corre WHERE correuser_id=#{group_userid}")
-    List<Corre> selectid(Integer group_userid);
 }
