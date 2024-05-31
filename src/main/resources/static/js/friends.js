@@ -232,7 +232,7 @@ $(function (){
             method: 'post',
             url: '/friends/addFriend',
             data: {
-                friend_id: $('.search-friends-info-box .row1 span').eq(0).html()
+                friend_id: $('.search-friends-info-box .row2 span').eq(0).html()
             },
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             success: function (res){
