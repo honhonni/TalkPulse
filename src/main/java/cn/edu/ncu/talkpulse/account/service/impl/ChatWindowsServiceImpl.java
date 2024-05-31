@@ -62,8 +62,8 @@ public class ChatWindowsServiceImpl implements ChatWindowsService {
         List<Record> filteredUserRecords = new ArrayList<>(recordMap.values());
         Collections.sort(filteredUserRecords, Comparator.comparing(Record::getRecord_time).reversed());
         // 打印筛选后的记录
-        //for (Record record : filteredUserRecords) {
-          //  System.out.println(record);
+      //  for (Record record : filteredUserRecords) {
+        //    System.out.println(record);
         //}
 
         //群聊过滤
@@ -111,7 +111,7 @@ public class ChatWindowsServiceImpl implements ChatWindowsService {
             {
                 UserInfo userinfo=null;
                 Integer num;
-                if (filteredUserRecords.get(user_index).getRecord_recipientid()==uid) {
+                if (filteredUserRecords.get(user_index).getRecord_recipientid().equals(uid)) {
                     userinfo = chatWindowsDao.user_select(filteredUserRecords.get(user_index).getRecord_senderid());
                      num=chatWindowsDao.unread_num(filteredUserRecords.get(user_index).getRecord_recipientid(),filteredUserRecords.get(user_index).getRecord_senderid());
                 }
@@ -148,7 +148,7 @@ public class ChatWindowsServiceImpl implements ChatWindowsService {
                 user_index++; // 移动用户记录指针*/
                 UserInfo userinfo=null;
                 Integer num;
-                if (filteredUserRecords.get(user_index).getRecord_recipientid()==uid) {
+                if (filteredUserRecords.get(user_index).getRecord_recipientid().equals(uid)) {
                     userinfo = chatWindowsDao.user_select(filteredUserRecords.get(user_index).getRecord_senderid());
                      num=chatWindowsDao.unread_num(filteredUserRecords.get(user_index).getRecord_recipientid(),filteredUserRecords.get(user_index).getRecord_senderid());
                 }
