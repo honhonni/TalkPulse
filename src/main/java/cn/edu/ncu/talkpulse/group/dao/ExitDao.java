@@ -19,13 +19,13 @@ public interface ExitDao {
 
     //群主踢出群成员
     @Delete("DELETE FROM corre\n" +
-            "WHERE correuser_id = 123456\n" +
-            "AND corregroup_id = 32121311\n" +
+            "WHERE correuser_id = #{correuser_id}\n" +
+            "AND corregroup_id = #{corregroup_id}\n" +
             "AND EXISTS (\n" +
-            "    SELECT 1\n" +
+            "    SELECT *\n" +
             "    FROM groupinfo\n" +
             "    WHERE groupinfo.group_id = corre.corregroup_id\n" +
-            "    AND groupinfo.group_hostid = 123\n" +
+            "    AND groupinfo.group_hostid = #{group_hostid}\n" +
             ")")
     int kickmember(Integer correuser_id,Integer corregroup_id,Integer group_hostid);
 

@@ -21,7 +21,7 @@ public class UpdateGroupInfoServiceTest {
     @Test
     public void TestUpdate(){
         session.setAttribute("user_id",11);
-        Boolean flag=updateGroupInfoService.updateGroupIntroduce("hallo",1,session);
+        Boolean flag=updateGroupInfoService.updateGroupIntroduce("hallo",99999999,session);
         System.out.println(flag);
     }
     @Test

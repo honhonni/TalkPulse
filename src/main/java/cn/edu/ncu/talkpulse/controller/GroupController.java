@@ -65,16 +65,27 @@ public class GroupController {
        }
        else return Result.fail();
    }
+   @PostMapping("kick")//群主踢出群聊
+   public Result Kickmember(@RequestParam("correuser_id")Integer correuser_id,
+                            @RequestParam("corregroup_id")Integer corregroup_id,
+                            HttpServletRequest request){
+                  HttpSession session=request.getSession();
+                  Boolean ok=exitService.kickmember(correuser_id,corregroup_id,session);
+                  if(ok){
+                     return Result.success();
+                  }
+                  else return Result.fail();
+   }
    @PostMapping("updateinvite")//更新群聊信息
    public Result UpdateInvite(
                               @RequestParam("groupvalidation_senderid")Integer groupvalidationSenderId,
                               HttpServletRequest request,
                               @RequestParam("groupvalidation_groupid")Integer groupvalidationGroupId,
                               @RequestParam("groupvalidation_status")String groupvalidationStatus,
-                              @RequestParam("groupvalidation_readstatus")String groupvalidationReadStatus,
-                              @RequestParam("groupvalidation_time")LocalDateTime groupvalidationTime){
+                              @RequestParam("groupvalidation_readstatus")String groupvalidationReadStatus
+                              ){
       HttpSession session=request.getSession();
-      Boolean ok=updateInviteService.updateinvite(groupvalidationSenderId,session,groupvalidationGroupId,groupvalidationStatus,groupvalidationReadStatus,groupvalidationTime);
+      Boolean ok=updateInviteService.updateinvite(groupvalidationSenderId,session,groupvalidationGroupId,groupvalidationStatus,groupvalidationReadStatus,LocalDateTime.now());
       if(ok) return Result.success();
       else return Result.fail();
    }
@@ -108,12 +119,11 @@ public class GroupController {
 //申请群聊接口
    @PostMapping("/addGroup")
    public Result addGroup(HttpServletRequest request,
-                           @RequestParam("groupapply_time") LocalDateTime groupapply_time,
                           @RequestParam("groupapply_groupid") Integer groupapply_groupid,
                           @RequestParam("groupapply_hostid") Integer groupapply_hostid,
                           @RequestParam("groupapply_introduce")String groupapply_introduce){
       HttpSession session=request.getSession();
-      Boolean data=inviteService.sendGroupapply(session,groupapply_time,groupapply_groupid,groupapply_hostid,groupapply_introduce);
+      Boolean data=inviteService.sendGroupapply(session,LocalDateTime.now(),groupapply_groupid,groupapply_hostid,groupapply_introduce);
       if(data)return Result.success();
       else return Result.fail();
    }

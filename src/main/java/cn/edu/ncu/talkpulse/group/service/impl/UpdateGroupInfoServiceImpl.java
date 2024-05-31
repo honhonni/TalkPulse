@@ -14,6 +14,7 @@ public class UpdateGroupInfoServiceImpl implements UpdateGroupInfoService {
     @Autowired
     private UpdateGroupInfoDao updateGroupInfoDao;
 
+    //更新群聊简介
     @Override
     public Boolean updateGroupIntroduce(String group_introduce, Integer group_id, HttpSession session) {
         Integer group_hostid = (Integer) session.getAttribute("user_id");
@@ -22,6 +23,7 @@ public class UpdateGroupInfoServiceImpl implements UpdateGroupInfoService {
             return true;
         } else return false;
     }
+    //更新群聊
     @Override
     public JSONObject getGroupInfo(Integer group_id, HttpSession session){
         Integer correuser_id=(Integer) session.getAttribute("user_id");

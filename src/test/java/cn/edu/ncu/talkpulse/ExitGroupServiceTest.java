@@ -22,9 +22,15 @@ public class ExitGroupServiceTest {
     private HttpSession session;
 
     @Test
-    public void testExit() {
+    public void testExit() {//解散群聊和退出群聊
         session.setAttribute("user_id",11);
         Boolean flag = exitService.exitGroup(99999999, session);
+        System.out.println(flag);
+    }
+    @Test
+    public void testkickmember(){
+        session.setAttribute("user_id",11);
+        Boolean flag=exitService.kickmember(12,99999999,session);
         System.out.println(flag);
     }
 }
