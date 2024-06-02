@@ -87,20 +87,20 @@
 <!--我创建的群聊-->
 <script type="text/html" id="tpl-my-groups">
     {{each data[0]}}
-    <button type="button" class="list-group-item" gid="{{$value.GID}}">
-        <img src="{{$value.img}}" class="group-photo">
+    <button type="button" class="list-group-item" gid="{{$value.group_id}}">
+        <img src="{{$value.group_photo}}" class="group-photo">
         {{$value.group_name}}
     </button>
     {{/each}}
-    <button type="button" class="list-group-item active" id="create-group">
+    <button type="button" class="list-group-item active" gid="create-group">
         创建群聊
     </button>
 </script>
 <!--我加入的群聊-->
-<script type="text/html" id="tpl-join-groups" gid="{{$value.GID}}">
+<script type="text/html" id="tpl-join-groups">
     {{each data[1]}}
-    <button type="button" class="list-group-item">
-        <img src="{{$value.img}}" class="group-photo">
+    <button type="button" class="list-group-item" gid="{{$value.group_id}}">
+        <img src="{{$value.group_photo}}" class="group-photo">
         {{$value.group_name}}
     </button>
     {{/each}}
@@ -129,30 +129,40 @@
 <!--群聊信息模板-->
 <script type="text/html" id="tpl-info">
     <div class="photo">
-        <img src="{{img}}" />
-        <span>{{group_name}}</span>
+        <img src="{{group.group_photo}}" />
+        <span>{{group.group_name}}</span>
     </div>
     <div class="info">
         <ul class="info-list list-group">
             <li class="list-group-item">
                 <span>GID:</span>
-                <span>{{GID}}</span>
+                <span>{{group.group_id}}</span>
             </li>
             <li class="list-group-item">
                 <span>群聊名称:</span>
-                <span>{{group_name}}</span>
+                <span>{{group.group_name}}</span>
             </li>
             <li class="list-group-item">
                 <span>群介绍:</span>
-                <span>欢迎加入我们</span>
+                <span>{{group.group_introduce}}</span>
             </li>
-            {{if }}
             <li class="list-group-item">
                 <span>退出:</span>
                 <button type="button" id="quite" class="btn btn-primary">
                     退出群聊
                 </button>
             </li>
+        </ul>
+    </div>
+    <div class="member">
+        <ul>
+            {{each members}}
+                <li uid="{{$value.user_id}}">
+                    <img src="{{$value.user_photo}}">
+                    {{$value.user_name}}
+                    ({{$value.user_id}})
+                </li>
+            {{/each}}
         </ul>
     </div>
 </script>
@@ -217,21 +227,19 @@
 <!--搜索群聊显示-->
 <script type="text/html" id="tpl-search-groups-info">
     <div class="search-groups-info">
-        <img src="{{data.user_photo}}" class="search-groups-photo">
+        <img src="{{group.group_photo}}" class="search-groups-photo">
         <div class="box">
             <div class="row1">
-                <span>{{data.group_id}}</span>
+                <span>{{group.group_name}}</span>
                 {{if present == false}}
                 <div class="checkbox">
-                    <span id="add">添加群聊</span>
+                    <span id="add" hostid="{{group.group_hostid}}">添加群聊</span>
                 </div>
                 {{/if}}
             </div>
             <div class="row2">
-                <span>{{data.group_name}}</span>
-                {{if present == 'received'}}
-                <span>对方给您发来了好友申请</span>
-                {{else if present == 'sended'}}
+                <span>{{group.group_id}}</span>
+                {{ if present == 'sended'}}
                 <span>您已发送过申请</span>
                 {{else if present == true}}
                 <span>您已在该群内</span>
@@ -244,26 +252,26 @@
 </script>
 <!--群聊验证-->
 <script type="text/html" id="tpl-groups-verify-list">
-    {{each validationlist}}
-    <button type="button" class="list-group-item" readstatus="{{$value.validation_readstatus}}">
-        <img src="{{$value.validation_sender_photo}}" class="groups-validation-photo">
+    {{each applylist}}
+    <button type="button" class="list-group-item" readstatus="{{$value.groupapply_readstatus}}">
+        <img src="{{$value.user_photo}}" class="groups-validation-photo">
         <div class="box">
             <div class="row1">
-                <span>{{$value.validation_senderid}}</span>
-                <div class="checkbox" aid="{{$value.validation_id}}">
-                    {{if $value.validation_status == 0}}
+                <span>{{$value.user_name}} 申请入群</span>
+                <div class="checkbox" aid="{{$value.groupapply_id}}">
+                    {{if $value.groupapply_status == 0}}
                     <span class="agree">同意</span>
                     <span class="reject">拒绝</span>
-                    {{else if $value.validation_status == 1}}
+                    {{else if $value.groupapply_status == 1}}
                     <span class="agreed">已同意</span>
-                    {{else if $value.validation_status == -1}}
+                    {{else if $value.groupapply_status == -1}}
                     <span class="rejected">已拒绝</span>
                     {{/if}}
                 </div>
             </div>
             <div class="row2">
-                <span>{{$value.validation_sender_name}}</span>
-                <span>{{$value.validation_time}}</span>
+                <span>{{$value.group_name}}</span>
+                <span>{{$value.groupapply_time}}</span>
             </div>
         </div>
     </button>
@@ -271,23 +279,23 @@
 </script>
 <!--群聊申请-->
 <script type="text/html" id="tpl-groups-apply-list">
-    {{each applylist}}
-    <button type="button" class="list-group-item" readstatus="{{$value.validation_readstatus}}">
-        <img src="{{$value.validation_receiver_photo}}" class="groups-validation-photo">
+    {{each apply}}
+    <button type="button" class="list-group-item" readstatus="{{$value.groupapply_readstatus}}">
+        <img src="{{$value.group_photo}}" class="groups-validation-photo">
         <div class="box">
             <div class="row1">
-                <span>{{$value.validation_receiverid}}</span>
-                {{if $value.validation_status == 0}}
-                <span>等待对方验证……</span>
-                {{else if $value.validation_status == 1}}
-                <span>对方已同意</span>
-                {{else if $value.validation_status == -1}}
-                <span>对方已拒绝</span>
+                <span>您 申请入群</span>
+                {{if $value.groupapply_status == 0}}
+                <span>等待群主验证……</span>
+                {{else if $value.groupapply_status == 1}}
+                <span>验证已通过</span>
+                {{else if $value.groupapply_status == -1}}
+                <span>群主拒绝了您的入群申请</span>
                 {{/if}}
             </div>
             <div class="row2">
-                <span>{{$value.validation_receiver_name}}</span>
-                <span>{{$value.validation_time}}</span>
+                <span>{{$value.group_name}}</span>
+                <span>{{$value.groupapply_time}}</span>
             </div>
         </div>
     </button>

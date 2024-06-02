@@ -2,56 +2,64 @@ $(function (){
     var validation = {}
     init()
 
-
+    // 初始化
     function init(){
-        // $.ajax({
-        //     method: 'get',
-        //     url: '/friends/getUserGroups',
-        //     success: function (res){
-        //         if(res.status != 200){
-        //             return console.log('获取群聊失败')
-        //         }
-        //         console.log(res)
-        //     }
-        // })
-
+        // 获取群聊列表
         $.ajax({
             method: 'get',
-            url: '/group/getgroupapply',
+            url: '/friends/getUserGroups',
+            success: function (res){
+                if(res.status != 200){
+                    return console.log('获取群聊失败')
+                }
+                console.log('获取群聊列表')
+                console.log(res)
+                var htmlStr = template('tpl-my-groups', res)
+                $('.my-groups').html(htmlStr)
+                var htmlStr = template('tpl-join-groups', res)
+                $('.join-groups').html(htmlStr)
+
+                var infoStr = template('tpl-info-summary', res)
+                $('.info-box').html(infoStr)
+            }
+        })
+        // 获取群聊验证列表
+        $.ajax({
+            method: 'get',
+            url: '/group/getGroupapply',
             success: function (res){
                 // 获取验证列表
                 if(res.status !== 200){
                     return console.log('获取验证列表失败！')
                 }
-                console.log(res)
-                // validation = res.data
-                //
-                // // 群聊验证列表及绑定事件
-                // var verifyStr = template( 'tpl-groups-verify-list',res.data)
-                // $('.groups-verify-list').html(verifyStr)
-                // var applyStr = template( 'tpl-groups-apply-list',res.data)
-                // $('.groups-apply-list').html(applyStr)
-                // // 绑定数字
-                // let verify_count = 0
-                // // 记录有多少条未处理事件
-                // for(var i in validation.validationlist){
-                //     if(validation.validationlist[i].validation_status === 0){
-                //         verify_count++
-                //     }
-                // }
-                // var verify = $('.groups-validation-list').find('#verify-count')
-                // verify.attr('verify_count',verify_count)
-                // if(verify_count > 99){
-                //     verify.html('99+').show()
-                // }else if( verify_count > 0){
-                //     verify.html(verify_count).show()
-                // }else{
-                //     verify.html(0).hide()
-                // }
-                // window.parent.setGroupsCount(verify_count)
-                // // 第一次查看显示特殊颜色
-                // $('.groups-validation-list>button[readstatus=\'0\']').css('background-color', '#fcf8e3ff')
-                //
+                validation = res.data
+
+                // 群聊验证列表及绑定事件
+                var verifyStr = template( 'tpl-groups-verify-list',res.data)
+                $('.groups-verify-list').html(verifyStr)
+                var applyStr = template( 'tpl-groups-apply-list',res.data)
+                $('.groups-apply-list').html(applyStr)
+
+                // 绑定数字
+                let verify_count = 0
+                // 记录有多少条未处理事件
+                for(var i in validation.validationlist){
+                    if(validation.validationlist[i].validation_status === 0){
+                        verify_count++
+                    }
+                }
+                var verify = $('.friends-validation-list').find('#verify-count')
+                verify.attr('verify_count',verify_count)
+                if(verify_count > 99){
+                    verify.html('99+').show()
+                }else if( verify_count > 0){
+                    verify.html(verify_count).show()
+                }else{
+                    verify.html(0).hide()
+                }
+                window.parent.setFriendsCount(verify_count)
+                // 第一次查看显示特殊颜色
+                $('.friends-validation-list>button[readstatus=\'0\']').css('background-color', '#fcf8e3ff')
             }
         })
     }
@@ -70,27 +78,11 @@ $(function (){
         }
     })
 
-    var res = {
-        data: [
-            // 我创建的群聊
-            [1,2,3],
-            // 我加入的群聊
-            [1,2,3,4]
-        ]
-    }
 
-    var myGroupStr = template('tpl-my-groups', res)
-    $('.my-groups').html(myGroupStr)
-    var joinGroupStr = template('tpl-join-groups', res)
-    $('.join-groups').html(joinGroupStr)
-
-
-    var infoStr = template('tpl-info-summary', res)
-    $('.info-box').html(infoStr)
-
-    // 绑定事件
+    // 绑定事件,点击群聊列表或创建群聊
     $('.groups-list').on('click', 'button', function (){
-        if($(this).prop('id') == 'create-group'){
+        let gid = $(this).attr('gid')
+        if(gid == 'create-group'){
             // 显示创建群聊模板
             infoStr = template('tpl-create-group', res.data[0][3])
             $('.info-box').html(infoStr)
@@ -191,10 +183,36 @@ $(function (){
                 })
 
             });
-        }else{
+        }else {
             // ajax获取群聊信息
-            infoStr = template('tpl-info', res.data[0][0])
-            $('.info-box').html(infoStr)
+            var friendship_name = $(this).parents('li').find('h2').text()
+            $.ajax({
+                method: 'get',
+                url: '/group/getGroupInfo',
+                data: {group_Id: gid},
+                success: function (res) {
+                    if (res.status != 200) {
+                        return console.log('获取好友信息失败')
+                    }
+                    let data = res.data
+                    // 获取群成员
+                    $.ajax({
+                        method: 'get',
+                        url: '/group/getGroupMember',
+                        data: { group_id: gid},
+                        success: function (res) {
+                            if(res.status != 200){
+                                return console.log("获取群成员列表失败")
+                            }
+                            console.log(res)
+                            data.members = res.data
+                            var htmlStr = template('tpl-info', data)
+                            $('.info-box').html(htmlStr)
+                        }
+                    })
+
+                }
+            })
         }
     })
 
@@ -206,26 +224,20 @@ $(function (){
             $.ajax({
                 method: 'get',
                 url: '/group/getGroupInfo',
-                data: {user_id: $(this).val()},
+                data: {group_Id: $(this).val()},
                 success: function (res){
                     if( res.status !== 200){
                         $('.search-groups-info-box').html("<br><h4>未查询到相关群聊</h4><br>")
                         return
                     }
-                    // for(var i in validation.validationlist){
-                    //     if(validation.validationlist[i].validation_senderid == res.data.data.user_id
-                    //         && validation.validationlist[i].validation_status == 0){
-                    //         res.data.isfriend = 'received'
-                    //         break
-                    //     }
-                    // }
-                    // for(var i in validation.applylist){
-                    //     if(validation.applylist[i].validation_receiverid == res.data.data.user_id
-                    //         && validation.applylist[i].validation_status == 0){
-                    //         res.data.isfriend = 'sended'
-                    //         break
-                    //     }
-                    // }
+                    // console.log(validation)
+                    for(var i in validation.apply){
+                        if(validation.apply[i].groupapply_groupid == res.data.group.group_id
+                            && validation.apply[i].groupapply_status == 0){
+                            res.data.present = 'sended'
+                            break
+                        }
+                    }
                     var htmlStr = template( 'tpl-search-groups-info', res.data)
                     $('.search-groups-info-box').html(htmlStr)
                 }
@@ -236,25 +248,70 @@ $(function (){
     $('.search-groups-info-box').on('click','#add',function (){
         $.ajax({
             method: 'post',
-            url: '/friends/addFriend',
+            url: '/group/addGroup',
             data: {
-                friend_id: $('.search-groups-info-box .row1 span').eq(0).html()
+                groupapply_groupid: $('.search-groups-info-box .row2 span').eq(0).html(),
+                groupapply_hostid: $('#add').attr('hostid'),
+                groupapply_introduce: "申请"
             },
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             success: function (res){
                 if(res.status !== 200){
-                    return $('.search-groups-info-box .row2 span').eq(1).html('发送好友申请失败')
+                    return $('.search-groups-info-box .row2 span').eq(1).html('发送群聊申请失败')
                 }
                 $('.search-groups-info-box .row1 div').remove()
-                $('.search-groups-info-box .row2 span').eq(1).html('发送好友申请成功')
+                $('.search-groups-info-box .row2 span').eq(1).html('发送群聊申请成功')
             }
         })
     })
 
-    // 获取群聊验证列表
-    function getValidaionList(){
 
-    }
+    // 同意与拒绝群聊申请
+    $('.groups-verify-list').on('click','.checkbox span',function (){
+        var class_string = $(this).attr('class')
+        var data = {}
+        data.validation_id = $(this).parent().attr('aid')
+
+        let htmlStr
+        if( class_string.indexOf('agree') >= 0){
+            data.agree = true
+            htmlStr = '<span class="agreed">已同意</span>'
+        }else{
+            data.agree = false
+            htmlStr = '<span class="rejected">已拒绝</span>'
+        }
+        $.ajax({
+            method: 'post',
+            url: '/friends/handleValidation',
+            data,
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            success: function (res){
+                if( res.status != 200){
+                    return console.log('好友申请处理失败')
+                    htmlStr = '发送失败<span class="agree">同意</span><span class="reject">拒绝</span>'
+                    $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(htmlStr)
+                }
+                console.log('好友申请处理成功')
+                $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(htmlStr)
+
+                // 绑定数字
+                var verify = $('.friends-validation-list').find('#verify-count')
+                let verify_count = Number(verify.attr('verify_count')) - 1
+                verify.attr('verify_count', verify_count)
+                if(verify_count > 99){
+                    verify.html('99+').show()
+                }else if( verify_count > 0){
+                    verify.html(verify_count).show()
+                }else{
+                    verify.html(0).hide()
+                }
+                window.parent.setFriendsCount(verify_count)
+                init()
+            }
+        })
+
+
+    })
 
     $('.groups-validation-list')
         // 验证列表事件绑定

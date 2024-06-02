@@ -6,7 +6,16 @@ public class GroupApplyWithGroupInfo extends  Groupapply{
     private String group_name;
     private String group_photo;
 
+    private String user_name;
     private String user_photo;
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
 
     public String getGroup_name() {
         return group_name;

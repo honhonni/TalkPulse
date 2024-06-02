@@ -2,6 +2,8 @@ package cn.edu.ncu.talkpulse.group.service.impl;
 
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.dto.Result;
+import cn.edu.ncu.talkpulse.dto.WebSocketDTO;
+import cn.edu.ncu.talkpulse.friends.service.WebSocketServer;
 import cn.edu.ncu.talkpulse.group.dao.*;
 import cn.edu.ncu.talkpulse.group.entity.Corre;
 import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
@@ -20,6 +22,9 @@ import java.util.List;
 
 @Service("invite")
 public class ApplyServiceImpl implements ApplyService {
+
+    @Autowired
+    private WebSocketServer webSocketServer;
     @Autowired
     private ApplyDao applyDao;
     @Autowired
@@ -60,6 +65,7 @@ public class ApplyServiceImpl implements ApplyService {
         Integer groupapply_senderid=(Integer) session.getAttribute("user_id");
         int res= applyDao.addgroupapply(groupapply_senderid,groupapply_time,groupapply_groupid,groupapply_hostid,groupapply_introduce);
         if(res==1){
+            webSocketServer.sendToUser(groupapply_hostid, WebSocketDTO.GROUP_REQUEST);
             return true;
         }
         else return false;

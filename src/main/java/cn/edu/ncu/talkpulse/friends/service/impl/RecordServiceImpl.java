@@ -56,14 +56,15 @@ public class RecordServiceImpl implements RecordService {
 
         String path = "src/main/resources/static";// 注意：用了项目相对路径前面不用加/
         String fileSuffix = content.getOriginalFilename().substring(content.getOriginalFilename().lastIndexOf("."));
+        String storePath;
         if(type==1){// 图片
-            path += "/images/friends/img_";
+            storePath = "/images/friends/img_";
         }else{// 语音
-            path += "/voice/friends/v_";
+            storePath = "/voice/friends/v_";
         }
-
         try {
-            path = path+recordId+fileSuffix;
+            storePath = storePath+recordId+fileSuffix;
+            path += storePath;
             File file = new File(path);
             File parentFile = file.getParentFile();
             if (!parentFile.exists()) {
@@ -76,7 +77,7 @@ public class RecordServiceImpl implements RecordService {
             return Result.fail("上传失败");
         }
 
-        int count = recordDao.updateContent(path, recordId);
+        int count = recordDao.updateContent(storePath, recordId);
         if(count==0) return Result.fail("发送失败");
 
         // websocket通知

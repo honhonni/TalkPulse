@@ -28,7 +28,6 @@ $(function (){
                 if(res.status != 200){
                     return console.log('获取好友列表失败')
                 }
-                // console.log(res)
                 var htmlStr = template('tpl-friends-list', res)
                 $('.friends-list').html(htmlStr)
             }
@@ -103,6 +102,9 @@ $(function (){
                 res.data.data.friendship = friendship
                 res.data.data.friendship_name = friendship_name
                 console.log(res.data.data)
+                if(res.data.data.user_id == localStorage.getItem("user_id")){
+                    res.data.data.is_me = true
+                }
                 var htmlStr = template('tpl-friends-info',res.data.data)
                 $('.info-box').html(htmlStr)
 

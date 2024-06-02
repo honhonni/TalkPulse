@@ -1,5 +1,6 @@
 package cn.edu.ncu.talkpulse.controller;
 
+import cn.edu.ncu.talkpulse.account.dao.AccountDao;
 import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
@@ -19,6 +20,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/group")
 public class GroupController {
+   @Autowired
+   private AccountDao accountDao;
    @Autowired
    private CreateService createService;
    @Autowired
@@ -129,16 +132,27 @@ public class GroupController {
    public Result getGroupapply(HttpServletRequest request){
       Integer id=(Integer) request.getSession().getAttribute("user_id");
       List<GroupApplyWithGroupInfo> applyList= applyService.getGroupAppliesBySenderId(id);
-      List<GroupApplyWithGroupInfo>apply= applyService.getMyGroupapply(id);
-      if(applyList!=null) {
-         Map<String, Object> dataMap = new HashMap<>();
-         dataMap.put("applylist", applyList);
+      List<GroupApplyWithGroupInfo> apply= applyService.getMyGroupapply(id);
+      if(applyList!=null){
+         for(int i=0; i< applyList.size(); i++){
+            UserInfo userInfo = accountDao.findUserById(applyList.get(i).getGroupapply_senderid());
+            applyList.get(i).setUser_name(userInfo.getUser_name());
+         }
+      }
+
+
+      Map<String, Object> dataMap = new HashMap<>();
+      if(applyList!=null && apply!=null) {
+         dataMap.put("apply", applyList);
+         dataMap.put("applylist",apply);
+         return Result.success(dataMap);
+      }else if(applyList!=null){
+         dataMap.put("apply",applyList);
          return Result.success(dataMap);
       }else if(apply!=null){
-         Map<String,Object> dateMap=new HashMap<>();
-         dateMap.put("apply",apply);
-         return Result.success(dateMap);
-         }
+         dataMap.put("applylist",apply);
+         return Result.success(dataMap);
+      }
       else {
          return Result.fail();
       }
@@ -177,13 +191,13 @@ public class GroupController {
       return applyService.handleGroupapply(groupapply_status,session);
    }
    //获取群聊成员列表
-   @PostMapping("/getGroupMember")
-   public List<UserInfo> getGroupMember(HttpSession session)
-   {
-      Integer gid=getGroupIdFromSession();
-      if(gid!=null)
-      {return correService.getgroup(session);}
-      else
-           return null;
+   @GetMapping("/getGroupMember")
+   public Result getGroupMember(@RequestParam("group_id") Integer group_id,
+                                        HttpServletRequest request) {
+      HttpSession session=request.getSession();
+      if(session.getAttribute("user_id")==null){
+         return Result.fail();
+      }
+      return correService.getmember(group_id);
    }
 }

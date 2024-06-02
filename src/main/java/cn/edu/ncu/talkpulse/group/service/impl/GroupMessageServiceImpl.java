@@ -77,14 +77,16 @@ public class GroupMessageServiceImpl implements GroupMessageService {
         int id = grouprecord.getGrouprecord_id();
 
         String path = "src/main/resources/static";// 用了项目相对路径前面不用加/
+        String storePath;
         if(type==1){// 图片
-            path += "/images/group/img_";
+            storePath = "/images/group/img_";
         }else{// 语音
-            path += "/voice/group/v_";
+            storePath = "/voice/group/v_";
         }
         String fileSuffix = content.getOriginalFilename().substring(content.getOriginalFilename().lastIndexOf("."));
         try {
-            path = path+id+fileSuffix;
+            storePath = storePath+id+fileSuffix;
+            path += storePath;
             File file = new File(path);
             File parentFile = file.getParentFile();
             if (!parentFile.exists()) {
@@ -97,7 +99,7 @@ public class GroupMessageServiceImpl implements GroupMessageService {
             return Result.fail("上传失败");
         }
 
-        int count = groupRecordDao.updateContent(path,id);
+        int count = groupRecordDao.updateContent(storePath,id);
         if(count==0) return Result.fail("发送失败");
 
         // 查询群里其他用户

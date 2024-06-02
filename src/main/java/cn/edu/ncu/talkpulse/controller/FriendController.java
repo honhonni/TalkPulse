@@ -141,13 +141,8 @@ public class FriendController {
     @GetMapping("/getUserGroups")
     public Result getUserGroups(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        JSONArray data = JSONArray.of(friendService.getAllUserGroups(session));
+        return friendService.getAllUserGroups(session);
 
-        if (data != null ) {
-            return Result.success(data);
-        } else {
-            return Result.fail();
-        }
     }
 
 

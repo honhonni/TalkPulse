@@ -80,6 +80,8 @@
 
 /*info-box页面*/
 .info-box{
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
 }
@@ -120,6 +122,29 @@
 #quite{
     background-color: red;
 }
+.info-box .member{
+    flex: 1;
+    width: 100%;
+    padding: 10px;
+    overflow-y: auto;
+}
+.info-box .member li{
+    padding: 5px 10px;
+    font-size: 16px;
+    line-height: 40px;
+    border-radius: 10px;
+    background-color: #fafafa;
+}
+.info-box .member li img{
+    width: 36px;
+    height: 36px;
+    margin: 2px;
+    border-radius: 50%;
+    vertical-align: center;
+
+}
+
+
 
 /*裁剪头像区域*/
 .layui-form{

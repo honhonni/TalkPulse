@@ -119,12 +119,14 @@
                 <span>个人介绍:</span>
                 <span>{{user_introduce}}</span>
             </li>
+            {{ if is_me== false}}
             <li class="list-group-item">
                 <span>聊天:</span>
                 <button type="button" id="jump" class="btn btn-primary" mid="{{user_id}}">
                     发送消息
                 </button>
             </li>
+            {{ /if}}
             <li class="list-group-item">
                 <span>当前分组:</span>
                 <div class="custom-select">
