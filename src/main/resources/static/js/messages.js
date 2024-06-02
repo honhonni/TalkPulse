@@ -62,9 +62,9 @@ $(function (){
 
     // 发送消息
     $('.input-group').on('click','#send',function (){
-        let uid = localStorage.getItem("current_id")
+        let id = localStorage.getItem("current_id")
         let type = $(this).attr('msgtype')
-        if(uid == ''){
+        if(id == ''){
             return
         }
         if(type == 0) {
@@ -73,22 +73,34 @@ $(function (){
             if(text == ''){
                 return
             }
-            sendText({receiverid: uid, content: text, type: type}, '/friends/sendTextMessage')
+            if(id.toString().length <=6){
+                sendText({receiverid: id, content: text, type: type}, '/friends/sendTextMessage')
+            }else{
+                sendText({gid: id, content: text, type: type}, '/group/sendTextMessage')
+            }
         }else if(type == 1 ){
             // 图片消息
             var formData = new FormData();
-            formData.append("receiverid", uid);
-            formData.append("content", $("#file")[0].files[0]);
-            formData.append("type", type);
-            sendImg(formData, '/friends/sendFileMessage')
+
+            if(id.toString().length <=6){
+                formData.append("receiverid", id);
+                formData.append("content", $("#file")[0].files[0]);
+                formData.append("type", type);
+                sendImg(formData, '/friends/sendFileMessage')
+            }else{
+                formData.append("gid", id);
+                formData.append("content", $("#file")[0].files[0]);
+                formData.append("type", type);
+                sendImg(formData, '/group/sendFileMessage')
+            }
         }else if(type == 2){
             // 语音消息
             const blob = new Blob(chunks,{ type:'audio/webm' });
             const formData = new FormData();
-            formData.append("receiverid", uid);
+            formData.append("gid", id);
             formData.append('content',blob,'recording.webm');
             formData.append("type", type);
-            sendVoice(formData,'/friends/sendFileMessage')
+            sendVoice(formData,'/group/sendFileMessage')
         }
     })
     // 发送消息
@@ -276,35 +288,6 @@ $(function (){
 
 
 
-    var msg = {
-        data: [{
-            sendByme: true,
-            img: '/images/avatar/defualt.png',
-            message: '我是一只羊'
-        },{
-            sendByme: false,
-            img: '/images/avatar/defualt.png',
-            message: '我是一只羊'
-        },{
-            sendByme: true,
-            img: '/images/avatar/defualt.png',
-            message: '我是一只羊'
-        },{
-            sendByme: false,
-            img: '/images/avatar/defualt.png',
-            message: '我是一只羊'
-        },{
-            sendByme: true,
-            img: '/images/avatar/defualt.png',
-            message: '我是一只羊'
-        },{
-            sendByme: true,
-            img: '/images/avatar/defualt.png',
-            message: '我是一只羊'
-        }]
-    }
-
-
 
 
     // 绑定消息列表点击事件
@@ -312,62 +295,122 @@ $(function (){
         let current_id = $(this).attr('mid')
 
         let that = this
-        $.ajax({
-            method: 'get',
-            url: '/friends/search',
-            data: {user_id: current_id},
-            success: function (res) {
-                if (res.status !== 200) {
-                    return console.log('获取好友信息失败')
-                }
-                console.log(res.data)
-                let info = template('tpl-info',res.data)
-                $('.info-box').html(info)
-                localStorage.setItem("current_id",current_id)
-                // 获取成功后，刷新数量，
-                // $.ajax({
-                //     method: 'post',
-                //     url: '/record/read',
-                //     data: {uid: current_id},
-                //     success: function (res){
-                //         if(res.status != 200){
-                //             return console.log('设置已读失败')
-                //         }
-                //         // 设置已读成功
-                //
-                //         msg_count -= Number($(that).find('.box .row1 span').eq(1).attr('count'))
-                //         $(that).find('.box .row1 span').eq(1).attr('count','0').html(0).hide()
-                //         window.parent.setMessagesCount(msg_count)
-                //     }
-                // })
-
-
-                // 获取聊天记录
-                $.ajax({
-                    methods: 'get',
-                    url: '/friends/getPrivateMessages',
-                    data: {user_id: current_id},
-                    success: function (msg){
-                        if(res.status != 200){
-                            return console.log('获取聊天记录失败')
-                        }
-                        console.log(msg)
-                        msg.friend_id = current_id
-                        msg.friend_photo = res.data.data.user_photo
-
-                        console.log(res.data.data.user_photo)
-                        msg.my_photo = localStorage.getItem('user_photo')
-
-                        console.log(msg)
-                        var msgStr = template('tpl-messages-list', msg)
-                        $('.messages-list').html(msgStr)
-                        resetui()
-                        moveToButtom()
+        // 用户
+        if(current_id.toString().length <=6){
+            $.ajax({
+                method: 'get',
+                url: '/friends/search',
+                data: {user_id: current_id},
+                success: function (res) {
+                    if (res.status !== 200) {
+                        return console.log('获取好友信息失败')
                     }
-                })
-            }
-        })
+                    console.log(res.data)
+                    let info = template('tpl-friend-info',res.data)
+                    $('.info-box').html(info)
+                    localStorage.setItem("current_id",current_id)
+                    // 获取成功后，刷新数量，
+                    $.ajax({
+                        method: 'post',
+                        url: '/record/read',
+                        data: {uid: current_id},
+                        success: function (res){
+                            if(res.status != 200){
+                                return console.log('设置已读失败')
+                            }
+                            // 设置已读成功
 
+                            msg_count -= Number($(that).find('.box .row1 span').eq(1).attr('count'))
+                            $(that).find('.box .row1 span').eq(1).attr('count','0').html(0).hide()
+                            window.parent.setMessagesCount(msg_count)
+                        }
+                    })
+
+
+                    // 获取聊天记录
+                    $.ajax({
+                        methods: 'get',
+                        url: '/friends/getPrivateMessages',
+                        data: {user_id: current_id},
+                        success: function (msg){
+                            if(res.status != 200){
+                                return console.log('获取聊天记录失败')
+                            }
+                            console.log(msg)
+                            msg.friend_photo = res.data.data.user_photo
+                            msg.my_id = localStorage.getItem("user_id")
+
+                            console.log(res.data.data.user_photo)
+                            msg.my_photo = localStorage.getItem('user_photo')
+
+                            console.log(msg)
+                            var msgStr = template('tpl-messages-list', msg)
+                            $('.messages-list').html(msgStr)
+                            resetui()
+                            moveToButtom()
+                        }
+                    })
+                }
+            })
+
+        }
+        // 群聊
+        else{
+            $.ajax({
+                method: 'get',
+                url: '/group/getGroupInfo',
+                data: {group_Id: current_id},
+                success: function (res) {
+                    if (res.status !== 200) {
+                        return console.log('获取群聊信息失败')
+                    }
+                    console.log(res.data)
+                    let info = template('tpl-group-info',res.data)
+                    $('.info-box').html(info)
+                    localStorage.setItem("current_id",current_id)
+                    // 获取成功后，刷新数量，
+                    $.ajax({
+                        method: 'post',
+                        url: '/grouprecord/read',
+                        data: {gid: current_id},
+                        success: function (res){
+                            if(res.status != 200){
+                                return console.log('设置已读失败')
+                            }
+                            // 设置已读成功
+
+                            msg_count -= Number($(that).find('.box .row1 span').eq(1).attr('count'))
+                            $(that).find('.box .row1 span').eq(1).attr('count','0').html(0).hide()
+                            window.parent.setMessagesCount(msg_count)
+                        }
+                    })
+
+
+                    // 获取聊天记录
+                    $.ajax({
+                        methods: 'get',
+                        url: '/friends/getGroupMessages',
+                        data: {group_id: current_id},
+                        success: function (msg){
+                            if(res.status != 200){
+                                return console.log('获取聊天记录失败')
+                            }
+                            console.log('群聊消息')
+                            console.log(msg)
+                            msg.my_id = localStorage.getItem("user_id")
+                            msg.my_photo = localStorage.getItem('user_photo')
+
+                            console.log(msg.my_id == msg.data[0].grouprec)
+                            var msgStr = template('tpl-messages-list', msg)
+                            $('.messages-list').html(msgStr)
+                            resetui()
+                            moveToButtom()
+                        }
+                    })
+                }
+            })
+
+        }
     })
 
 

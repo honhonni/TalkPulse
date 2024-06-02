@@ -42,8 +42,8 @@ public interface ApplyDao {
 
     
     //群主处理入群申请
-    @Update("UPDATE groupapply SET groupapply_status=#{groupapply_status} WHERE  groupapply_groupid=#{groupapply_groupid}  ")
-    int updategroupapply(Groupapply groupapply1);
+    @Update("UPDATE groupapply SET groupapply_status=#{groupapply_status} WHERE  groupapply_id=#{groupapply_id}")
+    int updategroupapply(Groupapply groupapply);
 
     //删除掉已经处理过的申请
     @Delete("DELETE FROM groupapply WHERE groupapply_status IS NOT NULL ")
@@ -51,6 +51,7 @@ public interface ApplyDao {
 
     //查询当前用户的需处理的群聊申请
     @Select("SELECT \n" +
+            "    ga.groupapply_id, \n" +
             "    ga.groupapply_senderid,\n" +
             "    ga.groupapply_time,\n" +
             "    ga.groupapply_groupid,\n" +
@@ -74,6 +75,7 @@ public interface ApplyDao {
 
     //查询当前用户发送的好友申请
     @Select("SELECT \n" +
+            "    ga.groupapply_id, \n" +
             "    ga.groupapply_senderid, \n" +
             "    ga.groupapply_time, \n" +
             "    ga.groupapply_groupid, \n" +

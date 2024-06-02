@@ -4,12 +4,12 @@ public class Corre {
    private Integer correuser_id;
    private String correuser_name;
    private Integer corregroup_id;
-   private boolean newinform;
+   private Integer newinform;
 
     public Corre() {
     }
 
-    public Corre(Integer correuser_id, Integer corregroup_id, boolean newinform) {
+    public Corre(Integer correuser_id, Integer corregroup_id, Integer newinform) {
         this.correuser_id = correuser_id;
         this.corregroup_id = corregroup_id;
         this.newinform = newinform;
@@ -44,11 +44,11 @@ public class Corre {
         this.corregroup_id = corregroup_id;
     }
 
-    public boolean isNewinform() {
+    public Integer isNewinform() {
         return newinform;
     }
 
-    public void setNewinform(boolean newinform) {
+    public void setNewinform(Integer newinform) {
         this.newinform = newinform;
     }
 }

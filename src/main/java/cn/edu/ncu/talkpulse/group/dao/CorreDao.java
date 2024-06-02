@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Mapper
 public interface CorreDao {
-    @Insert("insert into corre( correuser_id ,corregroup_id)values(#{correuser_id},#{corregroup_id})")
+    @Insert("insert into corre( correuser_id ,corregroup_id, newinform)values(#{correuser_id},#{corregroup_id}, 0)")
     int addcorre(Integer correuser_id,Integer corregroup_id);
     @Select("SELECT correuser_id AND corregroup_id FROM corre where correuser_id=#{correuser_id} AND corregroup_id=#{corregroup_id}" )
     Corre ingroup(Integer correuser_id, Integer corregroup_id);
@@ -29,7 +29,7 @@ public interface CorreDao {
     @Update({
             "<script>",
             "update corre",
-            "set newInform = 1",
+            "set newinform = newinform + 1",
             "where correuser_id IN ",
             "<foreach item='id' index='index' collection='ids' open='(' separator=',' close=')'>",
             "#{id}",

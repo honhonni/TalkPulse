@@ -99,6 +99,6 @@ public interface FriendDao {
 
     //根据传入gid返回自己与该gid的群聊消息
 
-    @Select("SELECT * FROM grouprecord WHERE grouprecord_groupid = #{groupId} AND EXISTS ( SELECT 1 FROM corre WHERE correuser_id = #{userId} AND corregroup_id = #{groupId})")
-    List<Grouprecord> getGroupMessages(@Param("groupId") Integer groupId, @Param("userId") Integer userId);
+    @Select("SELECT * FROM grouprecord WHERE grouprecord_groupid = #{groupId} ")
+    List<Grouprecord> getGroupMessages(@Param("groupId") Integer groupId );
 }

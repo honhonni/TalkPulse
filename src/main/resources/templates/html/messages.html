@@ -76,11 +76,11 @@
 <!-- 定义模板 messages-sender-list -->
 <script type="text/html" id="tpl-messages-sender-list">
     {{each data}}
-    <button type="button" class="list-group-item" mid="{{ $value.user_id }}">
-        <img src="{{$value.user_photo}}" class="frieds-photo">
+    <button type="button" class="list-group-item" mid="{{ $value.user_id || $value.group_id}}">
+        <img src="{{$value.user_photo || $value.group_photo}}" class="frieds-photo">
         <div class="box">
             <div class="row1">
-                <span>{{$value.user_name}}</span>
+                <span>{{$value.user_name ? $value.user_name: $value.group_name}}</span>
                 {{ if $value.no_read != 0 }}
                 <span count="{{$value.no_read}}">{{$value.no_read > 99? '99+':$value.no_read }}</span>
                 {{ else }}
@@ -88,11 +88,12 @@
                 {{ /if }}
             </div>
             <div class="row2">
-                {{ if $value.record_type == 0 }}
-                <span>{{$value.record_content | cropMsg}}</span>
-                {{ else if $value.record_type == 1}}
+                {{ if $value.record_type == 0 || $value.grouprecord_type == 0}}
+                <span>{{$value.record_content ? $value.record_content : $value.grouprecord_content
+ | cropMsg}}</span>
+                {{ else if $value.record_type == 1 || $value.grouprecord_type == 1}}
                 <span>图片消息</span>
-                {{ else if $value.record_type == 2}}
+                {{ else if $value.record_type == 2 || $value.grouprecord_type == 2}}
                 <span>语音消息</span>
                 {{ /if }}
                 <span>{{ $value.compare_time | cropTime}}</span>
@@ -105,23 +106,45 @@
 <!--消息页面-->
 <script type="text/html" id="tpl-messages-list">
     {{each data}}
-    {{if friend_id == $value.record_recipientid}}
+    {{if my_id == $value.record_senderid || my_id == $value.grouprecord_senderid}}
     <li class="right list-group-item">
-        <img src="{{friend_photo}}" class="head"/>
+        <img src="{{my_photo}}" class="head"/>
+        {{if $value.record_type == 0 || $value.grouprecord_type == 0}}
         <span>
-            {{$value.record_content}}
+            {{$value.record_content ? $value.record_content : $value.grouprecord_content}}
         </span>
+        {{ else if $value.record_type == 1 || $value.grouprecord_type == 1}}
+        <span>
+            <img src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}">
+        </span>
+        {{ else if $value.record_type == 2 || $value.grouprecord_type == 2}}
+        <span>
+            <audio src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}" controls>
+        </span>
+        {{/if}}
     </li>
     {{else}}
     <li class="left list-group-item">
-        <img src="{{my_photo}}" class="head" />
-        <span>{{$value.record_content}}</span>
+        <img src="{{friend_photo ? friend_photo: $value.user_photo}}" class="head" />
+        {{if $value.record_type == 0 || $value.grouprecord_type == 0}}
+        <span>
+            {{$value.record_content ? $value.record_content : $value.grouprecord_content}}
+        </span>
+        {{ else if $value.record_type == 1 || $value.grouprecord_type == 1}}
+        <span>
+            <img src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}">
+        </span>
+        {{ else if $value.record_type == 2 || $value.grouprecord_type == 2}}
+        <span>
+            <audio src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}" controls>
+        </span>
+        {{/if}}
     </li>
     {{/if}}
     {{/each}}
 </script>
 <!--好友信息模板-->
-<script type="text/html" id="tpl-info">
+<script type="text/html" id="tpl-friend-info">
     <div class="photo">
         <img src="{{data.user_photo}}">
         <span>{{data.user_name}}</span>
@@ -154,6 +177,29 @@
             </li>
         </ul>
         <span class="tip">修改好友相关信息请前往好友界面</span>
+    </div>
+</script>
+
+<script type="text/html" id="tpl-group-info">
+    <div class="photo">
+        <img src="{{group.group_photo}}">
+        <span>{{group.group_name}}</span>
+    </div>
+    <div class="info">
+        <ul class="info-list list-group">
+            <li class="list-group-item">
+                <span>GID:</span>
+                <span>{{group.group_id}}</span>
+            </li>
+            <li class="list-group-item">
+                <span>群名:</span>
+                <span>{{group.group_name}}</span>
+            </li>
+            <li class="list-group-item">
+                <span>群介绍:</span>
+                <span>{{group.group_introduce}}</span>
+            </li>
+        </ul>
     </div>
 </script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>

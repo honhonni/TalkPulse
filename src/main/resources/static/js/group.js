@@ -12,8 +12,8 @@ $(function (){
                 if(res.status != 200){
                     return console.log('获取群聊失败')
                 }
-                console.log('获取群聊列表')
-                console.log(res)
+                // console.log('获取群聊列表')
+                // console.log(res)
                 var htmlStr = template('tpl-my-groups', res)
                 $('.my-groups').html(htmlStr)
                 var htmlStr = template('tpl-join-groups', res)
@@ -43,12 +43,13 @@ $(function (){
                 // 绑定数字
                 let verify_count = 0
                 // 记录有多少条未处理事件
-                for(var i in validation.validationlist){
-                    if(validation.validationlist[i].validation_status === 0){
+                // console.log(validation.applylist)
+                for(var i in validation.applylist){
+                    if(validation.applylist[i].groupapply_status === 0){
                         verify_count++
                     }
                 }
-                var verify = $('.friends-validation-list').find('#verify-count')
+                var verify = $('.groups-validation-list').find('#verify-count')
                 verify.attr('verify_count',verify_count)
                 if(verify_count > 99){
                     verify.html('99+').show()
@@ -57,9 +58,9 @@ $(function (){
                 }else{
                     verify.html(0).hide()
                 }
-                window.parent.setFriendsCount(verify_count)
+                window.parent.setGroupsCount(verify_count)
                 // 第一次查看显示特殊颜色
-                $('.friends-validation-list>button[readstatus=\'0\']').css('background-color', '#fcf8e3ff')
+                $('.groups-validation-list>button[readstatus=\'0\']').css('background-color', '#fcf8e3ff')
             }
         })
     }
@@ -84,7 +85,7 @@ $(function (){
         let gid = $(this).attr('gid')
         if(gid == 'create-group'){
             // 显示创建群聊模板
-            infoStr = template('tpl-create-group', res.data[0][3])
+            infoStr = template('tpl-create-group')
             $('.info-box').html(infoStr)
 
             layui.use(['form'], function(){
@@ -169,7 +170,8 @@ $(function (){
                                 return layer.msg(res.message)
                             }
                             layer.msg(res.message)
-                            // 调用父页面的方法，重新渲染用户的头像和用户信息
+                            console.log('创建群聊成功')
+                            // 添加按钮
                             var newGroup = "\n" +
                                 "    <button type=\"button\" class=\"list-group-item\" gid=\""+data.group_id+"\">\n" +
                                 "        <img src=\""+dataURL+"\" class=\"group-photo\">\n" +
@@ -270,32 +272,32 @@ $(function (){
     $('.groups-verify-list').on('click','.checkbox span',function (){
         var class_string = $(this).attr('class')
         var data = {}
-        data.validation_id = $(this).parent().attr('aid')
-
+        data.groupapply_id = $(this).parent().attr('aid')
+        console.log("groupapply_id",data.groupapply_id)
         let htmlStr
         if( class_string.indexOf('agree') >= 0){
-            data.agree = true
+            data.groupapply_status = 1
             htmlStr = '<span class="agreed">已同意</span>'
         }else{
-            data.agree = false
+            data.groupapply_status = -1
             htmlStr = '<span class="rejected">已拒绝</span>'
         }
         $.ajax({
             method: 'post',
-            url: '/friends/handleValidation',
+            url: '/group/handleGroupapply',
             data,
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             success: function (res){
                 if( res.status != 200){
-                    return console.log('好友申请处理失败')
+                    return console.log('入群申请处理失败')
                     htmlStr = '发送失败<span class="agree">同意</span><span class="reject">拒绝</span>'
-                    $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(htmlStr)
+                    $(`.groups-verify-list .checkbox[aid='${data.groupapply_id}']`).html(htmlStr)
                 }
-                console.log('好友申请处理成功')
-                $(`.friends-verify-list .checkbox[aid='${data.validation_id}']`).html(htmlStr)
+                console.log('入群申请处理成功')
+                $(`.groups-verify-list .checkbox[aid='${data.groupapply_id}']`).html(htmlStr)
 
                 // 绑定数字
-                var verify = $('.friends-validation-list').find('#verify-count')
+                var verify = $('.groups-verify-list').find('#verify-count')
                 let verify_count = Number(verify.attr('verify_count')) - 1
                 verify.attr('verify_count', verify_count)
                 if(verify_count > 99){
@@ -305,7 +307,7 @@ $(function (){
                 }else{
                     verify.html(0).hide()
                 }
-                window.parent.setFriendsCount(verify_count)
+                window.parent.setGroupsCount(verify_count)
                 init()
             }
         })

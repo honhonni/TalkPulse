@@ -49,11 +49,11 @@ public class GroupGroupValidationServiceImpl implements GroupValidationService {
             if(agree==1){//同意了邀请信息
                 Groupinfo groupinfo=applyDao.getgroupapplyByGroupId(groupvalidation.getGroupvalidation_groupid());//获取群聊相关信息，并将邀请信息传递到apply表格
                 applyDao.addgroupapply(groupvalidation.getGroupvalidation_receiverid(),LocalDateTime.now(),groupvalidation.getGroupvalidation_groupid(),groupinfo.getGroup_hostid(), String.valueOf(groupvalidation.getGroupvalidation_senderid()));
-                groupValidationDao.deletevalidation();//删除处理后的邀请信息
+//                groupValidationDao.deletevalidation();//删除处理后的邀请信息
                 return true;
             }
             else {
-                groupValidationDao.deletevalidation();
+//                groupValidationDao.deletevalidation();
                 return true;
             }
         }

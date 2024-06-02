@@ -21,7 +21,7 @@ public class GroupValidation {
     private HttpSession session;
     @Test
     public void testaddvalidation(){
-        session.setAttribute("user_id",11);
+        session.setAttribute("user_id",223456);
         Boolean flag= groupValidationService.groupaddvalidation(session,13,99999999, LocalDateTime.now());
         System.out.println(flag);
     }

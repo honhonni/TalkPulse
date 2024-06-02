@@ -129,13 +129,16 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Result getGroupMessages(Integer groupId, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("user_id");
-        List<Grouprecord> grouprecords = friendDao.getGroupMessages( groupId,userId);
         if (userId == null) {
             return Result.fail("未登录，无法获取用户ID");
         }
+        List<Grouprecord> grouprecords = friendDao.getGroupMessages( groupId);
+        for(int i=0;i<grouprecords.size();i++){
+            UserInfo userInfo = accountDao.findUserById(grouprecords.get(i).getGrouprecord_senderid());
+            grouprecords.get(i).setUser_photo(userInfo.getUser_photo());
+        }
 
-
-        if (grouprecords == null || grouprecords.isEmpty()) {
+        if (grouprecords == null) {
             return Result.fail("没有找到相关的聊天记录");
         }
 

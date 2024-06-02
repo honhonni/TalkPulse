@@ -1,6 +1,7 @@
 package cn.edu.ncu.talkpulse.group.service.impl;
 
 import cn.edu.ncu.talkpulse.account.dao.AccountDao;
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
 import cn.edu.ncu.talkpulse.dto.Result;
 import cn.edu.ncu.talkpulse.dto.WebSocketDTO;
 import cn.edu.ncu.talkpulse.friends.service.WebSocketServer;
@@ -9,10 +10,12 @@ import cn.edu.ncu.talkpulse.group.entity.Corre;
 import cn.edu.ncu.talkpulse.group.entity.GroupApplyWithGroupInfo;
 import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.service.ApplyService;
+import cn.edu.ncu.talkpulse.group.service.GroupMessageService;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,8 @@ import java.util.List;
 @Service("invite")
 public class ApplyServiceImpl implements ApplyService {
 
+    @Autowired
+    private GroupMessageService groupMessageService;
     @Autowired
     private WebSocketServer webSocketServer;
     @Autowired
@@ -80,6 +85,8 @@ public class ApplyServiceImpl implements ApplyService {
                 return Result.fail("群聊申请不存在");
             }
             if(! hostid.equals(groupapply.getGroupapply_hostid())) return Result.fail("当前用户非群主");
+
+            groupapply.setGroupapply_status(status);// 同意1，拒绝-1
             applyDao.updategroupapply(groupapply);
             if (status == 1) {
                 Integer senderid = groupapply.getGroupapply_senderid();
@@ -87,9 +94,15 @@ public class ApplyServiceImpl implements ApplyService {
                     Corre corre=correDao.ingroup(gid,senderid);
                     if(corre==null) {
                         correDao.addcorre(senderid, gid);
+
+                        UserInfo userInfo = accountDao.findUserById(senderid);
+                        groupMessageService.sendMessage(senderid, gid, userInfo.getUser_name()+" 加入了群聊", 0);
+
+                        webSocketServer.sendToUser(senderid,WebSocketDTO.NEW_MSG);
                     }
             }
-        applyDao.exitGroupapply();
+//        applyDao.exitGroupapply();
+
         return Result.success();
     }
 }

@@ -33,7 +33,7 @@ public class GroupMessageServiceImpl implements GroupMessageService {
 
     @Override
     public Result readGroupMessage(Integer uid, Integer groupId) {
-        Corre corre = new Corre(uid,groupId,false);
+        Corre corre = new Corre(uid,groupId,0);
         int res = correDao.updateState(corre);
         if(res==1) return Result.success();
         else return Result.fail("未知错误");
@@ -53,7 +53,9 @@ public class GroupMessageServiceImpl implements GroupMessageService {
 
         // 查询群里其他用户
         List<Integer> ids = correDao.selectUser(gid, uid);
-        if(ids!=null){
+        System.out.println("创建了群聊");
+        System.out.println(ids);
+        if(ids!=null && ids.size()>0){
             // 更新其他用户的群消息状态
             int count = correDao.batchUpdateState(gid, ids);
             if(count!=ids.size()) return Result.fail("未知错误");

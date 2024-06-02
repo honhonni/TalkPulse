@@ -88,15 +88,8 @@ $(function (){
                 }
                 var iframe = $('#inlineFrame').contents();
                 if(iframe[0].title === '群聊'){
-                    // console.log('当前在friends页面下')
-                    var verify = iframe.find('#verify-count')
-                    var verify_count = Number(verify.attr('verify_count')) + 1
-                    verify.attr('verify_count',verify_count)
-                    if(verify_count > 99){
-                        verify.html('99+').show()
-                    }else if( verify_count > 0){
-                        verify.html(verify_count).show()
-                    }
+                    // console.log('当前在groupss页面下')
+                    $('#inlineFrame')[0].contentWindow.initGroups()
                 }
             }
         };
@@ -145,7 +138,7 @@ $(function (){
         // 获取群聊验证列表
         $.ajax({
             method: 'get',
-            url: '/friends/getValidation',
+            url: '/group/getGroupapply',
             success: function (res){
                 // 获取验证列表
                 if(res.status !== 200){
@@ -156,8 +149,8 @@ $(function (){
                 // 绑定数字
                 let verify_count = 0
                 // 记录有多少条未处理事件
-                for(var i in validation.validationlist){
-                    if(validation.validationlist[i].validation_status === 0){
+                for(var i in validation.applylist){
+                    if(validation.applylist[i].groupapply_status === 0){
                         verify_count++
                     }
                 }
