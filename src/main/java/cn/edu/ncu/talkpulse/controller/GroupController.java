@@ -98,16 +98,7 @@ public class GroupController {
       if(ok) return Result.success();
       else return Result.fail();
    }
-   @PostMapping("hostset")//群主处理群聊申请
-   public Result HostSet(@RequestParam("groupapply_status")Boolean groupapply_status,
-                         @RequestParam("groupapply_readstatus")Boolean groupapply_readstatus,
-                         @RequestParam("groupapply_groupid")Integer groupapply_groupid,
-                         HttpServletRequest request){
-      HttpSession session=request.getSession();
-      Boolean ok=hostapplyService.hostset(groupapply_status,groupapply_readstatus,groupapply_groupid,session);
-      if(ok) return Result.success();
-      else return Result.fail();
-   }
+
    @GetMapping("/getGroupInfo")//获取群聊简介接口
    public Result getGroupinfo(@RequestParam("group_Id") Integer group_id,
                         HttpServletRequest request){
@@ -182,13 +173,14 @@ public class GroupController {
       else return Result.fail();
    }
 
-   //处理群聊申请接口
+   //群主处理群聊申请接口
    @PostMapping("/handleGroupapply")
-   public Result handleGroupapply(
+   public Result handleGroupapply(@RequestParam("groupapply_id") Integer groupapply_id,
                                   HttpServletRequest request,
                                   @RequestParam("groupapply_status") Byte groupapply_status){
-      HttpSession session=request.getSession();
-      return applyService.handleGroupapply(groupapply_status,session);
+      Integer ghid=(Integer) request.getSession().getAttribute("user_id");
+      if(ghid==null) return Result.fail("非法请求，请先登录");
+      return applyService.handleGroupapply(groupapply_status,ghid,groupapply_id);
    }
    //获取群聊成员列表
    @GetMapping("/getGroupMember")

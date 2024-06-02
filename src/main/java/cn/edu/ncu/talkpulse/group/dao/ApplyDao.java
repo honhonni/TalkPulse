@@ -35,6 +35,11 @@ public interface ApplyDao {
     //获取与群主有关的申请信息
     @Select("select * from groupapply where groupapply_hostid=#{groupapply_hostid}")
    List<Groupapply> getgroupapplyByhost(Integer groupapply_hostid);
+
+    //根据群聊申请号获取申请信息
+    @Select("select * from groupapply where groupapply_id=#{groupapply_id}")
+    Groupapply getgroupapplyByid(Integer groupapply_id);
+
     
     //群主处理入群申请
     @Update("UPDATE groupapply SET groupapply_status=#{groupapply_status} WHERE  groupapply_groupid=#{groupapply_groupid}  ")

@@ -15,5 +15,5 @@ public interface ApplyService {
     //群主获取群聊申请
     List<GroupApplyWithGroupInfo> getMyGroupapply(Integer groupapply_hostid);
     //处理群聊申请请求
-    Result handleGroupapply(Byte status, HttpSession session);
+    Result handleGroupapply(Byte status, Integer hostid, Integer groupapply_id);
 }
