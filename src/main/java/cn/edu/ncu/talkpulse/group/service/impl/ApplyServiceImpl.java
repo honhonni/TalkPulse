@@ -65,22 +65,16 @@ public class ApplyServiceImpl implements ApplyService {
         else return false;
     }
 
-    //处理群聊申请请求
+    //群主处理群聊申请请求
     @Override
     @Transactional
-    public Result handleGroupapply(Byte status, HttpSession session) {
-        Integer hostid = (Integer) session.getAttribute("user_id");
-        List<Groupapply> groupapplies = applyDao.getgroupapplyByhost(hostid);
-
-        for (Groupapply groupapply : groupapplies) {
-            Integer groupapply_senderid = groupapply.getGroupapply_senderid();
-
+    public Result handleGroupapply(Byte status, Integer hostid, Integer groupapply_id) {
+        Groupapply groupapply = applyDao.getgroupapplyByid(groupapply_id);
             if (groupapply == null) {
                 return Result.fail("群聊申请不存在");
             }
-
+            if(! hostid.equals(groupapply.getGroupapply_hostid())) return Result.fail("当前用户非群主");
             applyDao.updategroupapply(groupapply);
-
             if (status == 1) {
                 Integer senderid = groupapply.getGroupapply_senderid();
                 Integer gid = groupapply.getGroupapply_groupid();
@@ -89,9 +83,6 @@ public class ApplyServiceImpl implements ApplyService {
                         correDao.addcorre(senderid, gid);
                     }
             }
-
-        }
-
         applyDao.exitGroupapply();
         return Result.success();
     }

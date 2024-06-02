@@ -26,8 +26,8 @@ public class ApplyServiceTest {
     //发送添加群聊申请
     @Test
     public void TestAddGroup(){
-        session.setAttribute("user_id",12);
-        Boolean flag= applyService.sendGroupapply(session, LocalDateTime.now(),99999999,11,"欢迎");
+        session.setAttribute("user_id",111111);
+        Boolean flag= applyService.sendGroupapply(session, LocalDateTime.now(),99999998,123456,"欢迎");
         System.out.println(flag);
     }
     //查看发送的群聊信息
@@ -45,7 +45,6 @@ public class ApplyServiceTest {
     //群主处理群聊信息
     @Test
     public void handleGroupapply(){
-        session.setAttribute("user_id",11);
-        Result flag= applyService.handleGroupapply((byte) 1,session);
+        Result flag= applyService.handleGroupapply((byte) 1,123456, 3);
     }
 }
