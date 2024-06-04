@@ -2,6 +2,11 @@
 server:
   port: 81
   address: 0.0.0.0
+  ssl:
+    enabled: true #启用SSL
+    key-store: classpath:keystore.p12 #文件位置
+    key-store-password: 123456 #密钥存储密码（即生成时要求输入两遍的那个的密钥库口令）
+    key-store-type: PKCS12 #密钥存储类型
 
 spring:
   datasource:
