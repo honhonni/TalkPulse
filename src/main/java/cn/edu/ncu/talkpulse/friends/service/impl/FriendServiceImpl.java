@@ -136,6 +136,7 @@ public class FriendServiceImpl implements FriendService {
         for(int i=0;i<grouprecords.size();i++){
             UserInfo userInfo = accountDao.findUserById(grouprecords.get(i).getGrouprecord_senderid());
             grouprecords.get(i).setUser_photo(userInfo.getUser_photo());
+            grouprecords.get(i).setUser_name(userInfo.getUser_name());
         }
 
         if (grouprecords == null) {

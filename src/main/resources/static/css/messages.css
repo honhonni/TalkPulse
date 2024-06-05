@@ -114,9 +114,10 @@
 }
 
 .messages .messages-list li {
-    overflow: hidden;
+    /*overflow: hidden;*/
     margin: 20px 0;
     background-color: transparent;
+    position: relative;
 }
 .messages .messages-list li .head {
     width: 32px;
@@ -134,6 +135,7 @@
     font-size: 18px;
     line-height: 1.5;
 }
+
 .messages .messages-list li span img{
     max-width: 100%;
 }
@@ -147,6 +149,16 @@
     float: left;
     color: #000;
     background-color: rgb(244, 246, 248);
+}
+
+
+.messages .messages-list .left .talk-name{
+    float: none;
+    background-color: transparent;
+    position: absolute;
+    left: 0;
+    top: -16px;
+    font-size: 12px;
 }
 .messages .messages-list .right .head {
     float: right;

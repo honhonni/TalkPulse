@@ -107,7 +107,7 @@
 <script type="text/html" id="tpl-messages-list">
     {{each data}}
     {{if my_id == $value.record_senderid || my_id == $value.grouprecord_senderid}}
-    <li class="right list-group-item">
+    <li class="right list-group-item clearfix">
         <img src="{{my_photo}}" class="head"/>
         {{if $value.record_type == 0 || $value.grouprecord_type == 0}}
         <span>
@@ -115,28 +115,30 @@
         </span>
         {{ else if $value.record_type == 1 || $value.grouprecord_type == 1}}
         <span>
-            <img src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}">
+            <img class="messages-photo" src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}">
         </span>
         {{ else if $value.record_type == 2 || $value.grouprecord_type == 2}}
         <span>
-            <audio src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}" controls>
+            <audio src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}" controls></audio>
         </span>
         {{/if}}
     </li>
     {{else}}
-    <li class="left list-group-item">
-        <img src="{{friend_photo ? friend_photo: $value.user_photo}}" class="head" />
+    <li class="left list-group-item clearfix">
+
+        <span class="talk-name">{{ $value.user_name }}</span>
+        <img src="{{friend_photo ? friend_photo: $value.user_photo }}" class="head" />
         {{if $value.record_type == 0 || $value.grouprecord_type == 0}}
         <span>
             {{$value.record_content ? $value.record_content : $value.grouprecord_content}}
         </span>
         {{ else if $value.record_type == 1 || $value.grouprecord_type == 1}}
         <span>
-            <img src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}">
+            <img class="messages-photo" src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}">
         </span>
         {{ else if $value.record_type == 2 || $value.grouprecord_type == 2}}
         <span>
-            <audio src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}" controls>
+            <audio src="{{$value.record_content ? $value.record_content : $value.grouprecord_content}}" controls></audio>
         </span>
         {{/if}}
     </li>
@@ -175,6 +177,12 @@
                 <span>分组:</span>
                 <span>{{friendship.friendship_name}}</span>
             </li>
+            <li class="list-group-item">
+                <span>下载记录:</span>
+                <button type="button" id="download-messages-private" class="btn btn-primary">
+                    download
+                </button>
+            </li>
         </ul>
         <span class="tip">修改好友相关信息请前往好友界面</span>
     </div>
@@ -198,6 +206,12 @@
             <li class="list-group-item">
                 <span>群介绍:</span>
                 <span>{{group.group_introduce}}</span>
+            </li>
+            <li class="list-group-item">
+                <span>下载记录:</span>
+                <button type="button" id="download-messages-group" class="btn btn-primary">
+                    download
+                </button>
             </li>
         </ul>
     </div>

@@ -1,6 +1,9 @@
 
 $(function (){
     let msg_count = 0
+
+    let messages = []
+    let currentname = ''
     // 初始化消息列表
     init(-1)
 
@@ -154,6 +157,12 @@ $(function (){
                     resetui()
                     moveToButtom()
                 };
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown){
+                if( XMLHttpRequest.status === 413){
+                    $('#send-text').click()
+                    $('#text').attr('placeholder','图片大小超过限制')
+                }
             }
         });
     }
@@ -179,6 +188,13 @@ $(function (){
                    </span>
                 </li>`
                 $('.messages-list').append(msg)
+                $('.voice').html(`
+                    <div class="voice-btn">
+                        <span class="glyphicon glyphicon-play-circle"></span>
+                        <span>开始录音</span>
+                    </div>
+                    <audio id="audioPlayer" controls style="display:none;"></audio>
+                `)
                 resetui()
                 moveToButtom()
             }
@@ -305,7 +321,9 @@ $(function (){
                     if (res.status !== 200) {
                         return console.log('获取好友信息失败')
                     }
-                    console.log(res.data)
+
+                    currentname = res.data.data.user_name
+
                     let info = template('tpl-friend-info',res.data)
                     $('.info-box').html(info)
                     localStorage.setItem("current_id",current_id)
@@ -336,18 +354,33 @@ $(function (){
                             if(res.status != 200){
                                 return console.log('获取聊天记录失败')
                             }
-                            console.log(msg)
                             msg.friend_photo = res.data.data.user_photo
                             msg.my_id = localStorage.getItem("user_id")
 
                             console.log(res.data.data.user_photo)
                             msg.my_photo = localStorage.getItem('user_photo')
 
-                            console.log(msg)
                             var msgStr = template('tpl-messages-list', msg)
                             $('.messages-list').html(msgStr)
-                            resetui()
-                            moveToButtom()
+
+                            // 监听图片加载完成事件
+
+                            var images = $('.messages-list .messages-photo');
+                            var loadedImages = 0;
+
+                            images.on('load',function() {
+                                loadedImages++;
+                                if (loadedImages === images.length) {
+                                    // 所有图片都加载完成了
+                                    resetui()
+                                    moveToButtom()
+                                }
+                            });
+                            if(images.length === 0){
+                                resetui()
+                                moveToButtom()
+                            }
+                            messages = msg.data
                         }
                     })
                 }
@@ -364,7 +397,9 @@ $(function (){
                     if (res.status !== 200) {
                         return console.log('获取群聊信息失败')
                     }
-                    console.log(res.data)
+
+                    currentname = res.data.group.group_name
+
                     let info = template('tpl-group-info',res.data)
                     $('.info-box').html(info)
                     localStorage.setItem("current_id",current_id)
@@ -403,8 +438,25 @@ $(function (){
                             console.log(msg.my_id == msg.data[0].grouprec)
                             var msgStr = template('tpl-messages-list', msg)
                             $('.messages-list').html(msgStr)
-                            resetui()
-                            moveToButtom()
+
+                            // 监听图片加载完成事件
+
+                            var images = $('.messages-list .messages-photo');
+                            var loadedImages = 0;
+
+                            images.on('load',function() {
+                                loadedImages++;
+                                if (loadedImages === images.length) {
+                                    // 所有图片都加载完成了
+                                    resetui()
+                                    moveToButtom()
+                                }
+                            });
+                            if(images.length === 0){
+                                resetui()
+                                moveToButtom()
+                            }
+                            messages = msg.data
                         }
                     })
                 }
@@ -414,7 +466,48 @@ $(function (){
     })
 
 
+    // 下载聊天记录
+    $('.info-box').on('click', '#download-messages-group,#download-messages-private', function (){
+        console.log(messages)
+        let data = {}
+        data.current_name = currentname
+        data.current_id = localStorage.getItem('current_id')
+        if( $(this).attr('id') === 'download-messages-group')
+            data.type = 'group'
+        else
+            data.type = 'private'
+        data.messages = []
+        for(let i =0 ;i<messages.length;i++){
+            data.messages.push({
+                sender_name: messages[i].user_name ? messages[i].user_name : ( messages[i].record_senderid === localStorage.getItem('current_id')) ? currentname : localStorage.getItem('user_name'),
+                sender_id: messages[i].grouprecord_senderid ? messages[i].grouprecord_senderid : messages[i].record_senderid,
+                content: messages[i].grouprecord_content ? messages[i].grouprecord_content: messages[i].record_content,
+                time: messages[i].grouprecord_time ? messages[i].grouprecord_time : messages[i].record_time
 
+            })
+        }
+        // 要保存的字符串, 需要先将数据转成字符串
+        const stringData = JSON.stringify(data)
+        // dada 表示要转换的字符串数据，type 表示要转换的数据格式
+        const blob = new Blob([stringData], {
+            type: 'application/json'
+        })
+        // 根据 blob生成 url链接
+        const objectURL = URL.createObjectURL(blob)
+
+        // 创建一个 a 标签Tag
+        const aTag = document.createElement('a')
+        // 设置文件的下载地址
+        aTag.href = objectURL
+        // 设置保存后的文件名称
+        aTag.download = currentname + ".json"
+        // 给 a 标签添加点击事件
+        aTag.click()
+        // 释放一个之前已经存在的、通过调用 URL.createObjectURL() 创建的 URL 对象。
+        // 当你结束使用某个 URL 对象之后，应该通过调用这个方法来让浏览器知道不用在内存中继续保留对这个文件的引用了。
+        URL.revokeObjectURL(objectURL)
+
+    })
 
 
 

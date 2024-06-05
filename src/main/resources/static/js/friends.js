@@ -101,7 +101,8 @@ $(function (){
                 }
                 res.data.data.friendship = friendship
                 res.data.data.friendship_name = friendship_name
-                console.log(res.data.data)
+
+                res.data.data.is_me = false
                 if(res.data.data.user_id == localStorage.getItem("user_id")){
                     res.data.data.is_me = true
                 }

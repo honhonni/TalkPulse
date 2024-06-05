@@ -24,6 +24,21 @@ public class Grouprecord {
 	// 群聊消息类型（0文本、1图片、2语音）
 	private int grouprecord_type;
 
+	// 发送者头像
+	private String user_photo;
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	// 发送者昵称
+	private String user_name;
+
+
 	public String getUser_photo() {
 		return user_photo;
 	}
@@ -32,8 +47,6 @@ public class Grouprecord {
 		this.user_photo = user_photo;
 	}
 
-	// 发送者头像
-	private String user_photo;
 
 	public Grouprecord() {
 	}

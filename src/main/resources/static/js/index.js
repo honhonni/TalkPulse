@@ -33,7 +33,7 @@ $(function (){
 
     // websocket连接，用于接收有关自己的消息
     function initWebsocket(){
-        const  url = 'ws://'+window.location.host+'/ws/'+localStorage.getItem('user_id');
+        const  url = 'wss://'+window.location.host+'/ws/'+localStorage.getItem('user_id');
         console.log(url)
         const ws = new WebSocket(url)
         // 连接成功后的回调函数

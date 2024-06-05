@@ -47,7 +47,8 @@ public class ValidationServiceImpl implements ValidationService {
         Friend friend = friendshipDao.getFriendByUserId(uid, friendId);
         if(friend!=null) return Result.fail("非法请求，已添加该好友！");
         if(accountDao.countUser(friendId)==0) return Result.fail("非法请求，添加的用户不存在！");
-
+        System.out.println(uid);
+        System.out.println(friendId);
         Validation oldValidation = validationDao.getValidationByUserId(uid, friendId);
         int res;
         if(oldValidation!=null){

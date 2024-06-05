@@ -315,6 +315,25 @@ $(function (){
 
     })
 
+    // 退出群聊
+    $('.info-box').on('click', '#quite',function (){
+        let group_id = $('.info-box li').eq(0).find('span').eq(1).text()
+        $.ajax({
+            method: 'post',
+            url: '/group/exit',
+            data: {
+                group_id
+            },
+            success: function (res){
+                if(res.status !== 200){
+                    console.log('退出群聊失败')
+                }
+                console.log('退出群聊成功')
+                init()
+            }
+        })
+    })
+
     $('.groups-validation-list')
         // 验证列表事件绑定
         .on('click','.groups-validation-group',function (){
@@ -341,4 +360,8 @@ $(function (){
             }
         })
 
+    // 绑定发送消息跳转事件
+    $('.info-box').on('click','#jump',function (){
+        window.parent.jump($(this).attr("mid"))
+    })
 })
