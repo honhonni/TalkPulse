@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
             session.setAttribute("user_id", userId);
             return Result.success();
         }
-        else return Result.fail("id或密码错误");
+        else return Result.fail("账号或密码错误");
     }
 
     // 获取用户信息

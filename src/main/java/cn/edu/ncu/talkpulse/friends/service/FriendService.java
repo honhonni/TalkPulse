@@ -38,5 +38,5 @@ public interface FriendService {
     Result getGroupMessages(Integer groupId, HttpSession session);
 
     //删除好友
-    Result deleteFriend(HttpSession session, long secondId);
+    Result deleteFriend(HttpSession session, Integer secondId);
 }

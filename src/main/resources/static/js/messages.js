@@ -83,7 +83,7 @@ $(function (){
             }
         }else if(type == 1 ){
             // 图片消息
-            var formData = new FormData();
+            const formData = new FormData();
 
             if(id.toString().length <=6){
                 formData.append("receiverid", id);
@@ -100,10 +100,19 @@ $(function (){
             // 语音消息
             const blob = new Blob(chunks,{ type:'audio/webm' });
             const formData = new FormData();
-            formData.append("gid", id);
-            formData.append('content',blob,'recording.webm');
-            formData.append("type", type);
-            sendVoice(formData,'/group/sendFileMessage')
+
+
+            if(id.toString().length <=6){
+                formData.append("receiverid", id);
+                formData.append('content',blob,'recording.webm');
+                formData.append("type", type);
+                sendVoice(formData, '/friends/sendFileMessage')
+            }else{
+                formData.append("gid", id);
+                formData.append('content',blob,'recording.webm');
+                formData.append("type", type);
+                sendVoice(formData,'/group/sendFileMessage')
+            }
         }
     })
     // 发送消息
@@ -117,7 +126,7 @@ $(function (){
                     console.log('发送消息失败')
                 }
                 // console.log(res)
-                let msg = `<li class="right list-group-item" >
+                let msg = `<li class="right list-group-item clearfix" >
                     <img src="${localStorage.getItem('user_photo')}"  class="head"/ >
                     <span> ${data.content} </span>
                 </li>`
@@ -140,14 +149,13 @@ $(function (){
                 if(res.status != 200){
                     return console.log("发送失败")
                 }
-                console.log(res)
                 var reads = new FileReader();
                 var f = formData.get('content')
                 reads.readAsDataURL(f);
                 reads.onload = function (e) {
                     $('#send-text').click()
 
-                    let msg = `<li class="right list-group-item" >
+                    let msg = `<li class="right list-group-item clearfix" >
                        <img src="${localStorage.getItem('user_photo')}"  class="head"/ >
                        <span>
                            <img src="${this.result}"/ >
@@ -161,7 +169,7 @@ $(function (){
             error: function (XMLHttpRequest, textStatus, errorThrown){
                 if( XMLHttpRequest.status === 413){
                     $('#send-text').click()
-                    $('#text').attr('placeholder','图片大小超过限制')
+                    $('#text').attr('placeholder','图片大小超过限制（1M）')
                 }
             }
         });
@@ -179,12 +187,14 @@ $(function (){
                 if(res.status != 200){
                     return console.log("发送失败")
                 }
-                recordedAudio = URL.createObjectURL(formData.get('content'));
+
                 $('#send-text').click()
-                let msg = `<li class="right list-group-item" >
+
+                recordedAudio = URL.createObjectURL(formData.get('content'));
+                let msg = `<li class="right list-group-item clearfix" >
                    <img src="${localStorage.getItem('user_photo')}"  class="head"/ >
                    <span>
-                       <audio src="${recordedAudio}" controls/ >
+                       <audio src="${recordedAudio}" controls/ ></audio>
                    </span>
                 </li>`
                 $('.messages-list').append(msg)
@@ -193,7 +203,6 @@ $(function (){
                         <span class="glyphicon glyphicon-play-circle"></span>
                         <span>开始录音</span>
                     </div>
-                    <audio id="audioPlayer" controls style="display:none;"></audio>
                 `)
                 resetui()
                 moveToButtom()

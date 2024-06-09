@@ -137,7 +137,7 @@
 }
 
 .messages .messages-list li span img{
-    max-width: 100%;
+    max-width: 200px;
 }
 .messages .messages-list li span audio{
     /*width: 120px;*/

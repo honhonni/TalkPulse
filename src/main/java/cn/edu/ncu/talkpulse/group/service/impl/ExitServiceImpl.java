@@ -1,5 +1,9 @@
 package cn.edu.ncu.talkpulse.group.service.impl;
 
+import cn.edu.ncu.talkpulse.account.dao.AccountDao;
+import cn.edu.ncu.talkpulse.account.entity.UserInfo;
+import cn.edu.ncu.talkpulse.dto.WebSocketDTO;
+import cn.edu.ncu.talkpulse.friends.service.WebSocketServer;
 import cn.edu.ncu.talkpulse.group.dao.CorreDao;
 import cn.edu.ncu.talkpulse.group.dao.CreateDao;
 import cn.edu.ncu.talkpulse.group.dao.ExitDao;
@@ -7,6 +11,8 @@ import cn.edu.ncu.talkpulse.group.entity.Corre;
 import cn.edu.ncu.talkpulse.group.entity.Groupapply;
 import cn.edu.ncu.talkpulse.group.entity.Groupinfo;
 import cn.edu.ncu.talkpulse.group.service.ExitService;
+import cn.edu.ncu.talkpulse.group.service.GroupMessageService;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +25,11 @@ public class ExitServiceImpl implements ExitService {
     @Autowired
     private ExitDao exitDao;
 
+    @Autowired
+    private GroupMessageService groupMessageService;
+
+    @Resource
+    private AccountDao accountDao;
     @Override
     @Transactional
     public Boolean exitGroup(Integer group_id, HttpSession session) {
@@ -32,8 +43,13 @@ public class ExitServiceImpl implements ExitService {
         if (groupinfo != null && !groupinfo.isEmpty()) { // 检查列表是否非空
             // 用户是群主，删除群聊
             return exitDao.deleteGroup(group_id) == 1;
+
         } else {
             // 用户不是群主，退出群聊
+
+            UserInfo userInfo = accountDao.findUserById(user_id);
+            groupMessageService.sendMessage(user_id, group_id, userInfo.getUser_name()+" 退出了群聊", 0);
+
             return exitDao.exitGroup(user_id, group_id) == 1;
         }
     }

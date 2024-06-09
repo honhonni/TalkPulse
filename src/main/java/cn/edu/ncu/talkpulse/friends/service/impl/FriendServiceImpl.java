@@ -244,12 +244,14 @@ public class FriendServiceImpl implements FriendService {
 
     //删除好友
     @Override
-    public Result deleteFriend( HttpSession session, long secondId) {
+    public Result deleteFriend( HttpSession session, Integer secondId) {
 
         Integer myId = (Integer) session.getAttribute("user_id");
             // 从数据库中删除好友关系
             int affectedRows = friendDao.deleteFriend(myId, secondId);
             if (affectedRows > 0) {
+                friendDao.deleteMessages(myId,secondId);
+                friendDao.deleteValidation(myId,secondId);
                 return Result.success("好友删除成功！");
             } else {
                 return Result.fail("删除失败，未找到指定的好友关系。");

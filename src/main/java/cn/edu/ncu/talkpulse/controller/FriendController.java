@@ -163,15 +163,15 @@ public class FriendController {
     }
 
     //删除好友
-    @DeleteMapping("/delete")
-    public Result deleteFriend(HttpSession session,@RequestParam("secondId") long secondId) {
+    @PostMapping ("/delete")
+    public Result deleteFriend(HttpSession session,@RequestParam("secondId") Integer secondId) {
 
-            // 从session中获取当前用户的id作为firstId
-            Integer myID = (Integer) session.getAttribute("user_id");
-            if (myID == null) {
-                return Result.fail("用户未登录");
-            }
-            return friendService.deleteFriend( session, secondId);
+        // 从session中获取当前用户的id作为firstId
+        Integer myID = (Integer) session.getAttribute("user_id");
+        if (myID == null) {
+            return Result.fail("用户未登录");
+        }
+        return friendService.deleteFriend( session, secondId);
 
     }
 }

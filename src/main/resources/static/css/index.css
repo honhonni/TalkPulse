@@ -1,3 +1,6 @@
+.html{
+    min-width: 700px;
+}
 .wrapper{
     /*background-color: #fcfcfc;*/
 }
@@ -104,6 +107,9 @@ header{
     text-align: right;
     line-height: 1;
 }
+#edit-info{
+    cursor: pointer;
+}
 #edit-info a{
     display: inline-block;
     width: 100%;
@@ -112,7 +118,12 @@ header{
 #edit-info span{
     color: #5cb85c;
 }
-
+#logout{
+    cursor: pointer;
+}
+#logout span{
+    color: red;
+}
 
 #bs-navbar-collapse{
     display: flex !important;

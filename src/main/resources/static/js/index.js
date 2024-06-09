@@ -102,6 +102,8 @@ $(function (){
         // 连接失败后的回调函数
         ws.onerror = function (evt) {
             console.log("连接失败了");
+            localStorage.setItem('token','')
+            location.replace('/html/login.html')
         };
 
 
@@ -243,4 +245,10 @@ $(function (){
         });
 
     }
+
+    // 退出登录
+    $('.dropdown').on('click','#logout',()=>{
+        localStorage.setItem('token','')
+        location.replace('/html/login.html')
+    })
 })

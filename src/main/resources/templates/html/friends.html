@@ -100,8 +100,8 @@
     <div class="info">
         <ul class="info-list list-group">
             <li class="list-group-item">
-                <span>UID:</span>
-                <span>{{user_id}}</span>
+                <span>账号:</span>
+                <span id="user_id">{{user_id}}</span>
             </li>
             <li class="list-group-item">
                 <span>昵称:</span>
@@ -145,12 +145,16 @@
 <!--                    <option id="add-friendship">添加分组</option>-->
 <!--                </select>-->
             </li>
+
+
+            {{ if is_me === false}}
             <li class="list-group-item">
                 <span>删除:</span>
                 <button type="button" id="delete" class="btn btn-primary">
                     删除好友
                 </button>
             </li>
+            {{ /if}}
         </ul>
     </div>
 </script>

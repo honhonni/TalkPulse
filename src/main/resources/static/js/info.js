@@ -92,6 +92,8 @@ $(function(){
                     if( res.status != 200){
                         return layer.msg('修改密码失败！')
                     }
+                    localStorage.setItem('token','')
+                    window.parent.location.replace('/html/login.html')
                     return layer.msg('修改密码成功！')
                 }
             })

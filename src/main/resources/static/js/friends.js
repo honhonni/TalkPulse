@@ -332,4 +332,23 @@ $(function (){
         window.parent.jump($(this).attr("mid"))
     })
 
+
+    // 删除好友
+    $('.info-box').on('click','#delete',()=>{
+        $.ajax({
+            method: 'post',
+            url: '/friends/delete',
+            data: {
+                secondId: $('#user_id').text()
+            },
+            success: function (res) {
+                if(res.status !== 200){
+                    return console.log('删除失败')
+                }
+                // 初始化页面
+                init()
+                $('.info-box').html('')
+            }
+        })
+    })
 })

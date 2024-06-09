@@ -104,7 +104,16 @@ public interface FriendDao {
     List<Grouprecord> getGroupMessages(@Param("groupId") Integer groupId );
 
     //实现删除好友功能
-    @Delete("DELETE FROM friend WHERE firstid = #{myId} AND secondid = #{secondId}")
-    int deleteFriend(@Param("myId") long myId, @Param("secondId") long secondId);
+    @Delete("DELETE FROM friend WHERE firstid = #{myId} AND secondid = #{secondId} OR secondid = #{myId} AND firstid = #{secondId}")
+    int deleteFriend(@Param("myId") Integer myId, @Param("secondId") Integer secondId);
+
+    // 删除聊天记录
+    @Delete("DELETE FROM record WHERE record_senderid = #{myId} AND record_recipientid = #{secondId} OR record_recipientid = #{myId} AND record_senderid = #{secondId}")
+    int deleteMessages(@Param("myId") Integer myId, @Param("secondId") Integer secondId);
+
+
+    // 删除好友申请表
+    @Delete("DELETE FROM validation WHERE validation_senderid = #{myId} AND validation_receiverid = #{secondId} OR validation_receiverid = #{myId} AND validation_senderid = #{secondId}")
+    int deleteValidation(@Param("myId") Integer myId, @Param("secondId") Integer secondId);
 
 }

@@ -3,6 +3,7 @@ html,body{
   padding: 0;
   height: 100%;
   width: 100%;
+  min-width: 700px;
   background: url('/images/login_bg.png') no-repeat center;
   background-size: cover;
 }
