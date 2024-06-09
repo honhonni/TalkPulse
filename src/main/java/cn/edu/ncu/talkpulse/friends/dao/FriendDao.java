@@ -71,6 +71,7 @@ public interface FriendDao {
     List<UserInfo> getfriendsid(@Param("friendshipid") Integer friendshipid);
 
 
+
     // 获取用户创建的群组和用户所在的群组（包括加入的群组）
 
 
@@ -101,4 +102,9 @@ public interface FriendDao {
 
     @Select("SELECT * FROM grouprecord WHERE grouprecord_groupid = #{groupId} ")
     List<Grouprecord> getGroupMessages(@Param("groupId") Integer groupId );
+
+    //实现删除好友功能
+    @Delete("DELETE FROM friend WHERE firstid = #{myId} AND secondid = #{secondId}")
+    int deleteFriend(@Param("myId") long myId, @Param("secondId") long secondId);
+
 }

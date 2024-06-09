@@ -108,5 +108,19 @@ public class FriendServiceTest {
 
     }
 
+    //测试删除好友功能
+    @Test
+    public void testDeleteFriend(){
+
+        session.setAttribute("user_id",666666);
+
+//        Integer otherUserId =
+        Result data  = friendService.deleteFriend(session ,222222);
+
+        System.out.println(data);
+
+
+    }
+
 
 }

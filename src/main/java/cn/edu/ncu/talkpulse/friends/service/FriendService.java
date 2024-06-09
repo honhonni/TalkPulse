@@ -37,4 +37,6 @@ public interface FriendService {
     //根据传入gid返回自己与该群的群聊记录
     Result getGroupMessages(Integer groupId, HttpSession session);
 
+    //删除好友
+    Result deleteFriend(HttpSession session, long secondId);
 }
